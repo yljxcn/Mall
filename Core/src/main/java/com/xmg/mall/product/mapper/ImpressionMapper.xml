@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.ImpressionMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.product.domain.Impression">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="name" column="name"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">impression.id, impression.createdDate, impression.lastModifiedDate, impression.version,impression.name</sql>
+  <sql id="QUERY_COLUMNS">impression.id, impression.createdDate, impression.lastModifiedDate, impression.version,impression.name</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedImpression" extends="BASE_RESULT"/>
+  <sql id="JOIN_COLUMNS"/>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `Impression` impression WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Impression` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.Impression" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Impression`(id, createdDate, version,name) VALUES(#{id }, #{createdDate}, 0, #{name })</insert>
+  <update id="update" parameterType="com.xmg.mall.product.domain.Impression">UPDATE `Impression`
+    <set>lastModifiedDate = now(), version = version + 1, name = #{name }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN"/>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND impression.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND impression.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND impression.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="name != null">AND impression.name = #{name}</if>
+    <if test="likeName != null">AND impression.name LIKE CONCAT(#{likeName} ,'%')</if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys.entrySet()" item="entry" separator=", ">impression.${entry.key} ${entry.value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.product.qo.ImpressionQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `Impression` AS impression
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.product.qo.ImpressionQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `Impression` AS impression
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

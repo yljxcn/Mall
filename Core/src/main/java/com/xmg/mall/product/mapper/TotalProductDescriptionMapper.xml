@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.TotalProductDescriptionMapper">
+  <resultMap id="TOTAL_RESULT" type="com.xmg.mall.product.vo.TotalProductDescription">
+    <result column="rows" property="rows"/>
+    <result column="createdDate" property="createdDate"/>
+  </resultMap>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="com.xmg.mall.product.mapper.ProductDescriptionMapper.QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="TOTAL_COLUMNS">
+    <trim suffixOverrides=",">NULL, 
+      <if test="totalCountRows">COUNT(0) AS rows,</if>
+      <if test="groupBys.size() &gt; 0">
+        <foreach collection="groupBys.keySet()" item="key">productDescription.${key} AS ${key},</foreach>
+      </if>
+    </trim>
+  </sql>
+  <sql id="QUERY_GROUP_BY">
+    <if test="groupBys.size() &gt; 0">GROUP BY
+      <foreach collection="groupBys.entrySet()" item="entry" separator=",">
+        <choose>
+          <when test="entry.value != null">
+            <choose>
+              <when test="entry.value.startsWith('&amp;')">productDescription.${entry.key} ${entry.value}</when>
+              <otherwise>${entry.value}(productDescription.${entry.key})</otherwise>
+            </choose>
+          </when>
+          <otherwise>productDescription.${entry.key}</otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_HAVING">
+    <trim prefixOverrides="AND | OR" prefix="HAVING">
+      <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
+      <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+    </trim>
+  </sql>
+  <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalProductDescriptionQuery">SELECT 
+    <include refid="TOTAL_COLUMNS"/>FROM `ProductDescription` AS productDescription
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_GROUP_BY"/>
+    <include refid="QUERY_HAVING"/>
+    <include refid="com.xmg.mall.product.mapper.ProductDescriptionMapper.QUERY_ORDER_BY"/>
+    <include refid="com.xmg.mall.product.mapper.ProductDescriptionMapper.QUERY_LIMIT"/>
+  </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.BrandMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.product.domain.Brand">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="logo" column="logo"/>
+    <result property="chineseName" column="chineseName"/>
+    <result property="englishName" column="englishName"/>
+    <result property="description" column="description"/>
+    <result property="url" column="url"/>
+    <result property="sequence" column="sequence"/>
+    <result property="visibilityState" column="visibilityState"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">brand.id, brand.createdDate, brand.lastModifiedDate, brand.version,brand.logo,brand.chineseName,brand.englishName,brand.description,brand.url,brand.sequence,brand.visibilityState</sql>
+  <sql id="QUERY_COLUMNS">brand.id, brand.createdDate, brand.lastModifiedDate, brand.version,brand.logo,brand.chineseName,brand.englishName,brand.description,brand.url,brand.sequence,brand.visibilityState</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedBrand" extends="BASE_RESULT"/>
+  <sql id="JOIN_COLUMNS"/>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `Brand` brand WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Brand` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.Brand" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Brand`(id, createdDate, version,logo,chineseName,englishName,description,url,sequence,visibilityState) VALUES(#{id }, #{createdDate}, 0, #{logo }, #{chineseName }, #{englishName }, #{description }, #{url }, #{sequence }, #{visibilityState })</insert>
+  <update id="update" parameterType="com.xmg.mall.product.domain.Brand">UPDATE `Brand`
+    <set>lastModifiedDate = now(), version = version + 1, logo = #{logo }, chineseName = #{chineseName }, englishName = #{englishName }, description = #{description }, url = #{url }, sequence = #{sequence }, visibilityState = #{visibilityState }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN"/>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND brand.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND brand.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND brand.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="chineseName != null">AND brand.chineseName = #{chineseName}</if>
+    <if test="likeChineseName != null">AND brand.chineseName LIKE CONCAT(#{likeChineseName} ,'%')</if>
+    <if test="englishName != null">AND brand.englishName = #{englishName}</if>
+    <if test="likeEnglishName != null">AND brand.englishName LIKE CONCAT(#{likeEnglishName} ,'%')</if>
+    <if test="excludeVisibilityState != null">AND 
+      <foreach collection="excludeVisibilityState" item="mod" open="(" close=")" separator=" AND ">brand.mods &amp; #{mod } = 0</foreach>
+    </if>
+    <if test="includeVisibilityState != null &amp;&amp; excludeVisibilityState == null ">AND 
+      <foreach collection="includeVisibilityState" item="mod" open="(" close=")" separator=" AND ">brand.mods &amp; #{mod } &lt;&gt; 0</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys.entrySet()" item="entry" separator=", ">brand.${entry.key} ${entry.value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.product.qo.BrandQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `Brand` AS brand
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.product.qo.BrandQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `Brand` AS brand
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

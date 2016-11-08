@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.SkuPropertyMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.product.domain.SkuProperty">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="name" column="name"/>
+    <result property="code" column="code"/>
+    <result property="image" column="image"/>
+    <result property="flags" column="flags"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.image,skuProperty.flags</sql>
+  <sql id="QUERY_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.image,skuProperty.flags</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedSkuProperty" extends="BASE_RESULT"/>
+  <sql id="JOIN_COLUMNS"/>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `SkuProperty` skuProperty WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `SkuProperty` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.SkuProperty" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `SkuProperty`(id, createdDate, version,name,code,image,flags) VALUES(#{id }, #{createdDate}, 0, #{name }, #{code }, #{image }, #{flags })</insert>
+  <update id="update" parameterType="com.xmg.mall.product.domain.SkuProperty">UPDATE `SkuProperty`
+    <set>lastModifiedDate = now(), version = version + 1, name = #{name }, code = #{code }, image = #{image }, flags = #{flags }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN"/>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND skuProperty.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND skuProperty.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND skuProperty.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="name != null">AND skuProperty.name = #{name}</if>
+    <if test="likeName != null">AND skuProperty.name LIKE CONCAT(#{likeName} ,'%')</if>
+    <if test="code != null">AND skuProperty.code = #{code}</if>
+    <if test="likeCode != null">AND skuProperty.code LIKE CONCAT(#{likeCode} ,'%')</if>
+    <if test="excludeFlags != null">AND 
+      <foreach collection="excludeFlags" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } = 0</foreach>
+    </if>
+    <if test="includeFlags != null &amp;&amp; excludeFlags == null ">AND 
+      <foreach collection="includeFlags" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys.entrySet()" item="entry" separator=", ">skuProperty.${entry.key} ${entry.value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.product.qo.SkuPropertyQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `SkuProperty` AS skuProperty
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.product.qo.SkuPropertyQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `SkuProperty` AS skuProperty
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.ProductSkuPropertySequenceMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.product.domain.ProductSkuPropertySequence">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="productId" column="productId"/>
+    <result property="skuPropertyId" column="skuPropertyId"/>
+    <result property="sequence" column="sequence"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">productSkuPropertySequence.id, productSkuPropertySequence.createdDate, productSkuPropertySequence.lastModifiedDate, productSkuPropertySequence.version,productSkuPropertySequence.productId,productSkuPropertySequence.skuPropertyId,productSkuPropertySequence.sequence</sql>
+  <sql id="QUERY_COLUMNS">productSkuPropertySequence.id, productSkuPropertySequence.createdDate, productSkuPropertySequence.lastModifiedDate, productSkuPropertySequence.version,productSkuPropertySequence.productId,productSkuPropertySequence.skuPropertyId,productSkuPropertySequence.sequence</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedProductSkuPropertySequence" extends="BASE_RESULT">
+    <association property="product" column="productId" javaType="com.xmg.mall.product.domain.Product" columnPrefix="product_" resultMap="com.xmg.mall.product.mapper.ProductMapper.BASE_RESULT"/>
+    <association property="skuProperty" column="skuPropertyId" javaType="com.xmg.mall.product.domain.SkuProperty" columnPrefix="skuProperty_" resultMap="com.xmg.mall.product.mapper.SkuPropertyMapper.BASE_RESULT"/>
+  </resultMap>
+  <sql id="JOIN_COLUMNS">
+    <if test="joinProduct != null">, product.id AS product_id, product.name AS product_name</if>
+    <if test="joinSkuProperty != null">, skuProperty.id AS skuProperty_id, skuProperty.name AS skuProperty_name, skuProperty.code AS skuProperty_code</if>
+  </sql>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `ProductSkuPropertySequence` productSkuPropertySequence WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `ProductSkuPropertySequence` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductSkuPropertySequence" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductSkuPropertySequence`(id, createdDate, version,productId,skuPropertyId,sequence) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{skuPropertyId }, #{sequence })</insert>
+  <update id="update" parameterType="com.xmg.mall.product.domain.ProductSkuPropertySequence">UPDATE `ProductSkuPropertySequence`
+    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, skuPropertyId = #{skuPropertyId }, sequence = #{sequence }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN">
+    <if test="joinProduct != null">${joinProduct.name} `Product` product ON product.id = productSkuPropertySequence.productId</if>
+    <if test="joinSkuProperty != null">${joinSkuProperty.name} `SkuProperty` skuProperty ON skuProperty.id = productSkuPropertySequence.skuPropertyId</if>
+  </sql>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND productSkuPropertySequence.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND productSkuPropertySequence.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND productSkuPropertySequence.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="productId != null">AND productSkuPropertySequence.productId = #{productId}</if>
+    <if test="skuPropertyId != null">AND productSkuPropertySequence.skuPropertyId = #{skuPropertyId}</if>
+    <if test="productQuery != null &amp;&amp; joinProduct">
+      <if test="productQuery.ids != null">AND product.id IN
+        <foreach collection="productQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="productQuery.startCreatedDate != null">AND product.createdDate &gt;= #{productQuery.startCreatedDate }</if>
+      <if test="productQuery.endCreatedDate != null">AND product.createdDate &lt;= #{productQuery.endCreatedDate }</if>
+      <if test="productQuery.catalogId != null">AND product.catalogId = #{productQuery.catalogId}</if>
+      <if test="productQuery.brandId != null">AND product.brandId = #{productQuery.brandId}</if>
+      <if test="productQuery.name != null">AND product.name = #{productQuery.name}</if>
+      <if test="productQuery.likeName != null">AND product.name LIKE CONCAT(#{productQuery.likeName} ,'%')</if>
+      <if test="productQuery.keyword != null">AND product.keyword = #{productQuery.keyword}</if>
+      <if test="productQuery.likeKeyword != null">AND product.keyword LIKE CONCAT(#{productQuery.likeKeyword} ,'%')</if>
+      <if test="productQuery.code != null">AND product.code = #{productQuery.code}</if>
+      <if test="productQuery.likeCode != null">AND product.code LIKE CONCAT(#{productQuery.likeCode} ,'%')</if>
+      <if test="productQuery.marketPrice != null">AND product.marketPrice = #{productQuery.marketPrice}</if>
+      <if test="productQuery.minMarketPrice != null">AND product.marketPrice &gt;= #{productQuery.minMarketPrice}</if>
+      <if test="productQuery.maxMarketPrice != null">AND product.marketPrice &lt;= #{productQuery.maxMarketPrice}</if>
+      <if test="productQuery.basePrice != null">AND product.basePrice = #{productQuery.basePrice}</if>
+      <if test="productQuery.minBasePrice != null">AND product.basePrice &gt;= #{productQuery.minBasePrice}</if>
+      <if test="productQuery.maxBasePrice != null">AND product.basePrice &lt;= #{productQuery.maxBasePrice}</if>
+      <if test="productQuery.excludeFlags != null">AND 
+        <foreach collection="productQuery.excludeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
+      </if>
+      <if test="productQuery.includeFlags != null &amp;&amp; productQuery.excludeFlags == null ">AND 
+        <foreach collection="productQuery.includeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      </if>
+    </if>
+    <if test="skuPropertyQuery != null &amp;&amp; joinSkuProperty">
+      <if test="skuPropertyQuery.ids != null">AND skuProperty.id IN
+        <foreach collection="skuPropertyQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="skuPropertyQuery.startCreatedDate != null">AND skuProperty.createdDate &gt;= #{skuPropertyQuery.startCreatedDate }</if>
+      <if test="skuPropertyQuery.endCreatedDate != null">AND skuProperty.createdDate &lt;= #{skuPropertyQuery.endCreatedDate }</if>
+      <if test="skuPropertyQuery.name != null">AND skuProperty.name = #{skuPropertyQuery.name}</if>
+      <if test="skuPropertyQuery.likeName != null">AND skuProperty.name LIKE CONCAT(#{skuPropertyQuery.likeName} ,'%')</if>
+      <if test="skuPropertyQuery.code != null">AND skuProperty.code = #{skuPropertyQuery.code}</if>
+      <if test="skuPropertyQuery.likeCode != null">AND skuProperty.code LIKE CONCAT(#{skuPropertyQuery.likeCode} ,'%')</if>
+      <if test="skuPropertyQuery.excludeFlags != null">AND 
+        <foreach collection="skuPropertyQuery.excludeFlags" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } = 0</foreach>
+      </if>
+      <if test="skuPropertyQuery.includeFlags != null &amp;&amp; skuPropertyQuery.excludeFlags == null ">AND 
+        <foreach collection="skuPropertyQuery.includeFlags" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      </if>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys.entrySet()" item="entry" separator=", ">productSkuPropertySequence.${entry.key} ${entry.value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.product.qo.ProductSkuPropertySequenceQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `ProductSkuPropertySequence` AS productSkuPropertySequence
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.product.qo.ProductSkuPropertySequenceQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `ProductSkuPropertySequence` AS productSkuPropertySequence
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

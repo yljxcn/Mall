@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.employee.mapper.EmployeeMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.employee.domain.Employee">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="avatar" column="avatar"/>
+    <result property="name" column="name"/>
+    <result property="password" column="password"/>
+    <result property="state" column="state"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">employee.id, employee.createdDate, employee.lastModifiedDate, employee.version,employee.avatar,employee.name,employee.password,employee.state</sql>
+  <sql id="QUERY_COLUMNS">employee.id, employee.createdDate, employee.lastModifiedDate, employee.version,employee.avatar,employee.name,employee.password,employee.state</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.employee.vo.ExtendedEmployee" extends="BASE_RESULT"/>
+  <sql id="JOIN_COLUMNS"/>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `Employee` employee WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Employee` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.employee.domain.Employee" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Employee`(id, createdDate, version,avatar,name,password,state) VALUES(#{id }, #{createdDate}, 0, #{avatar }, #{name }, #{password }, #{state })</insert>
+  <update id="update" parameterType="com.xmg.mall.employee.domain.Employee">UPDATE `Employee`
+    <set>lastModifiedDate = now(), version = version + 1, avatar = #{avatar }, name = #{name }, password = #{password }, state = #{state }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN"/>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND employee.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND employee.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND employee.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="name != null">AND employee.name = #{name}</if>
+    <if test="likeName != null">AND employee.name LIKE CONCAT(#{likeName} ,'%')</if>
+    <if test="excludeStates != null">AND employee.state NOT IN
+      <foreach collection="excludeStates" item="state" open="(" close=")" separator=", ">#{state }</foreach>
+    </if>
+    <if test="includeStates != null &amp;&amp; excludeStates == null">AND employee.state IN
+      <foreach collection="includeStates" item="state" open="(" close=")" separator=", ">#{state }</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys.entrySet()" item="entry" separator=", ">employee.${entry.key} ${entry.value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.employee.qo.EmployeeQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `Employee` AS employee
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.employee.qo.EmployeeQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `Employee` AS employee
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

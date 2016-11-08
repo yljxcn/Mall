@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.ProductDescriptionMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.product.domain.ProductDescription">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="productId" column="productId"/>
+    <result property="description" column="description"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">productDescription.id, productDescription.createdDate, productDescription.lastModifiedDate, productDescription.version,productDescription.productId,productDescription.description</sql>
+  <sql id="QUERY_COLUMNS">productDescription.id, productDescription.createdDate, productDescription.lastModifiedDate, productDescription.version,productDescription.productId 
+    <if test="selectDescription">,productDescription.description</if>
+  </sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedProductDescription" extends="BASE_RESULT">
+    <association property="product" column="productId" javaType="com.xmg.mall.product.domain.Product" columnPrefix="product_" resultMap="com.xmg.mall.product.mapper.ProductMapper.BASE_RESULT"/>
+  </resultMap>
+  <sql id="JOIN_COLUMNS">
+    <if test="joinProduct != null">, product.id AS product_id, product.name AS product_name</if>
+  </sql>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `ProductDescription` productDescription WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `ProductDescription` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductDescription" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductDescription`(id, createdDate, version,productId,description) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{description })</insert>
+  <update id="update" parameterType="com.xmg.mall.product.domain.ProductDescription">UPDATE `ProductDescription`
+    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, description = #{description }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN">
+    <if test="joinProduct != null">${joinProduct.name} `Product` product ON product.id = productDescription.productId</if>
+  </sql>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND productDescription.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND productDescription.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND productDescription.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="productId != null">AND productDescription.productId = #{productId}</if>
+    <if test="productQuery != null &amp;&amp; joinProduct">
+      <if test="productQuery.ids != null">AND product.id IN
+        <foreach collection="productQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="productQuery.startCreatedDate != null">AND product.createdDate &gt;= #{productQuery.startCreatedDate }</if>
+      <if test="productQuery.endCreatedDate != null">AND product.createdDate &lt;= #{productQuery.endCreatedDate }</if>
+      <if test="productQuery.catalogId != null">AND product.catalogId = #{productQuery.catalogId}</if>
+      <if test="productQuery.brandId != null">AND product.brandId = #{productQuery.brandId}</if>
+      <if test="productQuery.name != null">AND product.name = #{productQuery.name}</if>
+      <if test="productQuery.likeName != null">AND product.name LIKE CONCAT(#{productQuery.likeName} ,'%')</if>
+      <if test="productQuery.keyword != null">AND product.keyword = #{productQuery.keyword}</if>
+      <if test="productQuery.likeKeyword != null">AND product.keyword LIKE CONCAT(#{productQuery.likeKeyword} ,'%')</if>
+      <if test="productQuery.code != null">AND product.code = #{productQuery.code}</if>
+      <if test="productQuery.likeCode != null">AND product.code LIKE CONCAT(#{productQuery.likeCode} ,'%')</if>
+      <if test="productQuery.marketPrice != null">AND product.marketPrice = #{productQuery.marketPrice}</if>
+      <if test="productQuery.minMarketPrice != null">AND product.marketPrice &gt;= #{productQuery.minMarketPrice}</if>
+      <if test="productQuery.maxMarketPrice != null">AND product.marketPrice &lt;= #{productQuery.maxMarketPrice}</if>
+      <if test="productQuery.basePrice != null">AND product.basePrice = #{productQuery.basePrice}</if>
+      <if test="productQuery.minBasePrice != null">AND product.basePrice &gt;= #{productQuery.minBasePrice}</if>
+      <if test="productQuery.maxBasePrice != null">AND product.basePrice &lt;= #{productQuery.maxBasePrice}</if>
+      <if test="productQuery.excludeFlags != null">AND 
+        <foreach collection="productQuery.excludeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
+      </if>
+      <if test="productQuery.includeFlags != null &amp;&amp; productQuery.excludeFlags == null ">AND 
+        <foreach collection="productQuery.includeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      </if>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys.entrySet()" item="entry" separator=", ">productDescription.${entry.key} ${entry.value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.product.qo.ProductDescriptionQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `ProductDescription` AS productDescription
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.product.qo.ProductDescriptionQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `ProductDescription` AS productDescription
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

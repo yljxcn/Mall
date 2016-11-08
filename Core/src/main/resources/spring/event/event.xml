@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean class="com.xmg.mall.base.event.ApplicationEventDispatcher">
+		<property name="eventMapping">
+			<list>
+				<!-- LoginEvent
+				<bean class="com.lanyotech.p2p.core.base.event.EventMapping">
+					<property name="eventClass" value="com.lanyotech.p2p.core.user.event.LoginEvent" />
+					<property name="target" ref="userLoginRecordService" />
+					<property name="targetMethod" value="onLogin" />
+				</bean>
+				-->
+			</list>
+		</property>
+	</bean>
+</beans>

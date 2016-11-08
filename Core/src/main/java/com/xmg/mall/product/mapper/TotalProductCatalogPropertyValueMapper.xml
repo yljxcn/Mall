@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.TotalProductCatalogPropertyValueMapper">
+  <resultMap id="TOTAL_RESULT" type="com.xmg.mall.product.vo.TotalProductCatalogPropertyValue">
+    <result column="rows" property="rows"/>
+    <result column="createdDate" property="createdDate"/>
+    <result column="flags" property="flags"/>
+  </resultMap>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="com.xmg.mall.product.mapper.ProductCatalogPropertyValueMapper.QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="TOTAL_COLUMNS">
+    <trim suffixOverrides=",">NULL, 
+      <if test="totalCountRows">COUNT(0) AS rows,</if>
+      <if test="groupBys.size() &gt; 0">
+        <foreach collection="groupBys.keySet()" item="key">productCatalogPropertyValue.${key} AS ${key},</foreach>
+      </if>
+      <if test="totalSumLowerLimit">SUM(productCatalogPropertyValue.lowerLimit) AS totalSumLowerLimit,</if>
+      <if test="totalMinLowerLimit">MIN(productCatalogPropertyValue.lowerLimit) AS totalMinLowerLimit,</if>
+      <if test="totalMaxLowerLimit">MAX(productCatalogPropertyValue.lowerLimit) AS totalMaxLowerLimit,</if>
+      <if test="totalAvgLowerLimit">AVG(productCatalogPropertyValue.lowerLimit) AS totalAvgLowerLimit,</if>
+      <if test="totalSumFreight">SUM(productCatalogPropertyValue.freight) AS totalSumFreight,</if>
+      <if test="totalMinFreight">MIN(productCatalogPropertyValue.freight) AS totalMinFreight,</if>
+      <if test="totalMaxFreight">MAX(productCatalogPropertyValue.freight) AS totalMaxFreight,</if>
+      <if test="totalAvgFreight">AVG(productCatalogPropertyValue.freight) AS totalAvgFreight,</if>
+    </trim>
+  </sql>
+  <sql id="QUERY_GROUP_BY">
+    <if test="groupBys.size() &gt; 0">GROUP BY
+      <foreach collection="groupBys.entrySet()" item="entry" separator=",">
+        <choose>
+          <when test="entry.value != null">
+            <choose>
+              <when test="entry.value.startsWith('&amp;')">productCatalogPropertyValue.${entry.key} ${entry.value}</when>
+              <otherwise>${entry.value}(productCatalogPropertyValue.${entry.key})</otherwise>
+            </choose>
+          </when>
+          <otherwise>productCatalogPropertyValue.${entry.key}</otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_HAVING">
+    <trim prefixOverrides="AND | OR" prefix="HAVING">
+      <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
+      <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumLowerLimit != null">AND SUM(productCatalogPropertyValue.lowerLimit) &gt;= #{minTotalSumLowerLimit}</if>
+      <if test="maxTotalSumLowerLimit != null">AND SUM(productCatalogPropertyValue.lowerLimit) &lt;= #{maxTotalSumLowerLimit}</if>
+      <if test="minTotalMinLowerLimit != null">AND MIN(productCatalogPropertyValue.lowerLimit) &gt;= #{minTotalMinLowerLimit}</if>
+      <if test="maxTotalMinLowerLimit != null">AND MIN(productCatalogPropertyValue.lowerLimit) &lt;= #{maxTotalMinLowerLimit}</if>
+      <if test="minTotalMaxLowerLimit != null">AND MAX(productCatalogPropertyValue.lowerLimit) &gt;= #{minTotalMaxLowerLimit}</if>
+      <if test="maxTotalMaxLowerLimit != null">AND MAX(productCatalogPropertyValue.lowerLimit) &lt;= #{maxTotalMaxLowerLimit}</if>
+      <if test="minTotalAvgLowerLimit != null">AND AVG(productCatalogPropertyValue.lowerLimit) &gt;= #{minTotalAvgLowerLimit}</if>
+      <if test="maxTotalAvgLowerLimit != null">AND AVG(productCatalogPropertyValue.lowerLimit) &lt;= #{maxTotalAvgLowerLimit}</if>
+      <if test="minTotalSumFreight != null">AND SUM(productCatalogPropertyValue.freight) &gt;= #{minTotalSumFreight}</if>
+      <if test="maxTotalSumFreight != null">AND SUM(productCatalogPropertyValue.freight) &lt;= #{maxTotalSumFreight}</if>
+      <if test="minTotalMinFreight != null">AND MIN(productCatalogPropertyValue.freight) &gt;= #{minTotalMinFreight}</if>
+      <if test="maxTotalMinFreight != null">AND MIN(productCatalogPropertyValue.freight) &lt;= #{maxTotalMinFreight}</if>
+      <if test="minTotalMaxFreight != null">AND MAX(productCatalogPropertyValue.freight) &gt;= #{minTotalMaxFreight}</if>
+      <if test="maxTotalMaxFreight != null">AND MAX(productCatalogPropertyValue.freight) &lt;= #{maxTotalMaxFreight}</if>
+      <if test="minTotalAvgFreight != null">AND AVG(productCatalogPropertyValue.freight) &gt;= #{minTotalAvgFreight}</if>
+      <if test="maxTotalAvgFreight != null">AND AVG(productCatalogPropertyValue.freight) &lt;= #{maxTotalAvgFreight}</if>
+    </trim>
+  </sql>
+  <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalProductCatalogPropertyValueQuery">SELECT 
+    <include refid="TOTAL_COLUMNS"/>FROM `ProductCatalogPropertyValue` AS productCatalogPropertyValue
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_GROUP_BY"/>
+    <include refid="QUERY_HAVING"/>
+    <include refid="com.xmg.mall.product.mapper.ProductCatalogPropertyValueMapper.QUERY_ORDER_BY"/>
+    <include refid="com.xmg.mall.product.mapper.ProductCatalogPropertyValueMapper.QUERY_LIMIT"/>
+  </select>
+</mapper>

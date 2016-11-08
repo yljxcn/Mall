@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+  <bean id="productModuleService" class="com.xmg.mall.product.service.impl.BasicProductModuleService">
+    <property name="brandService" ref="brandService"/>
+    <property name="totalBrandService" ref="totalBrandService"/>
+    <property name="catalogService" ref="catalogService"/>
+    <property name="totalCatalogService" ref="totalCatalogService"/>
+    <property name="catalogPropertyService" ref="catalogPropertyService"/>
+    <property name="totalCatalogPropertyService" ref="totalCatalogPropertyService"/>
+    <property name="catalogPropertyValueService" ref="catalogPropertyValueService"/>
+    <property name="totalCatalogPropertyValueService" ref="totalCatalogPropertyValueService"/>
+    <property name="impressionService" ref="impressionService"/>
+    <property name="totalImpressionService" ref="totalImpressionService"/>
+    <property name="productService" ref="productService"/>
+    <property name="totalProductService" ref="totalProductService"/>
+    <property name="productDescriptionService" ref="productDescriptionService"/>
+    <property name="totalProductDescriptionService" ref="totalProductDescriptionService"/>
+    <property name="productImageService" ref="productImageService"/>
+    <property name="totalProductImageService" ref="totalProductImageService"/>
+    <property name="productImpressionService" ref="productImpressionService"/>
+    <property name="totalProductImpressionService" ref="totalProductImpressionService"/>
+    <property name="productFreightService" ref="productFreightService"/>
+    <property name="totalProductFreightService" ref="totalProductFreightService"/>
+    <property name="productAuditService" ref="productAuditService"/>
+    <property name="totalProductAuditService" ref="totalProductAuditService"/>
+    <property name="productCatalogPropertyValueService" ref="productCatalogPropertyValueService"/>
+    <property name="totalProductCatalogPropertyValueService" ref="totalProductCatalogPropertyValueService"/>
+    <property name="skuService" ref="skuService"/>
+    <property name="totalSkuService" ref="totalSkuService"/>
+    <property name="skuPropertyService" ref="skuPropertyService"/>
+    <property name="totalSkuPropertyService" ref="totalSkuPropertyService"/>
+    <property name="skuPropertyRelationshipValueService" ref="skuPropertyRelationshipValueService"/>
+    <property name="totalSkuPropertyRelationshipValueService" ref="totalSkuPropertyRelationshipValueService"/>
+    <property name="productSkuPropertySequenceService" ref="productSkuPropertySequenceService"/>
+    <property name="totalProductSkuPropertySequenceService" ref="totalProductSkuPropertySequenceService"/>
+    <property name="skuPropertyValueService" ref="skuPropertyValueService"/>
+    <property name="totalSkuPropertyValueService" ref="totalSkuPropertyValueService"/>
+  </bean>
+  <bean id="brandService" class="com.xmg.mall.product.service.impl.BasicBrandService">
+    <property name="brandMapper" ref="brandMapper"/>
+  </bean>
+  <bean id="totalBrandService" class="com.xmg.mall.product.service.impl.BasicTotalBrandService">
+    <property name="totalBrandMapper" ref="totalBrandMapper"/>
+  </bean>
+  <bean id="catalogService" class="com.xmg.mall.product.service.impl.BasicCatalogService">
+    <property name="catalogMapper" ref="catalogMapper"/>
+  </bean>
+  <bean id="totalCatalogService" class="com.xmg.mall.product.service.impl.BasicTotalCatalogService">
+    <property name="totalCatalogMapper" ref="totalCatalogMapper"/>
+  </bean>
+  <bean id="catalogPropertyService" class="com.xmg.mall.product.service.impl.BasicCatalogPropertyService">
+    <property name="catalogPropertyMapper" ref="catalogPropertyMapper"/>
+  </bean>
+  <bean id="totalCatalogPropertyService" class="com.xmg.mall.product.service.impl.BasicTotalCatalogPropertyService">
+    <property name="totalCatalogPropertyMapper" ref="totalCatalogPropertyMapper"/>
+  </bean>
+  <bean id="catalogPropertyValueService" class="com.xmg.mall.product.service.impl.BasicCatalogPropertyValueService">
+    <property name="catalogPropertyValueMapper" ref="catalogPropertyValueMapper"/>
+  </bean>
+  <bean id="totalCatalogPropertyValueService" class="com.xmg.mall.product.service.impl.BasicTotalCatalogPropertyValueService">
+    <property name="totalCatalogPropertyValueMapper" ref="totalCatalogPropertyValueMapper"/>
+  </bean>
+  <bean id="impressionService" class="com.xmg.mall.product.service.impl.BasicImpressionService">
+    <property name="impressionMapper" ref="impressionMapper"/>
+  </bean>
+  <bean id="totalImpressionService" class="com.xmg.mall.product.service.impl.BasicTotalImpressionService">
+    <property name="totalImpressionMapper" ref="totalImpressionMapper"/>
+  </bean>
+  <bean id="productService" class="com.xmg.mall.product.service.impl.BasicProductService">
+    <property name="productMapper" ref="productMapper"/>
+  </bean>
+  <bean id="totalProductService" class="com.xmg.mall.product.service.impl.BasicTotalProductService">
+    <property name="totalProductMapper" ref="totalProductMapper"/>
+  </bean>
+  <bean id="productDescriptionService" class="com.xmg.mall.product.service.impl.BasicProductDescriptionService">
+    <property name="productDescriptionMapper" ref="productDescriptionMapper"/>
+  </bean>
+  <bean id="totalProductDescriptionService" class="com.xmg.mall.product.service.impl.BasicTotalProductDescriptionService">
+    <property name="totalProductDescriptionMapper" ref="totalProductDescriptionMapper"/>
+  </bean>
+  <bean id="productImageService" class="com.xmg.mall.product.service.impl.BasicProductImageService">
+    <property name="productImageMapper" ref="productImageMapper"/>
+  </bean>
+  <bean id="totalProductImageService" class="com.xmg.mall.product.service.impl.BasicTotalProductImageService">
+    <property name="totalProductImageMapper" ref="totalProductImageMapper"/>
+  </bean>
+  <bean id="productImpressionService" class="com.xmg.mall.product.service.impl.BasicProductImpressionService">
+    <property name="productImpressionMapper" ref="productImpressionMapper"/>
+  </bean>
+  <bean id="totalProductImpressionService" class="com.xmg.mall.product.service.impl.BasicTotalProductImpressionService">
+    <property name="totalProductImpressionMapper" ref="totalProductImpressionMapper"/>
+  </bean>
+  <bean id="productFreightService" class="com.xmg.mall.product.service.impl.BasicProductFreightService">
+    <property name="productFreightMapper" ref="productFreightMapper"/>
+  </bean>
+  <bean id="totalProductFreightService" class="com.xmg.mall.product.service.impl.BasicTotalProductFreightService">
+    <property name="totalProductFreightMapper" ref="totalProductFreightMapper"/>
+  </bean>
+  <bean id="productAuditService" class="com.xmg.mall.product.service.impl.BasicProductAuditService">
+    <property name="productAuditMapper" ref="productAuditMapper"/>
+  </bean>
+  <bean id="totalProductAuditService" class="com.xmg.mall.product.service.impl.BasicTotalProductAuditService">
+    <property name="totalProductAuditMapper" ref="totalProductAuditMapper"/>
+  </bean>
+  <bean id="productCatalogPropertyValueService" class="com.xmg.mall.product.service.impl.BasicProductCatalogPropertyValueService">
+    <property name="productCatalogPropertyValueMapper" ref="productCatalogPropertyValueMapper"/>
+  </bean>
+  <bean id="totalProductCatalogPropertyValueService" class="com.xmg.mall.product.service.impl.BasicTotalProductCatalogPropertyValueService">
+    <property name="totalProductCatalogPropertyValueMapper" ref="totalProductCatalogPropertyValueMapper"/>
+  </bean>
+  <bean id="skuService" class="com.xmg.mall.product.service.impl.BasicSkuService">
+    <property name="skuMapper" ref="skuMapper"/>
+  </bean>
+  <bean id="totalSkuService" class="com.xmg.mall.product.service.impl.BasicTotalSkuService">
+    <property name="totalSkuMapper" ref="totalSkuMapper"/>
+  </bean>
+  <bean id="skuPropertyService" class="com.xmg.mall.product.service.impl.BasicSkuPropertyService">
+    <property name="skuPropertyMapper" ref="skuPropertyMapper"/>
+  </bean>
+  <bean id="totalSkuPropertyService" class="com.xmg.mall.product.service.impl.BasicTotalSkuPropertyService">
+    <property name="totalSkuPropertyMapper" ref="totalSkuPropertyMapper"/>
+  </bean>
+  <bean id="skuPropertyRelationshipValueService" class="com.xmg.mall.product.service.impl.BasicSkuPropertyRelationshipValueService">
+    <property name="skuPropertyRelationshipValueMapper" ref="skuPropertyRelationshipValueMapper"/>
+  </bean>
+  <bean id="totalSkuPropertyRelationshipValueService" class="com.xmg.mall.product.service.impl.BasicTotalSkuPropertyRelationshipValueService">
+    <property name="totalSkuPropertyRelationshipValueMapper" ref="totalSkuPropertyRelationshipValueMapper"/>
+  </bean>
+  <bean id="productSkuPropertySequenceService" class="com.xmg.mall.product.service.impl.BasicProductSkuPropertySequenceService">
+    <property name="productSkuPropertySequenceMapper" ref="productSkuPropertySequenceMapper"/>
+  </bean>
+  <bean id="totalProductSkuPropertySequenceService" class="com.xmg.mall.product.service.impl.BasicTotalProductSkuPropertySequenceService">
+    <property name="totalProductSkuPropertySequenceMapper" ref="totalProductSkuPropertySequenceMapper"/>
+  </bean>
+  <bean id="skuPropertyValueService" class="com.xmg.mall.product.service.impl.BasicSkuPropertyValueService">
+    <property name="skuPropertyValueMapper" ref="skuPropertyValueMapper"/>
+  </bean>
+  <bean id="totalSkuPropertyValueService" class="com.xmg.mall.product.service.impl.BasicTotalSkuPropertyValueService">
+    <property name="totalSkuPropertyValueMapper" ref="totalSkuPropertyValueMapper"/>
+  </bean>
+</beans>

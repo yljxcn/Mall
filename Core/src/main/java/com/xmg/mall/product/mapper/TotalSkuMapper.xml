@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.TotalSkuMapper">
+  <resultMap id="TOTAL_RESULT" type="com.xmg.mall.product.vo.TotalSku">
+    <result column="rows" property="rows"/>
+    <result column="createdDate" property="createdDate"/>
+  </resultMap>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="com.xmg.mall.product.mapper.SkuMapper.QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="TOTAL_COLUMNS">
+    <trim suffixOverrides=",">NULL, 
+      <if test="totalCountRows">COUNT(0) AS rows,</if>
+      <if test="groupBys.size() &gt; 0">
+        <foreach collection="groupBys.keySet()" item="key">sku.${key} AS ${key},</foreach>
+      </if>
+      <if test="totalSumPrice">SUM(sku.price) AS totalSumPrice,</if>
+      <if test="totalMinPrice">MIN(sku.price) AS totalMinPrice,</if>
+      <if test="totalMaxPrice">MAX(sku.price) AS totalMaxPrice,</if>
+      <if test="totalAvgPrice">AVG(sku.price) AS totalAvgPrice,</if>
+    </trim>
+  </sql>
+  <sql id="QUERY_GROUP_BY">
+    <if test="groupBys.size() &gt; 0">GROUP BY
+      <foreach collection="groupBys.entrySet()" item="entry" separator=",">
+        <choose>
+          <when test="entry.value != null">
+            <choose>
+              <when test="entry.value.startsWith('&amp;')">sku.${entry.key} ${entry.value}</when>
+              <otherwise>${entry.value}(sku.${entry.key})</otherwise>
+            </choose>
+          </when>
+          <otherwise>sku.${entry.key}</otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_HAVING">
+    <trim prefixOverrides="AND | OR" prefix="HAVING">
+      <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
+      <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumPrice != null">AND SUM(sku.price) &gt;= #{minTotalSumPrice}</if>
+      <if test="maxTotalSumPrice != null">AND SUM(sku.price) &lt;= #{maxTotalSumPrice}</if>
+      <if test="minTotalMinPrice != null">AND MIN(sku.price) &gt;= #{minTotalMinPrice}</if>
+      <if test="maxTotalMinPrice != null">AND MIN(sku.price) &lt;= #{maxTotalMinPrice}</if>
+      <if test="minTotalMaxPrice != null">AND MAX(sku.price) &gt;= #{minTotalMaxPrice}</if>
+      <if test="maxTotalMaxPrice != null">AND MAX(sku.price) &lt;= #{maxTotalMaxPrice}</if>
+      <if test="minTotalAvgPrice != null">AND AVG(sku.price) &gt;= #{minTotalAvgPrice}</if>
+      <if test="maxTotalAvgPrice != null">AND AVG(sku.price) &lt;= #{maxTotalAvgPrice}</if>
+    </trim>
+  </sql>
+  <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalSkuQuery">SELECT 
+    <include refid="TOTAL_COLUMNS"/>FROM `Sku` AS sku
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_GROUP_BY"/>
+    <include refid="QUERY_HAVING"/>
+    <include refid="com.xmg.mall.product.mapper.SkuMapper.QUERY_ORDER_BY"/>
+    <include refid="com.xmg.mall.product.mapper.SkuMapper.QUERY_LIMIT"/>
+  </select>
+</mapper>

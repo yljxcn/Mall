@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.TotalProductMapper">
+  <resultMap id="TOTAL_RESULT" type="com.xmg.mall.product.vo.TotalProduct">
+    <result column="rows" property="rows"/>
+    <result column="createdDate" property="createdDate"/>
+    <result column="flags" property="flags"/>
+  </resultMap>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="com.xmg.mall.product.mapper.ProductMapper.QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="TOTAL_COLUMNS">
+    <trim suffixOverrides=",">NULL, 
+      <if test="totalCountRows">COUNT(0) AS rows,</if>
+      <if test="groupBys.size() &gt; 0">
+        <foreach collection="groupBys.keySet()" item="key">product.${key} AS ${key},</foreach>
+      </if>
+      <if test="totalSumMarketPrice">SUM(product.marketPrice) AS totalSumMarketPrice,</if>
+      <if test="totalMinMarketPrice">MIN(product.marketPrice) AS totalMinMarketPrice,</if>
+      <if test="totalMaxMarketPrice">MAX(product.marketPrice) AS totalMaxMarketPrice,</if>
+      <if test="totalAvgMarketPrice">AVG(product.marketPrice) AS totalAvgMarketPrice,</if>
+      <if test="totalSumBasePrice">SUM(product.basePrice) AS totalSumBasePrice,</if>
+      <if test="totalMinBasePrice">MIN(product.basePrice) AS totalMinBasePrice,</if>
+      <if test="totalMaxBasePrice">MAX(product.basePrice) AS totalMaxBasePrice,</if>
+      <if test="totalAvgBasePrice">AVG(product.basePrice) AS totalAvgBasePrice,</if>
+    </trim>
+  </sql>
+  <sql id="QUERY_GROUP_BY">
+    <if test="groupBys.size() &gt; 0">GROUP BY
+      <foreach collection="groupBys.entrySet()" item="entry" separator=",">
+        <choose>
+          <when test="entry.value != null">
+            <choose>
+              <when test="entry.value.startsWith('&amp;')">product.${entry.key} ${entry.value}</when>
+              <otherwise>${entry.value}(product.${entry.key})</otherwise>
+            </choose>
+          </when>
+          <otherwise>product.${entry.key}</otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_HAVING">
+    <trim prefixOverrides="AND | OR" prefix="HAVING">
+      <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
+      <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumMarketPrice != null">AND SUM(product.marketPrice) &gt;= #{minTotalSumMarketPrice}</if>
+      <if test="maxTotalSumMarketPrice != null">AND SUM(product.marketPrice) &lt;= #{maxTotalSumMarketPrice}</if>
+      <if test="minTotalMinMarketPrice != null">AND MIN(product.marketPrice) &gt;= #{minTotalMinMarketPrice}</if>
+      <if test="maxTotalMinMarketPrice != null">AND MIN(product.marketPrice) &lt;= #{maxTotalMinMarketPrice}</if>
+      <if test="minTotalMaxMarketPrice != null">AND MAX(product.marketPrice) &gt;= #{minTotalMaxMarketPrice}</if>
+      <if test="maxTotalMaxMarketPrice != null">AND MAX(product.marketPrice) &lt;= #{maxTotalMaxMarketPrice}</if>
+      <if test="minTotalAvgMarketPrice != null">AND AVG(product.marketPrice) &gt;= #{minTotalAvgMarketPrice}</if>
+      <if test="maxTotalAvgMarketPrice != null">AND AVG(product.marketPrice) &lt;= #{maxTotalAvgMarketPrice}</if>
+      <if test="minTotalSumBasePrice != null">AND SUM(product.basePrice) &gt;= #{minTotalSumBasePrice}</if>
+      <if test="maxTotalSumBasePrice != null">AND SUM(product.basePrice) &lt;= #{maxTotalSumBasePrice}</if>
+      <if test="minTotalMinBasePrice != null">AND MIN(product.basePrice) &gt;= #{minTotalMinBasePrice}</if>
+      <if test="maxTotalMinBasePrice != null">AND MIN(product.basePrice) &lt;= #{maxTotalMinBasePrice}</if>
+      <if test="minTotalMaxBasePrice != null">AND MAX(product.basePrice) &gt;= #{minTotalMaxBasePrice}</if>
+      <if test="maxTotalMaxBasePrice != null">AND MAX(product.basePrice) &lt;= #{maxTotalMaxBasePrice}</if>
+      <if test="minTotalAvgBasePrice != null">AND AVG(product.basePrice) &gt;= #{minTotalAvgBasePrice}</if>
+      <if test="maxTotalAvgBasePrice != null">AND AVG(product.basePrice) &lt;= #{maxTotalAvgBasePrice}</if>
+    </trim>
+  </sql>
+  <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalProductQuery">SELECT 
+    <include refid="TOTAL_COLUMNS"/>FROM `Product` AS product
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_GROUP_BY"/>
+    <include refid="QUERY_HAVING"/>
+    <include refid="com.xmg.mall.product.mapper.ProductMapper.QUERY_ORDER_BY"/>
+    <include refid="com.xmg.mall.product.mapper.ProductMapper.QUERY_LIMIT"/>
+  </select>
+</mapper>

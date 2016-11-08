@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.product.mapper.ProductAuditMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.product.domain.ProductAudit">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="productId" column="productId"/>
+    <result property="employeeId" column="employeeId"/>
+    <result property="note" column="note"/>
+    <result property="state" column="state"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">productAudit.id, productAudit.createdDate, productAudit.lastModifiedDate, productAudit.version,productAudit.productId,productAudit.employeeId,productAudit.note,productAudit.state</sql>
+  <sql id="QUERY_COLUMNS">productAudit.id, productAudit.createdDate, productAudit.lastModifiedDate, productAudit.version,productAudit.productId,productAudit.employeeId,productAudit.note,productAudit.state</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedProductAudit" extends="BASE_RESULT">
+    <association property="product" column="productId" javaType="com.xmg.mall.product.domain.Product" columnPrefix="product_" resultMap="com.xmg.mall.product.mapper.ProductMapper.BASE_RESULT"/>
+    <association property="employee" column="employeeId" javaType="com.xmg.mall.employee.domain.Employee" columnPrefix="employee_" resultMap="com.xmg.mall.employee.mapper.EmployeeMapper.BASE_RESULT"/>
+  </resultMap>
+  <sql id="JOIN_COLUMNS">
+    <if test="joinProduct != null">, product.id AS product_id, product.name AS product_name</if>
+    <if test="joinEmployee != null">, employee.id AS employee_id, employee.name AS employee_name</if>
+  </sql>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `ProductAudit` productAudit WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `ProductAudit` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductAudit" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductAudit`(id, createdDate, version,productId,employeeId,note,state) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{employeeId }, #{note }, #{state })</insert>
+  <update id="update" parameterType="com.xmg.mall.product.domain.ProductAudit">UPDATE `ProductAudit`
+    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, employeeId = #{employeeId }, note = #{note }, state = #{state }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN">
+    <if test="joinProduct != null">${joinProduct.name} `Product` product ON product.id = productAudit.productId</if>
+    <if test="joinEmployee != null">${joinEmployee.name} `Employee` employee ON employee.id = productAudit.employeeId</if>
+  </sql>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND productAudit.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND productAudit.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND productAudit.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="productId != null">AND productAudit.productId = #{productId}</if>
+    <if test="employeeId != null">AND productAudit.employeeId = #{employeeId}</if>
+    <if test="excludeStates != null">AND productAudit.state NOT IN
+      <foreach collection="excludeStates" item="state" open="(" close=")" separator=", ">#{state }</foreach>
+    </if>
+    <if test="includeStates != null &amp;&amp; excludeStates == null">AND productAudit.state IN
+      <foreach collection="includeStates" item="state" open="(" close=")" separator=", ">#{state }</foreach>
+    </if>
+    <if test="productQuery != null &amp;&amp; joinProduct">
+      <if test="productQuery.ids != null">AND product.id IN
+        <foreach collection="productQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="productQuery.startCreatedDate != null">AND product.createdDate &gt;= #{productQuery.startCreatedDate }</if>
+      <if test="productQuery.endCreatedDate != null">AND product.createdDate &lt;= #{productQuery.endCreatedDate }</if>
+      <if test="productQuery.catalogId != null">AND product.catalogId = #{productQuery.catalogId}</if>
+      <if test="productQuery.brandId != null">AND product.brandId = #{productQuery.brandId}</if>
+      <if test="productQuery.name != null">AND product.name = #{productQuery.name}</if>
+      <if test="productQuery.likeName != null">AND product.name LIKE CONCAT(#{productQuery.likeName} ,'%')</if>
+      <if test="productQuery.keyword != null">AND product.keyword = #{productQuery.keyword}</if>
+      <if test="productQuery.likeKeyword != null">AND product.keyword LIKE CONCAT(#{productQuery.likeKeyword} ,'%')</if>
+      <if test="productQuery.code != null">AND product.code = #{productQuery.code}</if>
+      <if test="productQuery.likeCode != null">AND product.code LIKE CONCAT(#{productQuery.likeCode} ,'%')</if>
+      <if test="productQuery.marketPrice != null">AND product.marketPrice = #{productQuery.marketPrice}</if>
+      <if test="productQuery.minMarketPrice != null">AND product.marketPrice &gt;= #{productQuery.minMarketPrice}</if>
+      <if test="productQuery.maxMarketPrice != null">AND product.marketPrice &lt;= #{productQuery.maxMarketPrice}</if>
+      <if test="productQuery.basePrice != null">AND product.basePrice = #{productQuery.basePrice}</if>
+      <if test="productQuery.minBasePrice != null">AND product.basePrice &gt;= #{productQuery.minBasePrice}</if>
+      <if test="productQuery.maxBasePrice != null">AND product.basePrice &lt;= #{productQuery.maxBasePrice}</if>
+      <if test="productQuery.excludeFlags != null">AND 
+        <foreach collection="productQuery.excludeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
+      </if>
+      <if test="productQuery.includeFlags != null &amp;&amp; productQuery.excludeFlags == null ">AND 
+        <foreach collection="productQuery.includeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      </if>
+    </if>
+    <if test="employeeQuery != null &amp;&amp; joinEmployee">
+      <if test="employeeQuery.ids != null">AND employee.id IN
+        <foreach collection="employeeQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="employeeQuery.startCreatedDate != null">AND employee.createdDate &gt;= #{employeeQuery.startCreatedDate }</if>
+      <if test="employeeQuery.endCreatedDate != null">AND employee.createdDate &lt;= #{employeeQuery.endCreatedDate }</if>
+      <if test="employeeQuery.name != null">AND employee.name = #{employeeQuery.name}</if>
+      <if test="employeeQuery.likeName != null">AND employee.name LIKE CONCAT(#{employeeQuery.likeName} ,'%')</if>
+      <if test="employeeQuery.excludeStates != null">AND employee.state NOT IN
+        <foreach collection="employeeQuery.excludeStates" item="state" open="(" close=")" separator=", ">#{state }</foreach>
+      </if>
+      <if test="employeeQuery.includeStates != null &amp;&amp; employeeQuery.excludeStates == null">AND employee.state IN
+        <foreach collection="employeeQuery.includeStates" item="state" open="(" close=")" separator=", ">#{state }</foreach>
+      </if>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys.entrySet()" item="entry" separator=", ">productAudit.${entry.key} ${entry.value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.product.qo.ProductAuditQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `ProductAudit` AS productAudit
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.product.qo.ProductAuditQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `ProductAudit` AS productAudit
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>
