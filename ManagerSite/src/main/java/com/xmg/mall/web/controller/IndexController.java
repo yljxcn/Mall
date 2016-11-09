@@ -30,6 +30,7 @@ public class IndexController {
     @ResponseBody
     @RequestMapping("/init")
     public String init() {
+        System.out.println("sdfsd");
         return "demo";
     }
 

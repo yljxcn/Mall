@@ -6,8 +6,11 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
+	<import resource="classpath:spring/mapper/mapper-employee.xml" />
+	<import resource="classpath:spring/mapper/mapper-product.xml" />
 	<import resource="classpath:spring/spring-base.xml" />
-
+	<import resource="classpath:spring/service/service-employee.xml" />
+	<import resource="classpath:spring/service/service-product.xml" />
 	<import resource="classpath:spring/event/event.xml" />
 
 </beans>

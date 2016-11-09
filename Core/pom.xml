@@ -144,6 +144,7 @@
 
   <build>
     <finalName>core</finalName>
+    <!-- 打包的時候，java 目錄中的 xml 也打包（改变了 Maven 约定的资源文件策略） -->
     <resources>
       <resource>
         <directory>src/main/java</directory>
@@ -160,6 +161,7 @@
     </resources>
 
     <plugins>
+      <!-- 配置編譯參數 -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
@@ -169,6 +171,7 @@
         </configuration>
       </plugin>
 
+      <!-- 打包的時候，源碼也打進去 -->
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
