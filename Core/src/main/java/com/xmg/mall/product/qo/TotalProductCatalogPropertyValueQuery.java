@@ -437,7 +437,7 @@ public class TotalProductCatalogPropertyValueQuery
         return this;
     }
 
-    public TotalProductCatalogPropertyValueQuery setGroupByFlags(Long mods) {
+    public TotalProductCatalogPropertyValueQuery setGroupByFlags(java.lang.Long mods) {
         if (mods!= null) {
             groupBys.addModsGroupBy("flags", mods);
         } else {

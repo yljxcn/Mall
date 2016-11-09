@@ -19,6 +19,18 @@ public class TotalCatalogPropertyQuery
     protected Long catalogId;
     protected String likeName;
     protected String name;
+    protected Boolean totalSumSequence;
+    protected Boolean totalMaxSequence;
+    protected Boolean totalMinSequence;
+    protected Boolean totalAvgSequence;
+    protected Integer maxTotalSumSequence;
+    protected Integer minTotalSumSequence;
+    protected Integer minTotalMinSequence;
+    protected Integer maxTotalMinSequence;
+    protected Integer minTotalMaxSequence;
+    protected Integer maxTotalMaxSequence;
+    protected Integer minTotalAvgSequence;
+    protected Integer maxTotalAvgSequence;
     protected Integer[] includeTypes;
     protected Integer[] excludeTypes;
     protected com.xmg.mall.base.query.JoinType joinCatalog;
@@ -123,6 +135,114 @@ public class TotalCatalogPropertyQuery
 
     public int getOrderBySequence() {
         return getOrderByKeyword("sequence");
+    }
+
+    public Boolean getTotalSumSequence() {
+        return this.totalSumSequence;
+    }
+
+    public TotalCatalogPropertyQuery setTotalSumSequence(Boolean totalSumSequence) {
+        this.totalSumSequence = totalSumSequence;
+        return this;
+    }
+
+    public Boolean getTotalMaxSequence() {
+        return this.totalMaxSequence;
+    }
+
+    public TotalCatalogPropertyQuery setTotalMaxSequence(Boolean totalMaxSequence) {
+        this.totalMaxSequence = totalMaxSequence;
+        return this;
+    }
+
+    public Boolean getTotalMinSequence() {
+        return this.totalMinSequence;
+    }
+
+    public TotalCatalogPropertyQuery setTotalMinSequence(Boolean totalMinSequence) {
+        this.totalMinSequence = totalMinSequence;
+        return this;
+    }
+
+    public Boolean getTotalAvgSequence() {
+        return this.totalAvgSequence;
+    }
+
+    public TotalCatalogPropertyQuery setTotalAvgSequence(Boolean totalAvgSequence) {
+        this.totalAvgSequence = totalAvgSequence;
+        return this;
+    }
+
+    public Integer getMaxTotalSumSequence() {
+        return this.maxTotalSumSequence;
+    }
+
+    public TotalCatalogPropertyQuery setMaxTotalSumSequence(Integer maxTotalSumSequence) {
+        this.maxTotalSumSequence = maxTotalSumSequence;
+        return this;
+    }
+
+    public Integer getMinTotalSumSequence() {
+        return this.minTotalSumSequence;
+    }
+
+    public TotalCatalogPropertyQuery setMinTotalSumSequence(Integer minTotalSumSequence) {
+        this.minTotalSumSequence = minTotalSumSequence;
+        return this;
+    }
+
+    public Integer getMinTotalMinSequence() {
+        return this.minTotalMinSequence;
+    }
+
+    public TotalCatalogPropertyQuery setMinTotalMinSequence(Integer minTotalMinSequence) {
+        this.minTotalMinSequence = minTotalMinSequence;
+        return this;
+    }
+
+    public Integer getMaxTotalMinSequence() {
+        return this.maxTotalMinSequence;
+    }
+
+    public TotalCatalogPropertyQuery setMaxTotalMinSequence(Integer maxTotalMinSequence) {
+        this.maxTotalMinSequence = maxTotalMinSequence;
+        return this;
+    }
+
+    public Integer getMinTotalMaxSequence() {
+        return this.minTotalMaxSequence;
+    }
+
+    public TotalCatalogPropertyQuery setMinTotalMaxSequence(Integer minTotalMaxSequence) {
+        this.minTotalMaxSequence = minTotalMaxSequence;
+        return this;
+    }
+
+    public Integer getMaxTotalMaxSequence() {
+        return this.maxTotalMaxSequence;
+    }
+
+    public TotalCatalogPropertyQuery setMaxTotalMaxSequence(Integer maxTotalMaxSequence) {
+        this.maxTotalMaxSequence = maxTotalMaxSequence;
+        return this;
+    }
+
+    public Integer getMinTotalAvgSequence() {
+        return this.minTotalAvgSequence;
+    }
+
+    public TotalCatalogPropertyQuery setMinTotalAvgSequence(Integer minTotalAvgSequence) {
+        this.minTotalAvgSequence = minTotalAvgSequence;
+        return this;
+    }
+
+    public Integer getMaxTotalAvgSequence() {
+        return this.maxTotalAvgSequence;
+    }
+
+    public TotalCatalogPropertyQuery setMaxTotalAvgSequence(Integer maxTotalAvgSequence) {
+        this.maxTotalAvgSequence = maxTotalAvgSequence;
+        return this;
     }
 
     public TotalCatalogPropertyQuery setGroupByCreatedDate(DateGroupBy dateGroupBy) {

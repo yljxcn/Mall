@@ -14,7 +14,7 @@ public class CatalogProperty
     public final static int TYPE_RELATIONSHIP = (TYPE_NUMBER + 1);
     protected Long catalogId;
     protected String name;
-    protected java.lang.Integer sequence;
+    protected Integer sequence;
 
     public CatalogProperty setType(Integer type) {
         this.type = type;
@@ -75,11 +75,11 @@ public class CatalogProperty
         return this;
     }
 
-    public java.lang.Integer getSequence() {
+    public Integer getSequence() {
         return this.sequence;
     }
 
-    public CatalogProperty setSequence(java.lang.Integer sequence) {
+    public CatalogProperty setSequence(Integer sequence) {
         this.sequence = sequence;
         return this;
     }

@@ -11,7 +11,7 @@ public class ProductImage
     private final static long serialVersionUID = 1L;
     protected Long flags = 0L;
     public final static long FLAGS_COVER = 1L;
-    protected java.lang.Long productId;
+    protected Long productId;
     protected String image;
     protected Integer sequence;
 
@@ -36,11 +36,11 @@ public class ProductImage
         return this;
     }
 
-    public java.lang.Long getProductId() {
+    public Long getProductId() {
         return this.productId;
     }
 
-    public ProductImage setProductId(java.lang.Long productId) {
+    public ProductImage setProductId(Long productId) {
         this.productId = productId;
         return this;
     }

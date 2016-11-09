@@ -11,6 +11,9 @@ public class BrandQuery
     protected Long[] ids;
     protected Date startCreatedDate;
     protected Date endCreatedDate;
+    protected Date foundTime;
+    protected Date startFoundTime;
+    protected Date endFoundTime;
     protected String chineseName;
     protected String likeChineseName;
     protected String englishName;
@@ -20,6 +23,12 @@ public class BrandQuery
 
     public boolean hasIds() {
         return (this.ids.length!= 0);
+    }
+
+    public BrandQuery setFoundTime(Date startFoundTime, Date endFoundTime) {
+        setStartFoundTime(startFoundTime);
+        setEndFoundTime(endFoundTime);
+        return this;
     }
 
     public Long[] getIds() {
@@ -46,6 +55,33 @@ public class BrandQuery
 
     public BrandQuery setEndCreatedDate(Date endCreatedDate) {
         this.endCreatedDate = endCreatedDate;
+        return this;
+    }
+
+    public Date getFoundTime() {
+        return this.foundTime;
+    }
+
+    public BrandQuery setFoundTime(Date foundTime) {
+        this.foundTime = foundTime;
+        return this;
+    }
+
+    public Date getStartFoundTime() {
+        return this.startFoundTime;
+    }
+
+    public BrandQuery setStartFoundTime(Date startFoundTime) {
+        this.startFoundTime = startFoundTime;
+        return this;
+    }
+
+    public Date getEndFoundTime() {
+        return this.endFoundTime;
+    }
+
+    public BrandQuery setEndFoundTime(Date endFoundTime) {
+        this.endFoundTime = endFoundTime;
         return this;
     }
 

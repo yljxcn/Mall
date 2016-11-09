@@ -1,6 +1,7 @@
 
 package com.xmg.mall.product.domain;
 
+import java.util.Date;
 import com.xmg.mall.base.domain.BasicDomain;
 import com.xmg.mall.base.domain.Mod;
 
@@ -11,6 +12,7 @@ public class Brand
     private final static long serialVersionUID = 1L;
     protected Long visibilityState = 0L;
     public final static long VISIBILITY_STATE_VISIBLE = 1L;
+    protected Date foundTime;
     protected String logo;
     protected String chineseName;
     protected String englishName;
@@ -36,6 +38,15 @@ public class Brand
 
     public Brand setVisible(boolean b) {
         this.visibilityState = Mod.setMod(visibilityState, VISIBILITY_STATE_VISIBLE, b);
+        return this;
+    }
+
+    public Date getFoundTime() {
+        return this.foundTime;
+    }
+
+    public Brand setFoundTime(Date foundTime) {
+        this.foundTime = foundTime;
         return this;
     }
 

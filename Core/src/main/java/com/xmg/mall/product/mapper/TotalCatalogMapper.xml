@@ -17,6 +17,22 @@
       <if test="groupBys.size() &gt; 0">
         <foreach collection="groupBys.keySet()" item="key">catalog.${key} AS ${key},</foreach>
       </if>
+      <if test="totalSumLevel">SUM(catalog.level) AS totalSumLevel,</if>
+      <if test="totalMinLevel">MIN(catalog.level) AS totalMinLevel,</if>
+      <if test="totalMaxLevel">MAX(catalog.level) AS totalMaxLevel,</if>
+      <if test="totalAvgLevel">AVG(catalog.level) AS totalAvgLevel,</if>
+      <if test="totalSumSequence">SUM(catalog.sequence) AS totalSumSequence,</if>
+      <if test="totalMinSequence">MIN(catalog.sequence) AS totalMinSequence,</if>
+      <if test="totalMaxSequence">MAX(catalog.sequence) AS totalMaxSequence,</if>
+      <if test="totalAvgSequence">AVG(catalog.sequence) AS totalAvgSequence,</if>
+      <if test="totalSumChildrenCatalogs">SUM(catalog.childrenCatalogs) AS totalSumChildrenCatalogs,</if>
+      <if test="totalMinChildrenCatalogs">MIN(catalog.childrenCatalogs) AS totalMinChildrenCatalogs,</if>
+      <if test="totalMaxChildrenCatalogs">MAX(catalog.childrenCatalogs) AS totalMaxChildrenCatalogs,</if>
+      <if test="totalAvgChildrenCatalogs">AVG(catalog.childrenCatalogs) AS totalAvgChildrenCatalogs,</if>
+      <if test="totalSumProducts">SUM(catalog.products) AS totalSumProducts,</if>
+      <if test="totalMinProducts">MIN(catalog.products) AS totalMinProducts,</if>
+      <if test="totalMaxProducts">MAX(catalog.products) AS totalMaxProducts,</if>
+      <if test="totalAvgProducts">AVG(catalog.products) AS totalAvgProducts,</if>
     </trim>
   </sql>
   <sql id="QUERY_GROUP_BY">
@@ -38,6 +54,38 @@
     <trim prefixOverrides="AND | OR" prefix="HAVING">
       <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
       <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumLevel != null">AND SUM(catalog.level) &gt;= #{minTotalSumLevel}</if>
+      <if test="maxTotalSumLevel != null">AND SUM(catalog.level) &lt;= #{maxTotalSumLevel}</if>
+      <if test="minTotalMinLevel != null">AND MIN(catalog.level) &gt;= #{minTotalMinLevel}</if>
+      <if test="maxTotalMinLevel != null">AND MIN(catalog.level) &lt;= #{maxTotalMinLevel}</if>
+      <if test="minTotalMaxLevel != null">AND MAX(catalog.level) &gt;= #{minTotalMaxLevel}</if>
+      <if test="maxTotalMaxLevel != null">AND MAX(catalog.level) &lt;= #{maxTotalMaxLevel}</if>
+      <if test="minTotalAvgLevel != null">AND AVG(catalog.level) &gt;= #{minTotalAvgLevel}</if>
+      <if test="maxTotalAvgLevel != null">AND AVG(catalog.level) &lt;= #{maxTotalAvgLevel}</if>
+      <if test="minTotalSumSequence != null">AND SUM(catalog.sequence) &gt;= #{minTotalSumSequence}</if>
+      <if test="maxTotalSumSequence != null">AND SUM(catalog.sequence) &lt;= #{maxTotalSumSequence}</if>
+      <if test="minTotalMinSequence != null">AND MIN(catalog.sequence) &gt;= #{minTotalMinSequence}</if>
+      <if test="maxTotalMinSequence != null">AND MIN(catalog.sequence) &lt;= #{maxTotalMinSequence}</if>
+      <if test="minTotalMaxSequence != null">AND MAX(catalog.sequence) &gt;= #{minTotalMaxSequence}</if>
+      <if test="maxTotalMaxSequence != null">AND MAX(catalog.sequence) &lt;= #{maxTotalMaxSequence}</if>
+      <if test="minTotalAvgSequence != null">AND AVG(catalog.sequence) &gt;= #{minTotalAvgSequence}</if>
+      <if test="maxTotalAvgSequence != null">AND AVG(catalog.sequence) &lt;= #{maxTotalAvgSequence}</if>
+      <if test="minTotalSumChildrenCatalogs != null">AND SUM(catalog.childrenCatalogs) &gt;= #{minTotalSumChildrenCatalogs}</if>
+      <if test="maxTotalSumChildrenCatalogs != null">AND SUM(catalog.childrenCatalogs) &lt;= #{maxTotalSumChildrenCatalogs}</if>
+      <if test="minTotalMinChildrenCatalogs != null">AND MIN(catalog.childrenCatalogs) &gt;= #{minTotalMinChildrenCatalogs}</if>
+      <if test="maxTotalMinChildrenCatalogs != null">AND MIN(catalog.childrenCatalogs) &lt;= #{maxTotalMinChildrenCatalogs}</if>
+      <if test="minTotalMaxChildrenCatalogs != null">AND MAX(catalog.childrenCatalogs) &gt;= #{minTotalMaxChildrenCatalogs}</if>
+      <if test="maxTotalMaxChildrenCatalogs != null">AND MAX(catalog.childrenCatalogs) &lt;= #{maxTotalMaxChildrenCatalogs}</if>
+      <if test="minTotalAvgChildrenCatalogs != null">AND AVG(catalog.childrenCatalogs) &gt;= #{minTotalAvgChildrenCatalogs}</if>
+      <if test="maxTotalAvgChildrenCatalogs != null">AND AVG(catalog.childrenCatalogs) &lt;= #{maxTotalAvgChildrenCatalogs}</if>
+      <if test="minTotalSumProducts != null">AND SUM(catalog.products) &gt;= #{minTotalSumProducts}</if>
+      <if test="maxTotalSumProducts != null">AND SUM(catalog.products) &lt;= #{maxTotalSumProducts}</if>
+      <if test="minTotalMinProducts != null">AND MIN(catalog.products) &gt;= #{minTotalMinProducts}</if>
+      <if test="maxTotalMinProducts != null">AND MIN(catalog.products) &lt;= #{maxTotalMinProducts}</if>
+      <if test="minTotalMaxProducts != null">AND MAX(catalog.products) &gt;= #{minTotalMaxProducts}</if>
+      <if test="maxTotalMaxProducts != null">AND MAX(catalog.products) &lt;= #{maxTotalMaxProducts}</if>
+      <if test="minTotalAvgProducts != null">AND AVG(catalog.products) &gt;= #{minTotalAvgProducts}</if>
+      <if test="maxTotalAvgProducts != null">AND AVG(catalog.products) &lt;= #{maxTotalAvgProducts}</if>
     </trim>
   </sql>
   <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalCatalogQuery">SELECT 

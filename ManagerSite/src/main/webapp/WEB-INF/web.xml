@@ -10,6 +10,10 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring/spring.xml</param-value>
     </context-param>
+    <context-param>
+        <param-name>org.eclipse.jetty.servlet.Default.useFileMappedBuffer</param-name>
+        <param-value>false</param-value>
+    </context-param>
 
     <listener>
         <listener-class>

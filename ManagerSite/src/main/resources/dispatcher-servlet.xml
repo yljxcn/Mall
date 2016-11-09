@@ -10,6 +10,9 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.xmg.mall.web.controller" />
 
+    <!-- 过滤静态资源 -->
+    <mvc:default-servlet-handler/>
+
     <!-- freemarker的配置 -->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/view/" />

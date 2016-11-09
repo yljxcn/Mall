@@ -85,6 +85,9 @@
       </if>
       <if test="brandQuery.startCreatedDate != null">AND brand.createdDate &gt;= #{brandQuery.startCreatedDate }</if>
       <if test="brandQuery.endCreatedDate != null">AND brand.createdDate &lt;= #{brandQuery.endCreatedDate }</if>
+      <if test="brandQuery.foundTime != null">AND brand.foundTime = #{brandQuery.foundTime}</if>
+      <if test="brandQuery.startFoundTime != null">AND brand.foundTime &gt;= #{brandQuery.startFoundTime}</if>
+      <if test="brandQuery.endFoundTime != null">AND brand.foundTime &lt;= #{brandQuery.endFoundTime}</if>
       <if test="brandQuery.chineseName != null">AND brand.chineseName = #{brandQuery.chineseName}</if>
       <if test="brandQuery.likeChineseName != null">AND brand.chineseName LIKE CONCAT(#{brandQuery.likeChineseName} ,'%')</if>
       <if test="brandQuery.englishName != null">AND brand.englishName = #{brandQuery.englishName}</if>

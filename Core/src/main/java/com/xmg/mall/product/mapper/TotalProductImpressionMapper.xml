@@ -17,6 +17,10 @@
       <if test="groupBys.size() &gt; 0">
         <foreach collection="groupBys.keySet()" item="key">productImpression.${key} AS ${key},</foreach>
       </if>
+      <if test="totalSumCount">SUM(productImpression.count) AS totalSumCount,</if>
+      <if test="totalMinCount">MIN(productImpression.count) AS totalMinCount,</if>
+      <if test="totalMaxCount">MAX(productImpression.count) AS totalMaxCount,</if>
+      <if test="totalAvgCount">AVG(productImpression.count) AS totalAvgCount,</if>
     </trim>
   </sql>
   <sql id="QUERY_GROUP_BY">
@@ -38,6 +42,14 @@
     <trim prefixOverrides="AND | OR" prefix="HAVING">
       <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
       <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumCount != null">AND SUM(productImpression.count) &gt;= #{minTotalSumCount}</if>
+      <if test="maxTotalSumCount != null">AND SUM(productImpression.count) &lt;= #{maxTotalSumCount}</if>
+      <if test="minTotalMinCount != null">AND MIN(productImpression.count) &gt;= #{minTotalMinCount}</if>
+      <if test="maxTotalMinCount != null">AND MIN(productImpression.count) &lt;= #{maxTotalMinCount}</if>
+      <if test="minTotalMaxCount != null">AND MAX(productImpression.count) &gt;= #{minTotalMaxCount}</if>
+      <if test="maxTotalMaxCount != null">AND MAX(productImpression.count) &lt;= #{maxTotalMaxCount}</if>
+      <if test="minTotalAvgCount != null">AND AVG(productImpression.count) &gt;= #{minTotalAvgCount}</if>
+      <if test="maxTotalAvgCount != null">AND AVG(productImpression.count) &lt;= #{maxTotalAvgCount}</if>
     </trim>
   </sql>
   <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalProductImpressionQuery">SELECT 

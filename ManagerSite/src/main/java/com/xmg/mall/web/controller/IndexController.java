@@ -17,20 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller("indexController")
 public class IndexController {
 
-    @Autowired
-    protected EmployeeService employeeService;
-
-    @ResponseBody
-    @RequestMapping("/list")
-    public Pagination listEmployees(HttpServletRequest request, EmployeeQuery qo) {
-        Pagination<ExtendedEmployee> pagination = employeeService.queryEmployees(qo);
-        return pagination;
-    }
-
-    @ResponseBody
-    @RequestMapping("/init")
+    @RequestMapping("/index")
     public String init() {
-        System.out.println("sdfsd");
         return "demo";
     }
 

@@ -12,7 +12,7 @@ public class ProductCatalogPropertyValue
     private final static long serialVersionUID = 1L;
     protected Long flags = 0L;
     public final static long FLAGS_FREE = 1L;
-    protected java.lang.Long productId;
+    protected Long productId;
     protected BigDecimal lowerLimit;
     protected BigDecimal freight;
 
@@ -37,11 +37,11 @@ public class ProductCatalogPropertyValue
         return this;
     }
 
-    public java.lang.Long getProductId() {
+    public Long getProductId() {
         return this.productId;
     }
 
-    public ProductCatalogPropertyValue setProductId(java.lang.Long productId) {
+    public ProductCatalogPropertyValue setProductId(Long productId) {
         this.productId = productId;
         return this;
     }

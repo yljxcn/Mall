@@ -17,6 +17,10 @@
       <if test="groupBys.size() &gt; 0">
         <foreach collection="groupBys.keySet()" item="key">productFreight.${key} AS ${key},</foreach>
       </if>
+      <if test="totalSumCount">SUM(productFreight.count) AS totalSumCount,</if>
+      <if test="totalMinCount">MIN(productFreight.count) AS totalMinCount,</if>
+      <if test="totalMaxCount">MAX(productFreight.count) AS totalMaxCount,</if>
+      <if test="totalAvgCount">AVG(productFreight.count) AS totalAvgCount,</if>
     </trim>
   </sql>
   <sql id="QUERY_GROUP_BY">
@@ -38,6 +42,14 @@
     <trim prefixOverrides="AND | OR" prefix="HAVING">
       <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
       <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumCount != null">AND SUM(productFreight.count) &gt;= #{minTotalSumCount}</if>
+      <if test="maxTotalSumCount != null">AND SUM(productFreight.count) &lt;= #{maxTotalSumCount}</if>
+      <if test="minTotalMinCount != null">AND MIN(productFreight.count) &gt;= #{minTotalMinCount}</if>
+      <if test="maxTotalMinCount != null">AND MIN(productFreight.count) &lt;= #{maxTotalMinCount}</if>
+      <if test="minTotalMaxCount != null">AND MAX(productFreight.count) &gt;= #{minTotalMaxCount}</if>
+      <if test="maxTotalMaxCount != null">AND MAX(productFreight.count) &lt;= #{maxTotalMaxCount}</if>
+      <if test="minTotalAvgCount != null">AND AVG(productFreight.count) &gt;= #{minTotalAvgCount}</if>
+      <if test="maxTotalAvgCount != null">AND AVG(productFreight.count) &lt;= #{maxTotalAvgCount}</if>
     </trim>
   </sql>
   <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalProductFreightQuery">SELECT 

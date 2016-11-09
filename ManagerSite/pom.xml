@@ -67,9 +67,6 @@
                     <httpConnector>
                         <port>8080</port>
                     </httpConnector>
-                    <webApp>
-                        <contextPath>/ms</contextPath>
-                    </webApp>
                 </configuration>
             </plugin>
             <plugin>

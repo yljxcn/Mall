@@ -13,8 +13,8 @@ public class Product
     protected Long flags = 0L;
     public final static long FLAGS_SHELVES = 1L;
     public final static long FLAGS_RECOMMENDED = (FLAGS_SHELVES<< 1L);
-    protected java.lang.Long catalogId;
-    protected java.lang.Long brandId;
+    protected Long catalogId;
+    protected Long brandId;
     protected String name;
     protected String keyword;
     protected String code;
@@ -52,20 +52,20 @@ public class Product
         return this;
     }
 
-    public java.lang.Long getCatalogId() {
+    public Long getCatalogId() {
         return this.catalogId;
     }
 
-    public Product setCatalogId(java.lang.Long catalogId) {
+    public Product setCatalogId(Long catalogId) {
         this.catalogId = catalogId;
         return this;
     }
 
-    public java.lang.Long getBrandId() {
+    public Long getBrandId() {
         return this.brandId;
     }
 
-    public Product setBrandId(java.lang.Long brandId) {
+    public Product setBrandId(Long brandId) {
         this.brandId = brandId;
         return this;
     }

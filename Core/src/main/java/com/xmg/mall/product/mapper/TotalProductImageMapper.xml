@@ -18,6 +18,10 @@
       <if test="groupBys.size() &gt; 0">
         <foreach collection="groupBys.keySet()" item="key">productImage.${key} AS ${key},</foreach>
       </if>
+      <if test="totalSumSequence">SUM(productImage.sequence) AS totalSumSequence,</if>
+      <if test="totalMinSequence">MIN(productImage.sequence) AS totalMinSequence,</if>
+      <if test="totalMaxSequence">MAX(productImage.sequence) AS totalMaxSequence,</if>
+      <if test="totalAvgSequence">AVG(productImage.sequence) AS totalAvgSequence,</if>
     </trim>
   </sql>
   <sql id="QUERY_GROUP_BY">
@@ -39,6 +43,14 @@
     <trim prefixOverrides="AND | OR" prefix="HAVING">
       <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
       <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumSequence != null">AND SUM(productImage.sequence) &gt;= #{minTotalSumSequence}</if>
+      <if test="maxTotalSumSequence != null">AND SUM(productImage.sequence) &lt;= #{maxTotalSumSequence}</if>
+      <if test="minTotalMinSequence != null">AND MIN(productImage.sequence) &gt;= #{minTotalMinSequence}</if>
+      <if test="maxTotalMinSequence != null">AND MIN(productImage.sequence) &lt;= #{maxTotalMinSequence}</if>
+      <if test="minTotalMaxSequence != null">AND MAX(productImage.sequence) &gt;= #{minTotalMaxSequence}</if>
+      <if test="maxTotalMaxSequence != null">AND MAX(productImage.sequence) &lt;= #{maxTotalMaxSequence}</if>
+      <if test="minTotalAvgSequence != null">AND AVG(productImage.sequence) &gt;= #{minTotalAvgSequence}</if>
+      <if test="maxTotalAvgSequence != null">AND AVG(productImage.sequence) &lt;= #{maxTotalAvgSequence}</if>
     </trim>
   </sql>
   <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalProductImageQuery">SELECT 

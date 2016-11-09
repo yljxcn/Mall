@@ -7,6 +7,7 @@
     <result property="createdDate" column="createdDate"/>
     <result property="lastModifiedDate" column="lastModifiedDate"/>
     <result property="version" column="version"/>
+    <result property="foundTime" column="foundTime"/>
     <result property="logo" column="logo"/>
     <result property="chineseName" column="chineseName"/>
     <result property="englishName" column="englishName"/>
@@ -15,17 +16,17 @@
     <result property="sequence" column="sequence"/>
     <result property="visibilityState" column="visibilityState"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">brand.id, brand.createdDate, brand.lastModifiedDate, brand.version,brand.logo,brand.chineseName,brand.englishName,brand.description,brand.url,brand.sequence,brand.visibilityState</sql>
-  <sql id="QUERY_COLUMNS">brand.id, brand.createdDate, brand.lastModifiedDate, brand.version,brand.logo,brand.chineseName,brand.englishName,brand.description,brand.url,brand.sequence,brand.visibilityState</sql>
+  <sql id="BASE_COLUMNS">brand.id, brand.createdDate, brand.lastModifiedDate, brand.version,brand.foundTime,brand.logo,brand.chineseName,brand.englishName,brand.description,brand.url,brand.sequence,brand.visibilityState</sql>
+  <sql id="QUERY_COLUMNS">brand.id, brand.createdDate, brand.lastModifiedDate, brand.version,brand.foundTime,brand.logo,brand.chineseName,brand.englishName,brand.description,brand.url,brand.sequence,brand.visibilityState</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedBrand" extends="BASE_RESULT"/>
   <sql id="JOIN_COLUMNS"/>
   <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
     <include refid="BASE_COLUMNS"/> FROM `Brand` brand WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Brand` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.Brand" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Brand`(id, createdDate, version,logo,chineseName,englishName,description,url,sequence,visibilityState) VALUES(#{id }, #{createdDate}, 0, #{logo }, #{chineseName }, #{englishName }, #{description }, #{url }, #{sequence }, #{visibilityState })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.Brand" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Brand`(id, createdDate, version,foundTime,logo,chineseName,englishName,description,url,sequence,visibilityState) VALUES(#{id }, #{createdDate}, 0, #{foundTime }, #{logo }, #{chineseName }, #{englishName }, #{description }, #{url }, #{sequence }, #{visibilityState })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.Brand">UPDATE `Brand`
-    <set>lastModifiedDate = now(), version = version + 1, logo = #{logo }, chineseName = #{chineseName }, englishName = #{englishName }, description = #{description }, url = #{url }, sequence = #{sequence }, visibilityState = #{visibilityState }</set>
+    <set>lastModifiedDate = now(), version = version + 1, foundTime = #{foundTime }, logo = #{logo }, chineseName = #{chineseName }, englishName = #{englishName }, description = #{description }, url = #{url }, sequence = #{sequence }, visibilityState = #{visibilityState }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN"/>
@@ -35,6 +36,9 @@
     </if>
     <if test="startCreatedDate != null">AND brand.createdDate &gt;= #{startCreatedDate }</if>
     <if test="endCreatedDate != null">AND brand.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="foundTime != null">AND brand.foundTime = #{foundTime}</if>
+    <if test="startFoundTime != null">AND brand.foundTime &gt;= #{startFoundTime}</if>
+    <if test="endFoundTime != null">AND brand.foundTime &lt;= #{endFoundTime}</if>
     <if test="chineseName != null">AND brand.chineseName = #{chineseName}</if>
     <if test="likeChineseName != null">AND brand.chineseName LIKE CONCAT(#{likeChineseName} ,'%')</if>
     <if test="englishName != null">AND brand.englishName = #{englishName}</if>

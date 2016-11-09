@@ -509,7 +509,7 @@ public class TotalProductQuery
         return this;
     }
 
-    public TotalProductQuery setGroupByFlags(Long mods) {
+    public TotalProductQuery setGroupByFlags(java.lang.Long mods) {
         if (mods!= null) {
             groupBys.addModsGroupBy("flags", mods);
         } else {
