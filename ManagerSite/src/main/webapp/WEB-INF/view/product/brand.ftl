@@ -15,7 +15,8 @@
     </div>
 
     <div class="row">
-        <form role="form">
+        <form role="form" id="search-form">
+            <input type="hidden" id="currentPage" value="1">
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>中文名/英文名</label>
@@ -23,12 +24,12 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="form-group form_datetime" data-date="2013-02-21T15:25:00Z">
+                <div class="form-group">
                     <label>创立时间</label>
-                    <div class="form-group">
-                        <input class="form-control" size="16" type="text" value="" readonly>
-                        <span class="add-on"><i class="icon-remove"></i></span>
-                        <span class="add-on"><i class="icon-calendar"></i></span>
+                    <div class="date form_datetime input-group">
+                        <input size="16" type="text" value="" readonly class="form-control">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                 </div>
             </div>
@@ -71,7 +72,7 @@
     </div>
     <div class="row text-right">
         <div class="col-lg-12">
-            <#include "../common/pagination.ftl" />
+        <#include "../common/pagination.ftl" />
         </div>
     </div>
     <!-- /.row -->
@@ -87,11 +88,11 @@
         $('#t_body').load("/brand/list");
 
         $(".form_datetime").datetimepicker({
-            format: "dd MM yyyy - hh:ii",
+            format: "yyyy-mm-dd",
             autoclose: true,
             todayBtn: true,
-            startDate: "2013-02-14 10:00",
-            minuteStep: 10
+            minView: 2, // 配置只显示选择天的视图
+            startDate: "1970-01-01"
         });
     }());
 </script>

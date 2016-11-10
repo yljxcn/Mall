@@ -40,7 +40,7 @@
         }},"html");
         $("#page-wrapper").load("${url}");
     }());
-//
+
 //    $("ul.side-nav li a").click(function(){
 //        var $a = $(this);
 //        var href = $a.attr("href");
@@ -60,5 +60,7 @@
             return;
         $('#page-wrapper').load(href);
     });
+
+     $.fn.datetimepicker.dates['en'] = $.fn.datetimepicker.dates['zh-CN'];
 </script>
 </html>

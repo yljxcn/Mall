@@ -7,8 +7,8 @@
 <!-- Morris Charts CSS -->
 <link href="/css/plugins/morris.css" rel="stylesheet">
 
-<!-- datetimepicker CSS -->
-<link href="/css/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<!-- datetimepicker Charts CSS -->
+<link href="/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
 <link href="/css/employee/employee.css" rel="stylesheet">
 <link href="/css/product/brand.css" rel="stylesheet">
@@ -30,7 +30,8 @@
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- datetimepicker JavaScript -->
-<script src="/js/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.js" ></script>
+<script type="text/javascript" src="/js/plugins/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js" ></script>
 
 <!-- Morris Charts JavaScript -->
 <script src="/js/plugins/morris/raphael.min.js"></script>
