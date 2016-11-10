@@ -24,19 +24,24 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/brand")
 public class BrandController {
 
+    private BrandService brandService;
+
     @Autowired
-    protected BrandService brandService;
+    public void setBrandService(BrandService brandService) {
+        this.brandService = brandService;
+    }
+
+    @RequestMapping("/detail")
+    public String page(Model model) {
+        model.addAttribute("url", "/brand/list");
+        return "/product/brand";
+    }
 
     @RequestMapping("/list")
     public String list(@ModelAttribute("qo")BrandQuery qo, Model model) {
         Pagination<ExtendedBrand> pagination = brandService.queryBrands(qo);
         model.addAttribute("pagination", pagination);
-        return "/product/brand_list";
-    }
-
-    @RequestMapping("/page")
-    public String page() {
-        return "/product/brand";
+        return "/product/brand_detail";
     }
 
 }

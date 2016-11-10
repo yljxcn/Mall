@@ -6,6 +6,7 @@ import com.xmg.mall.employee.service.EmployeeService;
 import com.xmg.mall.employee.vo.ExtendedEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,8 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController {
 
     @RequestMapping("/index")
-    public String init() {
-        return "demo";
+    public String index(Model model) {
+        model.addAttribute("url", "/detail");
+        return "common/page";
+    }
+
+    @RequestMapping("/detail")
+    public String detail() {
+        return "index";
     }
 
 }

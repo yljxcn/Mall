@@ -4,10 +4,14 @@
 <!-- Custom CSS -->
 <link href="/css/sb-admin.css" rel="stylesheet">
 
-<link href="/css/employee/employee.css" rel="stylesheet">
-
 <!-- Morris Charts CSS -->
 <link href="/css/plugins/morris.css" rel="stylesheet">
+
+<!-- datetimepicker CSS -->
+<link href="/css/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+<link href="/css/employee/employee.css" rel="stylesheet">
+<link href="/css/product/brand.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -24,6 +28,9 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
+
+<!-- datetimepicker JavaScript -->
+<script src="/js/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 
 <!-- Morris Charts JavaScript -->
 <script src="/js/plugins/morris/raphael.min.js"></script>

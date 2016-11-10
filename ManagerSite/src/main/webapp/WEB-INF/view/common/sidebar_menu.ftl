@@ -8,7 +8,7 @@
             <a href="javascript:;" data-toggle="collapse" data-target="#product"><i class="fa fa-fw fa-cube"></i> 商品 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="product" class="collapse">
                 <li>
-                    <a href="/brand/page">品牌</a>
+                    <a href="/brand/detail">品牌</a>
                 </li>
                 <li>
                     <a href="#">分类</a>
