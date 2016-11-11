@@ -20,13 +20,6 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String index(Model model) {
-        model.addAttribute("url", "/detail");
-        return "common/page";
-    }
-
-    @RequestMapping("/detail")
-    public String detail() {
         return "index";
     }
-
 }

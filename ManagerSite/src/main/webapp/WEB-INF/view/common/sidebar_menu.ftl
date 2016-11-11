@@ -5,16 +5,16 @@
             <a href="/index"><i class="fa fa-fw fa-home"></i> 首页</a>
         </li>
         <li>
-            <a href="javascript:;" data-toggle="collapse" data-target="#product"><i class="fa fa-fw fa-cube"></i> 商品 <i class="fa fa-fw fa-caret-down"></i></a>
+            <a href="javascript:;" data-toggle="collapse" data-target="#product"><i class="fa fa-fw fa-cubes"></i> 商品 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="product" class="collapse">
                 <li>
-                    <a href="/brand/detail">品牌</a>
+                    <a href="/brand/page"><i class="fa fa-fw fa-bookmark"></i> 品牌</a>
                 </li>
                 <li>
-                    <a href="#">分类</a>
+                    <a href="#"><i class="fa fa-fw fa-navicon"></i> 分类</a>
                 </li>
                 <li>
-                    <a href="#">商品</a>
+                    <a href="#"><i class="fa fa-fw fa-cube"></i> 商品</a>
                 </li>
             </ul>
         </li>

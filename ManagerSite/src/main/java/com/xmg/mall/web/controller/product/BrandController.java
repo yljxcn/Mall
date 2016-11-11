@@ -1,6 +1,7 @@
 package com.xmg.mall.web.controller.product;
 
 import com.xmg.mall.base.query.Pagination;
+import com.xmg.mall.base.query.PaginationUtil;
 import com.xmg.mall.employee.qo.EmployeeQuery;
 import com.xmg.mall.employee.service.EmployeeService;
 import com.xmg.mall.employee.vo.ExtendedEmployee;
@@ -31,17 +32,17 @@ public class BrandController {
         this.brandService = brandService;
     }
 
-    @RequestMapping("/detail")
+    @RequestMapping("/page")
     public String page(Model model) {
-        model.addAttribute("url", "/brand/list");
-        return "/product/brand";
+        return "product/brand";
     }
 
     @RequestMapping("/list")
     public String list(@ModelAttribute("qo")BrandQuery qo, Model model) {
         Pagination<ExtendedBrand> pagination = brandService.queryBrands(qo);
         model.addAttribute("pagination", pagination);
-        return "/product/brand_detail";
+        model.addAttribute("pages", PaginationUtil.getPages(pagination.getRows(), qo.getPageSize()));
+        return "product/brand_list";
     }
 
 }

@@ -10,6 +10,7 @@
 <!-- datetimepicker Charts CSS -->
 <link href="/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
+<link href="/css/common/common.css" rel="stylesheet">
 <link href="/css/employee/employee.css" rel="stylesheet">
 <link href="/css/product/brand.css" rel="stylesheet">
 
@@ -29,9 +30,13 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
+<!-- jQuery Pagination JavaScript -->
+<script src="/js/plugins/jQueryPagination/jquery.twbsPagination.min.js"></script>
+
 <!-- datetimepicker JavaScript -->
 <script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.js" ></script>
 <script type="text/javascript" src="/js/plugins/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js" ></script>
+<script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker-option-setting.js" ></script>
 
 <!-- Morris Charts JavaScript -->
 <script src="/js/plugins/morris/raphael.min.js"></script>
