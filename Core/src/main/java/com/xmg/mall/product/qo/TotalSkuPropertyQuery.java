@@ -20,8 +20,8 @@ public class TotalSkuPropertyQuery
     protected String name;
     protected String likeCode;
     protected String code;
-    protected Long[] includeFlags;
-    protected Long[] excludeFlags;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
 
     public com.xmg.mall.base.query.GroupBys getGroupBys() {
         return this.groupBys;
@@ -130,29 +130,29 @@ public class TotalSkuPropertyQuery
         return this;
     }
 
-    public Long[] getIncludeFlags() {
-        return this.includeFlags;
+    public Long[] getIncludeMods() {
+        return this.includeMods;
     }
 
-    public TotalSkuPropertyQuery setIncludeFlags(Long[] includeFlags) {
-        this.includeFlags = includeFlags;
+    public TotalSkuPropertyQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
         return this;
     }
 
-    public Long[] getExcludeFlags() {
-        return this.excludeFlags;
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
     }
 
-    public TotalSkuPropertyQuery setExcludeFlags(Long[] excludeFlags) {
-        this.excludeFlags = excludeFlags;
+    public TotalSkuPropertyQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 
-    public TotalSkuPropertyQuery setGroupByFlags(Long mods) {
+    public TotalSkuPropertyQuery setGroupByMods(Long mods) {
         if (mods!= null) {
-            groupBys.addModsGroupBy("flags", mods);
+            groupBys.addModsGroupBy("mods", mods);
         } else {
-            groupBys.removeGroupBy("flags");
+            groupBys.removeGroupBy("mods");
         }
         return this;
     }

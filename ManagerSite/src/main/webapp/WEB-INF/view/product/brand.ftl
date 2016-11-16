@@ -9,7 +9,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-<#include "../common/link.ftl" />
+    <#include "../common/link.ftl" />
+    <script>
+        $(function(){
+            alert(2);
+        })
+    </script>
 
 </head>
 
@@ -33,11 +38,6 @@
                     <h1 class="page-header">
                         品牌
                     </h1>
-                   <#-- <ol class="breadcrumb">
-                        <li class="active">
-                            <i class="fa fa-cube"></i> 商品 <i class="fa fa-angle-double-right"></i> <i class="fa fa-cube"></i> 品牌
-                        </li>
-                    </ol>-->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cubes"></i> 商品</a></li>
                         <li class="breadcrumb-item active"><i class="fa fa-fw fa-bookmark"></i> 品牌</li>
@@ -55,16 +55,16 @@
                     <button type="button" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> 增加</button>
                     <button type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
                     <button type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addOrUpdate">Large modal</button>
                 </div>
                 <div class="col-lg-3 text-right">
-                    <button type="button" class="btn btn-link tex"><i class="fa fa-fw fa-search"></i> 搜索</button>
+                    <button id="search-link" type="button" class="btn btn-link tex"><i class="fa fa-fw fa-search"></i> 搜索</button>
                 </div>
             </div>
 
             <div class="row">
                 <form role="form" id="search-form" action="/brand/list">
-                    <input type="hidden" id="currentPage" value="1">
+                    <input type="hidden" name="page" id="currentPage" value="1">
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>中文名/英文名</label>
@@ -95,9 +95,10 @@
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>状态</label>
-                            <select class="form-control">
-                                <option>显示</option>
-                                <option>隐藏</option>
+                            <select class="form-control" name="includeMods">
+                                <option value="">请选择</option>
+                                <option value="1">显示</option>
+                                <option value="0">隐藏</option>
                             </select>
                         </div>
                     </div>
@@ -108,41 +109,30 @@
                 <div class="col-lg-12" id="t_table">
 
                 </div>
-            <!-- /.row -->
+            </div>
+            <div class="row text-right">
+                <div class="col-lg-12">
+                    <ul id="pagination" class="pagination-sm"></ul>
+                </div>
+            </div>
         </div>
     </div>
     <!-- /#page-wrapper -->
 </div>
 <!-- /#wrapper -->
+<#include "brand_modal.ftl">
+<script>
+    $('#t_table').load("/brand/list");
 
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div>xxxxxxxxxxxxxxxxxxxxxxxxx</div>
-            <div>xxxxxxxxxxxxxxxxxxxxxxxxx</div>
-            <div>xxxxxxxxxxxxxxxxxxxxxxxxx</div>
-            <div>xxxxxxxxxxxxxxxxxxxxxxxxx</div>
-            <div>xxxxxxxxxxxxxxxxxxxxxxxxx</div>
-            <div>xxxxxxxxxxxxxxxxxxxxxxxxx</div>
-        </div>
-    </div>
-</div>
+    $(".form_datetime").datetimepicker({
+        autoclose: true,
+        minView: 2, // 配置只显示选择天的视图
+        startDate: "1970-01-01"
+    });
+</script>
 </body>
 </html>
 <!-- /.container-fluid -->
 
-<script>
-    (function(){
-       /* $.ajax({ url: "/brand/list", success: function(data){
-            $("#t_body").html(data);
-        }},"html");*/
-        $('#t_table').load("/brand/list");
 
-        $(".form_datetime").datetimepicker({
-            autoclose: true,
-            minView: 2, // 配置只显示选择天的视图
-            startDate: "1970-01-01"
-        });
-    }());
-</script>
 

@@ -11,23 +11,23 @@ public class BrandQuery
     protected Long[] ids;
     protected Date startCreatedDate;
     protected Date endCreatedDate;
-    protected Date foundTime;
-    protected Date startFoundTime;
-    protected Date endFoundTime;
+    protected Date foundDate;
+    protected Date startFoundDate;
+    protected Date endFoundDate;
     protected String chineseName;
     protected String likeChineseName;
     protected String englishName;
     protected String likeEnglishName;
-    protected Long[] includeVisibilityState;
-    protected Long[] excludeVisibilityState;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
 
     public boolean hasIds() {
         return (this.ids.length!= 0);
     }
 
-    public BrandQuery setFoundTime(Date startFoundTime, Date endFoundTime) {
-        setStartFoundTime(startFoundTime);
-        setEndFoundTime(endFoundTime);
+    public BrandQuery setFoundDate(Date startFoundDate, Date endFoundDate) {
+        setStartFoundDate(startFoundDate);
+        setEndFoundDate(endFoundDate);
         return this;
     }
 
@@ -58,30 +58,30 @@ public class BrandQuery
         return this;
     }
 
-    public Date getFoundTime() {
-        return this.foundTime;
+    public Date getFoundDate() {
+        return this.foundDate;
     }
 
-    public BrandQuery setFoundTime(Date foundTime) {
-        this.foundTime = foundTime;
+    public BrandQuery setFoundDate(Date foundDate) {
+        this.foundDate = foundDate;
         return this;
     }
 
-    public Date getStartFoundTime() {
-        return this.startFoundTime;
+    public Date getStartFoundDate() {
+        return this.startFoundDate;
     }
 
-    public BrandQuery setStartFoundTime(Date startFoundTime) {
-        this.startFoundTime = startFoundTime;
+    public BrandQuery setStartFoundDate(Date startFoundDate) {
+        this.startFoundDate = startFoundDate;
         return this;
     }
 
-    public Date getEndFoundTime() {
-        return this.endFoundTime;
+    public Date getEndFoundDate() {
+        return this.endFoundDate;
     }
 
-    public BrandQuery setEndFoundTime(Date endFoundTime) {
-        this.endFoundTime = endFoundTime;
+    public BrandQuery setEndFoundDate(Date endFoundDate) {
+        this.endFoundDate = endFoundDate;
         return this;
     }
 
@@ -121,21 +121,21 @@ public class BrandQuery
         return this;
     }
 
-    public Long[] getIncludeVisibilityState() {
-        return this.includeVisibilityState;
+    public Long[] getIncludeMods() {
+        return this.includeMods;
     }
 
-    public BrandQuery setIncludeVisibilityState(Long[] includeVisibilityState) {
-        this.includeVisibilityState = includeVisibilityState;
+    public BrandQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
         return this;
     }
 
-    public Long[] getExcludeVisibilityState() {
-        return this.excludeVisibilityState;
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
     }
 
-    public BrandQuery setExcludeVisibilityState(Long[] excludeVisibilityState) {
-        this.excludeVisibilityState = excludeVisibilityState;
+    public BrandQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 

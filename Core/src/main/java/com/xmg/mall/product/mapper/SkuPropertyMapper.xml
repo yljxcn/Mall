@@ -10,19 +10,19 @@
     <result property="name" column="name"/>
     <result property="code" column="code"/>
     <result property="image" column="image"/>
-    <result property="flags" column="flags"/>
+    <result property="mods" column="mods"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.image,skuProperty.flags</sql>
-  <sql id="QUERY_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.image,skuProperty.flags</sql>
+  <sql id="BASE_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.image,skuProperty.mods</sql>
+  <sql id="QUERY_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.image,skuProperty.mods</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedSkuProperty" extends="BASE_RESULT"/>
   <sql id="JOIN_COLUMNS"/>
   <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
     <include refid="BASE_COLUMNS"/> FROM `SkuProperty` skuProperty WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `SkuProperty` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.SkuProperty" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `SkuProperty`(id, createdDate, version,name,code,image,flags) VALUES(#{id }, #{createdDate}, 0, #{name }, #{code }, #{image }, #{flags })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.SkuProperty" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `SkuProperty`(id, createdDate, version,name,code,image,mods) VALUES(#{id }, #{createdDate}, 0, #{name }, #{code }, #{image }, #{mods })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.SkuProperty">UPDATE `SkuProperty`
-    <set>lastModifiedDate = now(), version = version + 1, name = #{name }, code = #{code }, image = #{image }, flags = #{flags }</set>
+    <set>lastModifiedDate = now(), version = version + 1, name = #{name }, code = #{code }, image = #{image }, mods = #{mods }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN"/>
@@ -36,11 +36,11 @@
     <if test="likeName != null">AND skuProperty.name LIKE CONCAT(#{likeName} ,'%')</if>
     <if test="code != null">AND skuProperty.code = #{code}</if>
     <if test="likeCode != null">AND skuProperty.code LIKE CONCAT(#{likeCode} ,'%')</if>
-    <if test="excludeFlags != null">AND 
-      <foreach collection="excludeFlags" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } = 0</foreach>
+    <if test="excludeMods != null">AND 
+      <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } = 0</foreach>
     </if>
-    <if test="includeFlags != null &amp;&amp; excludeFlags == null ">AND 
-      <foreach collection="includeFlags" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
+    <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
     </if>
   </sql>
   <sql id="QUERY_WHERE">

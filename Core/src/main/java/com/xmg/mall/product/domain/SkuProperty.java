@@ -9,40 +9,40 @@ public class SkuProperty
 {
 
     private final static long serialVersionUID = 1L;
-    protected Long flags = 0L;
-    public final static long FLAGS_Effective = 1L;
-    public final static long FLAGS_RELATIONSHIP = (FLAGS_Effective<< 1L);
+    protected Long mods = 0L;
+    public final static long MODS_Effective = 1L;
+    public final static long MODS_RELATIONSHIP = (MODS_Effective<< 1L);
     protected String name;
     protected String code;
     protected String image;
 
-    public SkuProperty setFlags(Long flags) {
-        if (flags == null) {
-            flags = 0L;
+    public SkuProperty setMods(Long mods) {
+        if (mods == null) {
+            mods = 0L;
         }
-        this.flags = flags;
+        this.mods = mods;
         return this;
     }
 
-    public Long getFlags() {
-        return this.flags;
+    public Long getMods() {
+        return this.mods;
     }
 
     public boolean hasEffective() {
-        return Mod.hasMod(flags, FLAGS_Effective);
+        return Mod.hasMod(mods, MODS_Effective);
     }
 
     public SkuProperty setEffective(boolean b) {
-        this.flags = Mod.setMod(flags, FLAGS_Effective, b);
+        this.mods = Mod.setMod(mods, MODS_Effective, b);
         return this;
     }
 
     public boolean hasRelationship() {
-        return Mod.hasMod(flags, FLAGS_RELATIONSHIP);
+        return Mod.hasMod(mods, MODS_RELATIONSHIP);
     }
 
     public SkuProperty setRelationship(boolean b) {
-        this.flags = Mod.setMod(flags, FLAGS_RELATIONSHIP, b);
+        this.mods = Mod.setMod(mods, MODS_RELATIONSHIP, b);
         return this;
     }
 

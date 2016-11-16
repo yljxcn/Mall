@@ -10,10 +10,10 @@
     <result property="productId" column="productId"/>
     <result property="image" column="image"/>
     <result property="sequence" column="sequence"/>
-    <result property="flags" column="flags"/>
+    <result property="mods" column="mods"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">productImage.id, productImage.createdDate, productImage.lastModifiedDate, productImage.version,productImage.productId,productImage.image,productImage.sequence,productImage.flags</sql>
-  <sql id="QUERY_COLUMNS">productImage.id, productImage.createdDate, productImage.lastModifiedDate, productImage.version,productImage.productId,productImage.image,productImage.sequence,productImage.flags</sql>
+  <sql id="BASE_COLUMNS">productImage.id, productImage.createdDate, productImage.lastModifiedDate, productImage.version,productImage.productId,productImage.image,productImage.sequence,productImage.mods</sql>
+  <sql id="QUERY_COLUMNS">productImage.id, productImage.createdDate, productImage.lastModifiedDate, productImage.version,productImage.productId,productImage.image,productImage.sequence,productImage.mods</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedProductImage" extends="BASE_RESULT">
     <association property="product" column="productId" javaType="com.xmg.mall.product.domain.ProductImage" columnPrefix="product_" resultMap="com.xmg.mall.product.mapper.ProductImageMapper.BASE_RESULT"/>
   </resultMap>
@@ -24,9 +24,9 @@
     <include refid="BASE_COLUMNS"/> FROM `ProductImage` productImage WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `ProductImage` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductImage" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductImage`(id, createdDate, version,productId,image,sequence,flags) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{image }, #{sequence }, #{flags })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductImage" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductImage`(id, createdDate, version,productId,image,sequence,mods) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{image }, #{sequence }, #{mods })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.ProductImage">UPDATE `ProductImage`
-    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, image = #{image }, sequence = #{sequence }, flags = #{flags }</set>
+    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, image = #{image }, sequence = #{sequence }, mods = #{mods }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN">
@@ -39,11 +39,11 @@
     <if test="startCreatedDate != null">AND productImage.createdDate &gt;= #{startCreatedDate }</if>
     <if test="endCreatedDate != null">AND productImage.createdDate &lt;= #{endCreatedDate }</if>
     <if test="productId != null">AND productImage.productId = #{productId}</if>
-    <if test="excludeFlags != null">AND 
-      <foreach collection="excludeFlags" item="mod" open="(" close=")" separator=" AND ">productImage.mods &amp; #{mod } = 0</foreach>
+    <if test="excludeMods != null">AND 
+      <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">productImage.mods &amp; #{mod } = 0</foreach>
     </if>
-    <if test="includeFlags != null &amp;&amp; excludeFlags == null ">AND 
-      <foreach collection="includeFlags" item="mod" open="(" close=")" separator=" AND ">productImage.mods &amp; #{mod } &lt;&gt; 0</foreach>
+    <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" AND ">productImage.mods &amp; #{mod } &lt;&gt; 0</foreach>
     </if>
     <if test="productQuery != null &amp;&amp; joinProduct">
       <if test="productQuery.ids != null">AND product.id IN
@@ -52,11 +52,11 @@
       <if test="productQuery.startCreatedDate != null">AND product.createdDate &gt;= #{productQuery.startCreatedDate }</if>
       <if test="productQuery.endCreatedDate != null">AND product.createdDate &lt;= #{productQuery.endCreatedDate }</if>
       <if test="productQuery.productId != null">AND product.productId = #{productQuery.productId}</if>
-      <if test="productQuery.excludeFlags != null">AND 
-        <foreach collection="productQuery.excludeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
+      <if test="productQuery.excludeMods != null">AND 
+        <foreach collection="productQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
       </if>
-      <if test="productQuery.includeFlags != null &amp;&amp; productQuery.excludeFlags == null ">AND 
-        <foreach collection="productQuery.includeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      <if test="productQuery.includeMods != null &amp;&amp; productQuery.excludeMods == null ">AND 
+        <foreach collection="productQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
     </if>
   </sql>

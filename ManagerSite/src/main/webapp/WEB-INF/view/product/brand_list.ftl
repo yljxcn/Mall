@@ -13,22 +13,24 @@
             <#list pagination.datas as data>
                 <tr data-id="${data.id}">
                     <td><a href="${data.url}" target="_blank"><img class="brand-logo" src="${data.logo}"></a></td>
-                    <td>${data.foundTime?string("yyyy-MM-dd")}</td>
+                    <td>${data.foundDate?string("yyyy-MM-dd")}</td>
                     <td>${data.chineseName}</td>
                     <td>${data.englishName}</td>
-                    <td>${data.visibilityState}</td>
+                    <td>
+                        ${data.hasVisible()?string('<i class="fa fa-fw fa-check fa-color-right"></i>','<i class="fa fa-fw fa-close fa-color-wrong"></i>')}
+                    </td>
                 </tr>
             </#list>
         </tbody>
     </table>
 </div>
-<div class="row text-right">
-    <div class="col-lg-12">
-        <ul id="pagination" class="pagination-sm"></ul>
-    </div>
-</div>
 <script>
+    $('#search-form').ajaxForm(function (data) {
+        $('#t_table').html(data);
+    });
+
     $('#pagination').twbsPagination({
+        initiateStartPageClick: false,
         totalPages: ${pages},
         first: '<i class="fa fa-fw fa-angle-double-left"></i>',
         prev: '<i class="fa fa-fw fa-angle-left"></i>',
@@ -36,7 +38,8 @@
         last: '<i class="fa fa-fw fa-angle-double-right"></i>',
         visiblePages: 5,
         onPageClick: function (event, page) {
-            // $('#page-content').text('Page ' + page);
+            $('#currentPage').val(page);
+            $('#search-form').submit();
         }
     });
 
@@ -46,6 +49,11 @@
         $('tbody#t_body > tr').removeClass('info');
         $tr.addClass('info');
         // console.info($tr.data('id'));
+    });
+
+    $('#search-link').click(function(){
+        alert(1);
+        $('#search-form').submit();
     });
 </script>
 

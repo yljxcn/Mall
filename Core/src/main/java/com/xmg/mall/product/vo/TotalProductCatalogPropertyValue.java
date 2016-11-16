@@ -16,7 +16,7 @@ public class TotalProductCatalogPropertyValue {
     protected BigDecimal totalMaxFreight;
     protected BigDecimal totalMinFreight;
     protected Date createdDate;
-    protected Long flags;
+    protected Long mods;
 
     public Integer getRows() {
         return this.rows;
@@ -108,12 +108,12 @@ public class TotalProductCatalogPropertyValue {
         return this;
     }
 
-    public Long getFlags() {
-        return this.flags;
+    public Long getMods() {
+        return this.mods;
     }
 
-    public TotalProductCatalogPropertyValue setFlags(Long flags) {
-        this.flags = flags;
+    public TotalProductCatalogPropertyValue setMods(Long mods) {
+        this.mods = mods;
         return this;
     }
 

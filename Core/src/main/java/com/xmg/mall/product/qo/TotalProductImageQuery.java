@@ -29,8 +29,8 @@ public class TotalProductImageQuery
     protected Integer maxTotalMaxSequence;
     protected Integer minTotalAvgSequence;
     protected Integer maxTotalAvgSequence;
-    protected Long[] includeFlags;
-    protected Long[] excludeFlags;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
     protected com.xmg.mall.base.query.JoinType joinProduct;
     protected ProductImageQuery productQuery;
 
@@ -230,29 +230,29 @@ public class TotalProductImageQuery
         return this;
     }
 
-    public Long[] getIncludeFlags() {
-        return this.includeFlags;
+    public Long[] getIncludeMods() {
+        return this.includeMods;
     }
 
-    public TotalProductImageQuery setIncludeFlags(Long[] includeFlags) {
-        this.includeFlags = includeFlags;
+    public TotalProductImageQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
         return this;
     }
 
-    public Long[] getExcludeFlags() {
-        return this.excludeFlags;
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
     }
 
-    public TotalProductImageQuery setExcludeFlags(Long[] excludeFlags) {
-        this.excludeFlags = excludeFlags;
+    public TotalProductImageQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 
-    public TotalProductImageQuery setGroupByFlags(java.lang.Long mods) {
+    public TotalProductImageQuery setGroupByMods(java.lang.Long mods) {
         if (mods!= null) {
-            groupBys.addModsGroupBy("flags", mods);
+            groupBys.addModsGroupBy("mods", mods);
         } else {
-            groupBys.removeGroupBy("flags");
+            groupBys.removeGroupBy("mods");
         }
         return this;
     }

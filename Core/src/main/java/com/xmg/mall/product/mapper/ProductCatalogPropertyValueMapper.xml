@@ -10,10 +10,10 @@
     <result property="productId" column="productId"/>
     <result property="lowerLimit" column="lowerLimit"/>
     <result property="freight" column="freight"/>
-    <result property="flags" column="flags"/>
+    <result property="mods" column="mods"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">productCatalogPropertyValue.id, productCatalogPropertyValue.createdDate, productCatalogPropertyValue.lastModifiedDate, productCatalogPropertyValue.version,productCatalogPropertyValue.productId,productCatalogPropertyValue.lowerLimit,productCatalogPropertyValue.freight,productCatalogPropertyValue.flags</sql>
-  <sql id="QUERY_COLUMNS">productCatalogPropertyValue.id, productCatalogPropertyValue.createdDate, productCatalogPropertyValue.lastModifiedDate, productCatalogPropertyValue.version,productCatalogPropertyValue.productId,productCatalogPropertyValue.lowerLimit,productCatalogPropertyValue.freight,productCatalogPropertyValue.flags</sql>
+  <sql id="BASE_COLUMNS">productCatalogPropertyValue.id, productCatalogPropertyValue.createdDate, productCatalogPropertyValue.lastModifiedDate, productCatalogPropertyValue.version,productCatalogPropertyValue.productId,productCatalogPropertyValue.lowerLimit,productCatalogPropertyValue.freight,productCatalogPropertyValue.mods</sql>
+  <sql id="QUERY_COLUMNS">productCatalogPropertyValue.id, productCatalogPropertyValue.createdDate, productCatalogPropertyValue.lastModifiedDate, productCatalogPropertyValue.version,productCatalogPropertyValue.productId,productCatalogPropertyValue.lowerLimit,productCatalogPropertyValue.freight,productCatalogPropertyValue.mods</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedProductCatalogPropertyValue" extends="BASE_RESULT">
     <association property="product" column="productId" javaType="com.xmg.mall.product.domain.Product" columnPrefix="product_" resultMap="com.xmg.mall.product.mapper.ProductMapper.BASE_RESULT"/>
   </resultMap>
@@ -24,9 +24,9 @@
     <include refid="BASE_COLUMNS"/> FROM `ProductCatalogPropertyValue` productCatalogPropertyValue WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `ProductCatalogPropertyValue` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductCatalogPropertyValue" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductCatalogPropertyValue`(id, createdDate, version,productId,lowerLimit,freight,flags) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{lowerLimit }, #{freight }, #{flags })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductCatalogPropertyValue" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductCatalogPropertyValue`(id, createdDate, version,productId,lowerLimit,freight,mods) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{lowerLimit }, #{freight }, #{mods })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.ProductCatalogPropertyValue">UPDATE `ProductCatalogPropertyValue`
-    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, lowerLimit = #{lowerLimit }, freight = #{freight }, flags = #{flags }</set>
+    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, lowerLimit = #{lowerLimit }, freight = #{freight }, mods = #{mods }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN">
@@ -45,11 +45,11 @@
     <if test="freight != null">AND productCatalogPropertyValue.freight = #{freight}</if>
     <if test="minFreight != null">AND productCatalogPropertyValue.freight &gt;= #{minFreight}</if>
     <if test="maxFreight != null">AND productCatalogPropertyValue.freight &lt;= #{maxFreight}</if>
-    <if test="excludeFlags != null">AND 
-      <foreach collection="excludeFlags" item="mod" open="(" close=")" separator=" AND ">productCatalogPropertyValue.mods &amp; #{mod } = 0</foreach>
+    <if test="excludeMods != null">AND 
+      <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">productCatalogPropertyValue.mods &amp; #{mod } = 0</foreach>
     </if>
-    <if test="includeFlags != null &amp;&amp; excludeFlags == null ">AND 
-      <foreach collection="includeFlags" item="mod" open="(" close=")" separator=" AND ">productCatalogPropertyValue.mods &amp; #{mod } &lt;&gt; 0</foreach>
+    <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" AND ">productCatalogPropertyValue.mods &amp; #{mod } &lt;&gt; 0</foreach>
     </if>
     <if test="productQuery != null &amp;&amp; joinProduct">
       <if test="productQuery.ids != null">AND product.id IN
@@ -71,11 +71,11 @@
       <if test="productQuery.basePrice != null">AND product.basePrice = #{productQuery.basePrice}</if>
       <if test="productQuery.minBasePrice != null">AND product.basePrice &gt;= #{productQuery.minBasePrice}</if>
       <if test="productQuery.maxBasePrice != null">AND product.basePrice &lt;= #{productQuery.maxBasePrice}</if>
-      <if test="productQuery.excludeFlags != null">AND 
-        <foreach collection="productQuery.excludeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
+      <if test="productQuery.excludeMods != null">AND 
+        <foreach collection="productQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
       </if>
-      <if test="productQuery.includeFlags != null &amp;&amp; productQuery.excludeFlags == null ">AND 
-        <foreach collection="productQuery.includeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      <if test="productQuery.includeMods != null &amp;&amp; productQuery.excludeMods == null ">AND 
+        <foreach collection="productQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
     </if>
   </sql>

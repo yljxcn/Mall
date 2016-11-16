@@ -11,8 +11,8 @@ public class TotalBrand {
     protected Integer totalMaxSequence;
     protected Integer totalMinSequence;
     protected Date createdDate;
-    protected Date foundTime;
-    protected Long visibilityState;
+    protected Date foundDate;
+    protected Long mods;
 
     public Integer getRows() {
         return this.rows;
@@ -68,21 +68,21 @@ public class TotalBrand {
         return this;
     }
 
-    public Date getFoundTime() {
-        return this.foundTime;
+    public Date getFoundDate() {
+        return this.foundDate;
     }
 
-    public TotalBrand setFoundTime(Date foundTime) {
-        this.foundTime = foundTime;
+    public TotalBrand setFoundDate(Date foundDate) {
+        this.foundDate = foundDate;
         return this;
     }
 
-    public Long getVisibilityState() {
-        return this.visibilityState;
+    public Long getMods() {
+        return this.mods;
     }
 
-    public TotalBrand setVisibilityState(Long visibilityState) {
-        this.visibilityState = visibilityState;
+    public TotalBrand setMods(Long mods) {
+        this.mods = mods;
         return this;
     }
 

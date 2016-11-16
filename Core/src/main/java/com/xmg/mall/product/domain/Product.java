@@ -10,9 +10,9 @@ public class Product
 {
 
     private final static long serialVersionUID = 1L;
-    protected Long flags = 0L;
-    public final static long FLAGS_SHELVES = 1L;
-    public final static long FLAGS_RECOMMENDED = (FLAGS_SHELVES<< 1L);
+    protected Long mods = 0L;
+    public final static long MODS_SHELVES = 1L;
+    public final static long MODS_RECOMMENDED = (MODS_SHELVES<< 1L);
     protected Long catalogId;
     protected Long brandId;
     protected String name;
@@ -22,33 +22,33 @@ public class Product
     protected BigDecimal marketPrice;
     protected BigDecimal basePrice;
 
-    public Product setFlags(Long flags) {
-        if (flags == null) {
-            flags = 0L;
+    public Product setMods(Long mods) {
+        if (mods == null) {
+            mods = 0L;
         }
-        this.flags = flags;
+        this.mods = mods;
         return this;
     }
 
-    public Long getFlags() {
-        return this.flags;
+    public Long getMods() {
+        return this.mods;
     }
 
     public boolean hasShelves() {
-        return Mod.hasMod(flags, FLAGS_SHELVES);
+        return Mod.hasMod(mods, MODS_SHELVES);
     }
 
     public Product setShelves(boolean b) {
-        this.flags = Mod.setMod(flags, FLAGS_SHELVES, b);
+        this.mods = Mod.setMod(mods, MODS_SHELVES, b);
         return this;
     }
 
     public boolean hasRecommended() {
-        return Mod.hasMod(flags, FLAGS_RECOMMENDED);
+        return Mod.hasMod(mods, MODS_RECOMMENDED);
     }
 
     public Product setRecommended(boolean b) {
-        this.flags = Mod.setMod(flags, FLAGS_RECOMMENDED, b);
+        this.mods = Mod.setMod(mods, MODS_RECOMMENDED, b);
         return this;
     }
 

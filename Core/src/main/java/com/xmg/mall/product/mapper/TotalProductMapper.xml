@@ -5,7 +5,7 @@
   <resultMap id="TOTAL_RESULT" type="com.xmg.mall.product.vo.TotalProduct">
     <result column="rows" property="rows"/>
     <result column="createdDate" property="createdDate"/>
-    <result column="flags" property="flags"/>
+    <result column="mods" property="mods"/>
   </resultMap>
   <sql id="QUERY_WHERE">
     <where>

@@ -31,7 +31,10 @@
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- jQuery Pagination JavaScript -->
-<script src="/js/plugins/jQueryPagination/jquery.twbsPagination.min.js"></script>
+<script src="/js/plugins/jQueryPagination/jquery.twbsPagination.js"></script>
+
+<!-- jQuery Form JavaScript -->
+<script src="/js/plugins/jQueryForm/jquery.form.js"></script>
 
 <!-- datetimepicker JavaScript -->
 <script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.js" ></script>

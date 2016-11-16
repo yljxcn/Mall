@@ -15,9 +15,9 @@ public class TotalBrandQuery
     protected Boolean totalCountRows;
     protected Date startCreatedDate;
     protected Date endCreatedDate;
-    protected Date startFoundTime;
-    protected Date endFoundTime;
-    protected Date foundTime;
+    protected Date startFoundDate;
+    protected Date endFoundDate;
+    protected Date foundDate;
     protected String likeChineseName;
     protected String chineseName;
     protected String likeEnglishName;
@@ -34,8 +34,8 @@ public class TotalBrandQuery
     protected Integer maxTotalMaxSequence;
     protected Integer minTotalAvgSequence;
     protected Integer maxTotalAvgSequence;
-    protected Long[] includeVisibilityStates;
-    protected Long[] excludeVisibilityStates;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
 
     public com.xmg.mall.base.query.GroupBys getGroupBys() {
         return this.groupBys;
@@ -103,30 +103,30 @@ public class TotalBrandQuery
         return getOrderByKeyword("createdDate");
     }
 
-    public Date getStartFoundTime() {
-        return this.startFoundTime;
+    public Date getStartFoundDate() {
+        return this.startFoundDate;
     }
 
-    public TotalBrandQuery setStartFoundTime(Date startFoundTime) {
-        this.startFoundTime = startFoundTime;
+    public TotalBrandQuery setStartFoundDate(Date startFoundDate) {
+        this.startFoundDate = startFoundDate;
         return this;
     }
 
-    public Date getEndFoundTime() {
-        return this.endFoundTime;
+    public Date getEndFoundDate() {
+        return this.endFoundDate;
     }
 
-    public TotalBrandQuery setEndFoundTime(Date endFoundTime) {
-        this.endFoundTime = endFoundTime;
+    public TotalBrandQuery setEndFoundDate(Date endFoundDate) {
+        this.endFoundDate = endFoundDate;
         return this;
     }
 
-    public Date getFoundTime() {
-        return this.foundTime;
+    public Date getFoundDate() {
+        return this.foundDate;
     }
 
-    public TotalBrandQuery setFoundTime(Date foundTime) {
-        this.foundTime = foundTime;
+    public TotalBrandQuery setFoundDate(Date foundDate) {
+        this.foundDate = foundDate;
         return this;
     }
 
@@ -287,34 +287,34 @@ public class TotalBrandQuery
         return this;
     }
 
-    public TotalBrandQuery setGroupByFoundTime(com.xmg.mall.base.query.DateGroupBy dateGroupBy) {
-        groupBys.addDateGroupBy("foundTime", dateGroupBy);
+    public TotalBrandQuery setGroupByFoundDate(com.xmg.mall.base.query.DateGroupBy dateGroupBy) {
+        groupBys.addDateGroupBy("foundDate", dateGroupBy);
         return this;
     }
 
-    public Long[] getIncludeVisibilityStates() {
-        return this.includeVisibilityStates;
+    public Long[] getIncludeMods() {
+        return this.includeMods;
     }
 
-    public TotalBrandQuery setIncludeVisibilityStates(Long[] includeVisibilityStates) {
-        this.includeVisibilityStates = includeVisibilityStates;
+    public TotalBrandQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
         return this;
     }
 
-    public Long[] getExcludeVisibilityStates() {
-        return this.excludeVisibilityStates;
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
     }
 
-    public TotalBrandQuery setExcludeVisibilityStates(Long[] excludeVisibilityStates) {
-        this.excludeVisibilityStates = excludeVisibilityStates;
+    public TotalBrandQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 
-    public TotalBrandQuery setGroupByVisibilityState(Long mods) {
+    public TotalBrandQuery setGroupByMods(Long mods) {
         if (mods!= null) {
-            groupBys.addModsGroupBy("visibilityState", mods);
+            groupBys.addModsGroupBy("mods", mods);
         } else {
-            groupBys.removeGroupBy("visibilityState");
+            groupBys.removeGroupBy("mods");
         }
         return this;
     }

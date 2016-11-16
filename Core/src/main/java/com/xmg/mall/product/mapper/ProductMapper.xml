@@ -15,10 +15,10 @@
     <result property="image" column="image"/>
     <result property="marketPrice" column="marketPrice"/>
     <result property="basePrice" column="basePrice"/>
-    <result property="flags" column="flags"/>
+    <result property="mods" column="mods"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">product.id, product.createdDate, product.lastModifiedDate, product.version,product.catalogId,product.brandId,product.name,product.keyword,product.code,product.image,product.marketPrice,product.basePrice,product.flags</sql>
-  <sql id="QUERY_COLUMNS">product.id, product.createdDate, product.lastModifiedDate, product.version,product.catalogId,product.brandId,product.name,product.keyword,product.code,product.image,product.marketPrice,product.basePrice,product.flags</sql>
+  <sql id="BASE_COLUMNS">product.id, product.createdDate, product.lastModifiedDate, product.version,product.catalogId,product.brandId,product.name,product.keyword,product.code,product.image,product.marketPrice,product.basePrice,product.mods</sql>
+  <sql id="QUERY_COLUMNS">product.id, product.createdDate, product.lastModifiedDate, product.version,product.catalogId,product.brandId,product.name,product.keyword,product.code,product.image,product.marketPrice,product.basePrice,product.mods</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedProduct" extends="BASE_RESULT">
     <association property="catalog" column="catalogId" javaType="com.xmg.mall.product.domain.Catalog" columnPrefix="catalog_" resultMap="com.xmg.mall.product.mapper.CatalogMapper.BASE_RESULT"/>
     <association property="brand" column="brandId" javaType="com.xmg.mall.product.domain.Brand" columnPrefix="brand_" resultMap="com.xmg.mall.product.mapper.BrandMapper.BASE_RESULT"/>
@@ -31,9 +31,9 @@
     <include refid="BASE_COLUMNS"/> FROM `Product` product WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Product` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.Product" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Product`(id, createdDate, version,catalogId,brandId,name,keyword,code,image,marketPrice,basePrice,flags) VALUES(#{id }, #{createdDate}, 0, #{catalogId }, #{brandId }, #{name }, #{keyword }, #{code }, #{image }, #{marketPrice }, #{basePrice }, #{flags })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.Product" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Product`(id, createdDate, version,catalogId,brandId,name,keyword,code,image,marketPrice,basePrice,mods) VALUES(#{id }, #{createdDate}, 0, #{catalogId }, #{brandId }, #{name }, #{keyword }, #{code }, #{image }, #{marketPrice }, #{basePrice }, #{mods })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.Product">UPDATE `Product`
-    <set>lastModifiedDate = now(), version = version + 1, catalogId = #{catalogId }, brandId = #{brandId }, name = #{name }, keyword = #{keyword }, code = #{code }, image = #{image }, marketPrice = #{marketPrice }, basePrice = #{basePrice }, flags = #{flags }</set>
+    <set>lastModifiedDate = now(), version = version + 1, catalogId = #{catalogId }, brandId = #{brandId }, name = #{name }, keyword = #{keyword }, code = #{code }, image = #{image }, marketPrice = #{marketPrice }, basePrice = #{basePrice }, mods = #{mods }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN">
@@ -60,11 +60,11 @@
     <if test="basePrice != null">AND product.basePrice = #{basePrice}</if>
     <if test="minBasePrice != null">AND product.basePrice &gt;= #{minBasePrice}</if>
     <if test="maxBasePrice != null">AND product.basePrice &lt;= #{maxBasePrice}</if>
-    <if test="excludeFlags != null">AND 
-      <foreach collection="excludeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
+    <if test="excludeMods != null">AND 
+      <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
     </if>
-    <if test="includeFlags != null &amp;&amp; excludeFlags == null ">AND 
-      <foreach collection="includeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+    <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
     </if>
     <if test="catalogQuery != null &amp;&amp; joinCatalog">
       <if test="catalogQuery.ids != null">AND catalog.id IN
@@ -85,18 +85,18 @@
       </if>
       <if test="brandQuery.startCreatedDate != null">AND brand.createdDate &gt;= #{brandQuery.startCreatedDate }</if>
       <if test="brandQuery.endCreatedDate != null">AND brand.createdDate &lt;= #{brandQuery.endCreatedDate }</if>
-      <if test="brandQuery.foundTime != null">AND brand.foundTime = #{brandQuery.foundTime}</if>
-      <if test="brandQuery.startFoundTime != null">AND brand.foundTime &gt;= #{brandQuery.startFoundTime}</if>
-      <if test="brandQuery.endFoundTime != null">AND brand.foundTime &lt;= #{brandQuery.endFoundTime}</if>
+      <if test="brandQuery.foundDate != null">AND brand.foundDate = #{brandQuery.foundDate}</if>
+      <if test="brandQuery.startFoundDate != null">AND brand.foundDate &gt;= #{brandQuery.startFoundDate}</if>
+      <if test="brandQuery.endFoundDate != null">AND brand.foundDate &lt;= #{brandQuery.endFoundDate}</if>
       <if test="brandQuery.chineseName != null">AND brand.chineseName = #{brandQuery.chineseName}</if>
       <if test="brandQuery.likeChineseName != null">AND brand.chineseName LIKE CONCAT(#{brandQuery.likeChineseName} ,'%')</if>
       <if test="brandQuery.englishName != null">AND brand.englishName = #{brandQuery.englishName}</if>
       <if test="brandQuery.likeEnglishName != null">AND brand.englishName LIKE CONCAT(#{brandQuery.likeEnglishName} ,'%')</if>
-      <if test="brandQuery.excludeVisibilityState != null">AND 
-        <foreach collection="brandQuery.excludeVisibilityState" item="mod" open="(" close=")" separator=" AND ">brand.mods &amp; #{mod } = 0</foreach>
+      <if test="brandQuery.excludeMods != null">AND 
+        <foreach collection="brandQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">brand.mods &amp; #{mod } = 0</foreach>
       </if>
-      <if test="brandQuery.includeVisibilityState != null &amp;&amp; brandQuery.excludeVisibilityState == null ">AND 
-        <foreach collection="brandQuery.includeVisibilityState" item="mod" open="(" close=")" separator=" AND ">brand.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      <if test="brandQuery.includeMods != null &amp;&amp; brandQuery.excludeMods == null ">AND 
+        <foreach collection="brandQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">brand.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
     </if>
   </sql>

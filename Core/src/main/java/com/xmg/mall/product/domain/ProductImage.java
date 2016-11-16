@@ -9,30 +9,30 @@ public class ProductImage
 {
 
     private final static long serialVersionUID = 1L;
-    protected Long flags = 0L;
-    public final static long FLAGS_COVER = 1L;
+    protected Long mods = 0L;
+    public final static long MODS_COVER = 1L;
     protected Long productId;
     protected String image;
     protected Integer sequence;
 
-    public ProductImage setFlags(Long flags) {
-        if (flags == null) {
-            flags = 0L;
+    public ProductImage setMods(Long mods) {
+        if (mods == null) {
+            mods = 0L;
         }
-        this.flags = flags;
+        this.mods = mods;
         return this;
     }
 
-    public Long getFlags() {
-        return this.flags;
+    public Long getMods() {
+        return this.mods;
     }
 
     public boolean hasCover() {
-        return Mod.hasMod(flags, FLAGS_COVER);
+        return Mod.hasMod(mods, MODS_COVER);
     }
 
     public ProductImage setCover(boolean b) {
-        this.flags = Mod.setMod(flags, FLAGS_COVER, b);
+        this.mods = Mod.setMod(mods, MODS_COVER, b);
         return this;
     }
 

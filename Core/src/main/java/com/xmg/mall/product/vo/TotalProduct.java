@@ -16,7 +16,7 @@ public class TotalProduct {
     protected BigDecimal totalMaxBasePrice;
     protected BigDecimal totalMinBasePrice;
     protected Date createdDate;
-    protected Long flags;
+    protected Long mods;
 
     public Integer getRows() {
         return this.rows;
@@ -108,12 +108,12 @@ public class TotalProduct {
         return this;
     }
 
-    public Long getFlags() {
-        return this.flags;
+    public Long getMods() {
+        return this.mods;
     }
 
-    public TotalProduct setFlags(Long flags) {
-        this.flags = flags;
+    public TotalProduct setMods(Long mods) {
+        this.mods = mods;
         return this;
     }
 

@@ -11,7 +11,7 @@ public class TotalProductImage {
     protected Integer totalMaxSequence;
     protected Integer totalMinSequence;
     protected Date createdDate;
-    protected Long flags;
+    protected Long mods;
 
     public Integer getRows() {
         return this.rows;
@@ -67,12 +67,12 @@ public class TotalProductImage {
         return this;
     }
 
-    public Long getFlags() {
-        return this.flags;
+    public Long getMods() {
+        return this.mods;
     }
 
-    public TotalProductImage setFlags(Long flags) {
-        this.flags = flags;
+    public TotalProductImage setMods(Long mods) {
+        this.mods = mods;
         return this;
     }
 

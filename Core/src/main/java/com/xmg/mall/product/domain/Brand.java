@@ -10,9 +10,9 @@ public class Brand
 {
 
     private final static long serialVersionUID = 1L;
-    protected Long visibilityState = 0L;
-    public final static long VISIBILITY_STATE_VISIBLE = 1L;
-    protected Date foundTime;
+    protected Long mods = 0L;
+    public final static long MODS_VISIBLE = 1L;
+    protected Date foundDate;
     protected String logo;
     protected String chineseName;
     protected String englishName;
@@ -20,33 +20,33 @@ public class Brand
     protected String url;
     protected Integer sequence;
 
-    public Brand setVisibilityState(Long visibilityState) {
-        if (visibilityState == null) {
-            visibilityState = 0L;
+    public Brand setMods(Long mods) {
+        if (mods == null) {
+            mods = 0L;
         }
-        this.visibilityState = visibilityState;
+        this.mods = mods;
         return this;
     }
 
-    public Long getVisibilityState() {
-        return this.visibilityState;
+    public Long getMods() {
+        return this.mods;
     }
 
     public boolean hasVisible() {
-        return Mod.hasMod(visibilityState, VISIBILITY_STATE_VISIBLE);
+        return Mod.hasMod(mods, MODS_VISIBLE);
     }
 
     public Brand setVisible(boolean b) {
-        this.visibilityState = Mod.setMod(visibilityState, VISIBILITY_STATE_VISIBLE, b);
+        this.mods = Mod.setMod(mods, MODS_VISIBLE, b);
         return this;
     }
 
-    public Date getFoundTime() {
-        return this.foundTime;
+    public Date getFoundDate() {
+        return this.foundDate;
     }
 
-    public Brand setFoundTime(Date foundTime) {
-        this.foundTime = foundTime;
+    public Brand setFoundDate(Date foundDate) {
+        this.foundDate = foundDate;
         return this;
     }
 

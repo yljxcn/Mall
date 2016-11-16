@@ -7,7 +7,7 @@ public class TotalSkuProperty {
 
     protected Integer rows;
     protected Date createdDate;
-    protected Long flags;
+    protected Long mods;
 
     public Integer getRows() {
         return this.rows;
@@ -27,12 +27,12 @@ public class TotalSkuProperty {
         return this;
     }
 
-    public Long getFlags() {
-        return this.flags;
+    public Long getMods() {
+        return this.mods;
     }
 
-    public TotalSkuProperty setFlags(Long flags) {
-        this.flags = flags;
+    public TotalSkuProperty setMods(Long mods) {
+        this.mods = mods;
         return this;
     }
 

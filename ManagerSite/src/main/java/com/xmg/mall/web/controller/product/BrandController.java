@@ -2,9 +2,6 @@ package com.xmg.mall.web.controller.product;
 
 import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
-import com.xmg.mall.employee.qo.EmployeeQuery;
-import com.xmg.mall.employee.service.EmployeeService;
-import com.xmg.mall.employee.vo.ExtendedEmployee;
 import com.xmg.mall.product.qo.BrandQuery;
 import com.xmg.mall.product.service.BrandService;
 import com.xmg.mall.product.vo.ExtendedBrand;
@@ -13,10 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by lony on 2016/11/9.
@@ -41,7 +34,7 @@ public class BrandController {
     public String list(@ModelAttribute("qo")BrandQuery qo, Model model) {
         Pagination<ExtendedBrand> pagination = brandService.queryBrands(qo);
         model.addAttribute("pagination", pagination);
-        model.addAttribute("pages", PaginationUtil.getPages(pagination.getRows(), qo.getPageSize()));
+        model.addAttribute("pages", PaginationUtil.getPages2(pagination.getRows(), qo.getPageSize()));
         return "product/brand_list";
     }
 

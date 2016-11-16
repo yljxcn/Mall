@@ -62,11 +62,11 @@
       <if test="productQuery.basePrice != null">AND product.basePrice = #{productQuery.basePrice}</if>
       <if test="productQuery.minBasePrice != null">AND product.basePrice &gt;= #{productQuery.minBasePrice}</if>
       <if test="productQuery.maxBasePrice != null">AND product.basePrice &lt;= #{productQuery.maxBasePrice}</if>
-      <if test="productQuery.excludeFlags != null">AND 
-        <foreach collection="productQuery.excludeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
+      <if test="productQuery.excludeMods != null">AND 
+        <foreach collection="productQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
       </if>
-      <if test="productQuery.includeFlags != null &amp;&amp; productQuery.excludeFlags == null ">AND 
-        <foreach collection="productQuery.includeFlags" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      <if test="productQuery.includeMods != null &amp;&amp; productQuery.excludeMods == null ">AND 
+        <foreach collection="productQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
     </if>
     <if test="impressionQuery != null &amp;&amp; joinImpression">

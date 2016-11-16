@@ -1,3 +1,13 @@
 .button-group{
     margin-bottom: 20px;
 }
+
+.fa-color-right{
+    color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.fa-color-wrong{
+    color: #d9534f;
+    border-color: #d43f3a;
+}

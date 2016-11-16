@@ -15,8 +15,8 @@ public class SkuPropertyQuery
     protected String likeName;
     protected String code;
     protected String likeCode;
-    protected Long[] includeFlags;
-    protected Long[] excludeFlags;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
 
     public boolean hasIds() {
         return (this.ids.length!= 0);
@@ -85,21 +85,21 @@ public class SkuPropertyQuery
         return this;
     }
 
-    public Long[] getIncludeFlags() {
-        return this.includeFlags;
+    public Long[] getIncludeMods() {
+        return this.includeMods;
     }
 
-    public SkuPropertyQuery setIncludeFlags(Long[] includeFlags) {
-        this.includeFlags = includeFlags;
+    public SkuPropertyQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
         return this;
     }
 
-    public Long[] getExcludeFlags() {
-        return this.excludeFlags;
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
     }
 
-    public SkuPropertyQuery setExcludeFlags(Long[] excludeFlags) {
-        this.excludeFlags = excludeFlags;
+    public SkuPropertyQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 

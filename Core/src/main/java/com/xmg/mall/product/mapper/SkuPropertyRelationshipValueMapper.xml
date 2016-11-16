@@ -50,11 +50,11 @@
       <if test="skuPropertyQuery.likeName != null">AND skuProperty.name LIKE CONCAT(#{skuPropertyQuery.likeName} ,'%')</if>
       <if test="skuPropertyQuery.code != null">AND skuProperty.code = #{skuPropertyQuery.code}</if>
       <if test="skuPropertyQuery.likeCode != null">AND skuProperty.code LIKE CONCAT(#{skuPropertyQuery.likeCode} ,'%')</if>
-      <if test="skuPropertyQuery.excludeFlags != null">AND 
-        <foreach collection="skuPropertyQuery.excludeFlags" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } = 0</foreach>
+      <if test="skuPropertyQuery.excludeMods != null">AND 
+        <foreach collection="skuPropertyQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } = 0</foreach>
       </if>
-      <if test="skuPropertyQuery.includeFlags != null &amp;&amp; skuPropertyQuery.excludeFlags == null ">AND 
-        <foreach collection="skuPropertyQuery.includeFlags" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      <if test="skuPropertyQuery.includeMods != null &amp;&amp; skuPropertyQuery.excludeMods == null ">AND 
+        <foreach collection="skuPropertyQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
     </if>
   </sql>

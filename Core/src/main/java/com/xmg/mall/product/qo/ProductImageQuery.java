@@ -14,8 +14,8 @@ public class ProductImageQuery
     protected Date startCreatedDate;
     protected Date endCreatedDate;
     protected Long productId;
-    protected Long[] includeFlags;
-    protected Long[] excludeFlags;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
 
     public boolean hasIds() {
         return (this.ids.length!= 0);
@@ -80,21 +80,21 @@ public class ProductImageQuery
         return this;
     }
 
-    public Long[] getIncludeFlags() {
-        return this.includeFlags;
+    public Long[] getIncludeMods() {
+        return this.includeMods;
     }
 
-    public ProductImageQuery setIncludeFlags(Long[] includeFlags) {
-        this.includeFlags = includeFlags;
+    public ProductImageQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
         return this;
     }
 
-    public Long[] getExcludeFlags() {
-        return this.excludeFlags;
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
     }
 
-    public ProductImageQuery setExcludeFlags(Long[] excludeFlags) {
-        this.excludeFlags = excludeFlags;
+    public ProductImageQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 

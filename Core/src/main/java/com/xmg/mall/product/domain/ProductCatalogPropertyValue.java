@@ -10,30 +10,30 @@ public class ProductCatalogPropertyValue
 {
 
     private final static long serialVersionUID = 1L;
-    protected Long flags = 0L;
-    public final static long FLAGS_FREE = 1L;
+    protected Long mods = 0L;
+    public final static long MODS_FREE = 1L;
     protected Long productId;
     protected BigDecimal lowerLimit;
     protected BigDecimal freight;
 
-    public ProductCatalogPropertyValue setFlags(Long flags) {
-        if (flags == null) {
-            flags = 0L;
+    public ProductCatalogPropertyValue setMods(Long mods) {
+        if (mods == null) {
+            mods = 0L;
         }
-        this.flags = flags;
+        this.mods = mods;
         return this;
     }
 
-    public Long getFlags() {
-        return this.flags;
+    public Long getMods() {
+        return this.mods;
     }
 
     public boolean hasFree() {
-        return Mod.hasMod(flags, FLAGS_FREE);
+        return Mod.hasMod(mods, MODS_FREE);
     }
 
     public ProductCatalogPropertyValue setFree(boolean b) {
-        this.flags = Mod.setMod(flags, FLAGS_FREE, b);
+        this.mods = Mod.setMod(mods, MODS_FREE, b);
         return this;
     }
 

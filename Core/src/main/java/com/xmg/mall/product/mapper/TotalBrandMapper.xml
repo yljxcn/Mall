@@ -5,8 +5,8 @@
   <resultMap id="TOTAL_RESULT" type="com.xmg.mall.product.vo.TotalBrand">
     <result column="rows" property="rows"/>
     <result column="createdDate" property="createdDate"/>
-    <result column="foundTime" property="foundTime"/>
-    <result column="visibilityState" property="visibilityState"/>
+    <result column="foundDate" property="foundDate"/>
+    <result column="mods" property="mods"/>
   </resultMap>
   <sql id="QUERY_WHERE">
     <where>

@@ -48,8 +48,8 @@ public class TotalProductCatalogPropertyValueQuery
     protected BigDecimal maxTotalMaxFreight;
     protected BigDecimal minTotalAvgFreight;
     protected BigDecimal maxTotalAvgFreight;
-    protected Long[] includeFlags;
-    protected Long[] excludeFlags;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
     protected com.xmg.mall.base.query.JoinType joinProduct;
     protected ProductQuery productQuery;
 
@@ -419,29 +419,29 @@ public class TotalProductCatalogPropertyValueQuery
         return this;
     }
 
-    public Long[] getIncludeFlags() {
-        return this.includeFlags;
+    public Long[] getIncludeMods() {
+        return this.includeMods;
     }
 
-    public TotalProductCatalogPropertyValueQuery setIncludeFlags(Long[] includeFlags) {
-        this.includeFlags = includeFlags;
+    public TotalProductCatalogPropertyValueQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
         return this;
     }
 
-    public Long[] getExcludeFlags() {
-        return this.excludeFlags;
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
     }
 
-    public TotalProductCatalogPropertyValueQuery setExcludeFlags(Long[] excludeFlags) {
-        this.excludeFlags = excludeFlags;
+    public TotalProductCatalogPropertyValueQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 
-    public TotalProductCatalogPropertyValueQuery setGroupByFlags(java.lang.Long mods) {
+    public TotalProductCatalogPropertyValueQuery setGroupByMods(java.lang.Long mods) {
         if (mods!= null) {
-            groupBys.addModsGroupBy("flags", mods);
+            groupBys.addModsGroupBy("mods", mods);
         } else {
-            groupBys.removeGroupBy("flags");
+            groupBys.removeGroupBy("mods");
         }
         return this;
     }
