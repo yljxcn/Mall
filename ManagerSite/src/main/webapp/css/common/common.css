@@ -11,3 +11,12 @@
     color: #d9534f;
     border-color: #d43f3a;
 }
+
+.mods-select{
+
+}
+
+.side-nav li.active{
+    outline: none;
+    background-color: #000 !important;
+}

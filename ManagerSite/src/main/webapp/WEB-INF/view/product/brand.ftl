@@ -12,7 +12,59 @@
     <#include "../common/link.ftl" />
     <script>
         $(function(){
-            alert(2);
+            function initMenu(){
+                var pathName = window.location.pathname;
+                var $a= $('ul.side-nav').find('li > a[href="' + pathName + '"]');
+                var $pli = $a.parent('li');
+                var $pul = $pli.parent('ul');
+
+                $pli.addClass('active');
+                if($pul.attr('class') !='' && $pul.attr('class') != undefined && $pul.attr('id') !='' && $pul.attr('id') != undefined){
+                    var $pa = $pul.prev('a');
+                    $pa.removeClass('collapsed').attr('aria-expanded', 'true');
+                    $pul.addClass('in').attr('aria-expanded', 'true').attr('style', '');
+                }
+            }
+            initMenu();
+
+            $('#t_table').load("/brand/list");
+
+            $(".form_datetime").datetimepicker({
+                autoclose: true,
+                minView: 2, // 配置只显示选择天的视图
+                startDate: "1970-01-01"
+            });
+
+            $('.mods-select').change(function(){
+                var $select = $(this);
+                var val = $select.find('option:selected').html();
+                if(val == '请选择'){
+                    $select.removeAttr('name');
+                }else if(val == '显示'){
+                    $select.attr('name', 'includeMods')
+                }
+                else if(val == '隐藏'){
+                    $select.attr('name', 'excludeMods')
+                }
+            });
+
+            $('#search-form').ajaxForm(function (data) {
+                $('#t_table').html(data);
+            });
+
+            $('#search-link').click(function(){
+                $('#currentPage').val(1);
+                $('#search-form').submit();
+                var $link = $(this);
+                var originalHtml = $link.html();
+                $link.html('<i class="fa fa-fw fa-spinner fa-spin"></i> 加载...')
+                $link.addClass('disable');
+                setTimeout(function () {
+                    $link.removeClass('disable');
+                    $link.html(originalHtml);
+                }, 500 );
+                return false;
+            });
         })
     </script>
 
@@ -52,13 +104,13 @@
                     <button type="button" class="btn btn-success">Success</button>
                     <button type="button" class="btn btn-info">Info</button>
                     <button type="button" class="btn btn-warning">Warning</button>-->
-                    <button type="button" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> 增加</button>
+                    <button type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
                     <button type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
                     <button type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addOrUpdate">Large modal</button>
                 </div>
                 <div class="col-lg-3 text-right">
-                    <button id="search-link" type="button" class="btn btn-link tex"><i class="fa fa-fw fa-search"></i> 搜索</button>
+                    <button id="search-link" type="button" class="btn btn-default"><i class="fa fa-fw fa-search"></i> 搜索</button>
                 </div>
             </div>
 
@@ -77,14 +129,14 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="date form_datetime input-group">
-                                        <input size="16" type="text" value="" readonly class="form-control">
+                                        <input size="16" name="startFoundDate" type="text" readonly class="form-control">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="date form_datetime input-group">
-                                        <input size="16" type="text" value="" readonly class="form-control">
+                                        <input size="16" name="endFoundDate" type="text" readonly class="form-control">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
@@ -95,10 +147,10 @@
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>状态</label>
-                            <select class="form-control" name="includeMods">
-                                <option value="">请选择</option>
+                            <select class="form-control mods-select">
+                                <option>请选择</option>
                                 <option value="1">显示</option>
-                                <option value="0">隐藏</option>
+                                <option value="1">隐藏</option>
                             </select>
                         </div>
                     </div>
@@ -110,26 +162,12 @@
 
                 </div>
             </div>
-            <div class="row text-right">
-                <div class="col-lg-12">
-                    <ul id="pagination" class="pagination-sm"></ul>
-                </div>
-            </div>
         </div>
     </div>
     <!-- /#page-wrapper -->
 </div>
 <!-- /#wrapper -->
 <#include "brand_modal.ftl">
-<script>
-    $('#t_table').load("/brand/list");
-
-    $(".form_datetime").datetimepicker({
-        autoclose: true,
-        minView: 2, // 配置只显示选择天的视图
-        startDate: "1970-01-01"
-    });
-</script>
 </body>
 </html>
 <!-- /.container-fluid -->

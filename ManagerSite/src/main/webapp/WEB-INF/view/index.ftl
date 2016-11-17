@@ -10,6 +10,9 @@
     <meta name="author" content="">
 
 <#include "common/link.ftl" />
+<script src="/js/plugins/morris/raphael.min.js"></script>
+<script src="/js/plugins/morris/morris.min.js"></script>
+<script src="/js/plugins/morris/morris-data.js"></script>
 
 </head>
 
@@ -19,7 +22,7 @@
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <#include "common/brand.ftl" />
+        <#include "common/brand.ftl" />
         <#include "common/top_menu.ftl" />
         <#include "common/sidebar_menu.ftl" />
     </nav>

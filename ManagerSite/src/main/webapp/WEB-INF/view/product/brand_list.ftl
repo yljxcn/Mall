@@ -24,13 +24,15 @@
         </tbody>
     </table>
 </div>
+<div class="row text-right">
+    <div class="col-lg-12">
+        <ul id="pagination" class="pagination-sm"></ul>
+    </div>
+</div>
 <script>
-    $('#search-form').ajaxForm(function (data) {
-        $('#t_table').html(data);
-    });
-
     $('#pagination').twbsPagination({
         initiateStartPageClick: false,
+        startPage: ${qo.page},
         totalPages: ${pages},
         first: '<i class="fa fa-fw fa-angle-double-left"></i>',
         prev: '<i class="fa fa-fw fa-angle-left"></i>',
@@ -49,11 +51,6 @@
         $('tbody#t_body > tr').removeClass('info');
         $tr.addClass('info');
         // console.info($tr.data('id'));
-    });
-
-    $('#search-link').click(function(){
-        alert(1);
-        $('#search-form').submit();
     });
 </script>
 
