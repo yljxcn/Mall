@@ -7,7 +7,7 @@
             'path': '/index',
             'icon': 'fa fa-fw fa-home',
             'active': false,
-            'childrenMenus':[]
+            'subMenus':[]
         },
         {
             'name': '商品',
@@ -15,7 +15,7 @@
             'path': '#',
             'icon': 'fa fa-fw fa-cubes',
             'active': false,
-            'childrenMenus':[
+            'subMenus':[
                 {
                     'name': '品牌',
                     'path': '/brand/page',
@@ -25,13 +25,13 @@
                 },
                 {
                     'name': '分类',
-                    'path': '#',
+                    'path': '/catalog/page',
                     'icon': 'fa fa-fw fa-navicon',
                     'active': false
                 },
                 {
                     'name': '商品',
-                    'path': '#',
+                    'path': '/product/page',
                     'icon': 'fa fa-fw fa-cube',
                     'active': false
                 }
@@ -43,7 +43,7 @@
             'path': '#',
             'icon': 'fa fa-fw fa-shopping-cart',
             'active': false,
-            'childrenMenus':[
+            'subMenus':[
                 {
                     'name': '订单',
                     'path': '#',
@@ -55,13 +55,13 @@
     ]>
     <ul class="nav navbar-nav side-nav">
         <#list menus as menu>
-            <#if menu.childrenMenus?size gt 0>
+            <#if menu.subMenus?size gt 0>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#${menu.flag}"><i class="${menu.icon}"></i> ${menu.name} <i class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="${menu.flag}" class="collapse">
-                        <#list menu.childrenMenus as childrenMenu>
+                    <ul id="${menu.flag}" class="sub-menu collapse">
+                        <#list menu.subMenus as subMenu>
                             <li>
-                                <a href="${childrenMenu.path}"><i class="${childrenMenu.icon}"></i> ${childrenMenu.name}</a>
+                                <a href="${subMenu.path}"><i class="${subMenu.icon}"></i> ${subMenu.name}</a>
                             </li>
                         </#list>
                     </ul>
@@ -107,13 +107,13 @@
 <#-- 纯模板的方式，但需要菜单在后台生成并加 acitve 返回
 <ul class="nav navbar-nav side-nav">
 <#list menus as menu>
-    <#if menu.childrenMenus?size gt 0>
+    <#if menu.subMenus?size gt 0>
         <li>
             <a class="${menu.active?string('','collapsed')}" href="javascript:;" data-toggle="collapse" data-target="#${menu.flag}" aria-expanded="${menu.active?string('true','false')}"><i class="${menu.icon}"></i> ${menu.name} <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="${menu.flag}" class="collapse${menu.active?string(' in','')}" aria-expanded="${menu.active?string('true','false')}" style="${menu.active?string('','height: 0px;')}">
-                <#list menu.childrenMenus as childrenMenu>
-                    <li class="${childrenMenu.active?string('active','')}">
-                        <a href="${childrenMenu.path}"><i class="${childrenMenu.icon}"></i> ${childrenMenu.name}</a>
+                <#list menu.subMenus as subMenu>
+                    <li class="${subMenu.active?string('active','')}">
+                        <a href="${subMenu.path}"><i class="${subMenu.icon}"></i> ${subMenu.name}</a>
                     </li>
                 </#list>
             </ul>

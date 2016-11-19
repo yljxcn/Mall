@@ -42,6 +42,16 @@
 <script type="text/javascript" src="/js/plugins/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js" ></script>
 <script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.setting.js" ></script>
 
+<!-- ckeditor JavaScript -->
+<script type="text/javascript" src="/js/plugins/ckeditor/ckeditor.js" ></script>
+
+<!-- uploadify JavaScript -->
+<script type="text/javascript" src="/js/plugins/uploadify/jquery.uploadify.min.js" ></script>
+
+<!-- Menu JavaScript -->
+<script type="text/javascript" src="/js/plugins/common/menu.js" ></script>
+<script type="text/javascript" src="/js/plugins/common/form_table.js" ></script>
+
 <!-- Morris Charts JavaScript
 <script src="/js/plugins/morris/raphael.min.js"></script>
 <script src="/js/plugins/morris/morris.min.js"></script>

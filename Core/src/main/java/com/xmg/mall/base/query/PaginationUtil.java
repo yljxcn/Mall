@@ -5,7 +5,7 @@ package com.xmg.mall.base.query;
  */
 public class PaginationUtil {
 
-    public  static int getPages2(int rows, int pageSize){
+    public  static int getPages(int rows, int pageSize){
         return (rows + pageSize - 1) / pageSize;
     }
 

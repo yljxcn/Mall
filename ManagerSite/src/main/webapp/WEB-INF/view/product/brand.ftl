@@ -12,28 +12,8 @@
     <#include "../common/link.ftl" />
     <script>
         $(function(){
-            function initMenu(){
-                var pathName = window.location.pathname;
-                var $a= $('ul.side-nav').find('li > a[href="' + pathName + '"]');
-                var $pli = $a.parent('li');
-                var $pul = $pli.parent('ul');
-
-                $pli.addClass('active');
-                if($pul.attr('class') !='' && $pul.attr('class') != undefined && $pul.attr('id') !='' && $pul.attr('id') != undefined){
-                    var $pa = $pul.prev('a');
-                    $pa.removeClass('collapsed').attr('aria-expanded', 'true');
-                    $pul.addClass('in').attr('aria-expanded', 'true').attr('style', '');
-                }
-            }
             initMenu();
-
-            $('#t_table').load("/brand/list");
-
-            $(".form_datetime").datetimepicker({
-                autoclose: true,
-                minView: 2, // 配置只显示选择天的视图
-                startDate: "1970-01-01"
-            });
+            initFormAndTable();
 
             $('.mods-select').change(function(){
                 var $select = $(this);
@@ -47,25 +27,7 @@
                     $select.attr('name', 'excludeMods')
                 }
             });
-
-            $('#search-form').ajaxForm(function (data) {
-                $('#t_table').html(data);
-            });
-
-            $('#search-link').click(function(){
-                $('#currentPage').val(1);
-                $('#search-form').submit();
-                var $link = $(this);
-                var originalHtml = $link.html();
-                $link.html('<i class="fa fa-fw fa-spinner fa-spin"></i> 加载...')
-                $link.addClass('disable');
-                setTimeout(function () {
-                    $link.removeClass('disable');
-                    $link.html(originalHtml);
-                }, 500 );
-                return false;
-            });
-        })
+        });
     </script>
 
 </head>
@@ -107,7 +69,7 @@
                     <button type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
                     <button type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
                     <button type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addOrUpdate">Large modal</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addOrUpdate">模态框</button>
                 </div>
                 <div class="col-lg-3 text-right">
                     <button id="search-link" type="button" class="btn btn-default"><i class="fa fa-fw fa-search"></i> 搜索</button>
@@ -119,8 +81,8 @@
                     <input type="hidden" name="page" id="currentPage" value="1">
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <label>中文名/英文名</label>
-                            <input class="form-control">
+                            <label>中文名</label>
+                            <input class="form-control" name="likeChineseName">
                         </div>
                     </div>
                     <div class="col-lg-6">

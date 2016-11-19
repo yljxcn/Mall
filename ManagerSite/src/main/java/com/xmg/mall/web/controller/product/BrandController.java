@@ -34,7 +34,7 @@ public class BrandController {
     public String list(@ModelAttribute("qo")BrandQuery qo, Model model) {
         Pagination<ExtendedBrand> pagination = brandService.queryBrands(qo);
         model.addAttribute("pagination", pagination);
-        model.addAttribute("pages", PaginationUtil.getPages2(pagination.getRows(), qo.getPageSize()));
+        model.addAttribute("pages", PaginationUtil.getPages(pagination.getRows(), qo.getPageSize()));
         return "product/brand_list";
     }
 
