@@ -9,20 +9,19 @@
     <result property="version" column="version"/>
     <result property="name" column="name"/>
     <result property="code" column="code"/>
-    <result property="image" column="image"/>
     <result property="mods" column="mods"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.image,skuProperty.mods</sql>
-  <sql id="QUERY_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.image,skuProperty.mods</sql>
+  <sql id="BASE_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.mods</sql>
+  <sql id="QUERY_COLUMNS">skuProperty.id, skuProperty.createdDate, skuProperty.lastModifiedDate, skuProperty.version,skuProperty.name,skuProperty.code,skuProperty.mods</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedSkuProperty" extends="BASE_RESULT"/>
   <sql id="JOIN_COLUMNS"/>
   <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
     <include refid="BASE_COLUMNS"/> FROM `SkuProperty` skuProperty WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `SkuProperty` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.SkuProperty" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `SkuProperty`(id, createdDate, version,name,code,image,mods) VALUES(#{id }, #{createdDate}, 0, #{name }, #{code }, #{image }, #{mods })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.SkuProperty" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `SkuProperty`(id, createdDate, version,name,code,mods) VALUES(#{id }, #{createdDate}, 0, #{name }, #{code }, #{mods })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.SkuProperty">UPDATE `SkuProperty`
-    <set>lastModifiedDate = now(), version = version + 1, name = #{name }, code = #{code }, image = #{image }, mods = #{mods }</set>
+    <set>lastModifiedDate = now(), version = version + 1, name = #{name }, code = #{code }, mods = #{mods }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN"/>

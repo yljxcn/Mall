@@ -35,6 +35,8 @@ public class TotalSkuQuery
     protected BigDecimal maxTotalMaxPrice;
     protected BigDecimal minTotalAvgPrice;
     protected BigDecimal maxTotalAvgPrice;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
     protected com.xmg.mall.base.query.JoinType joinProduct;
     protected ProductQuery productQuery;
 
@@ -276,6 +278,33 @@ public class TotalSkuQuery
 
     public TotalSkuQuery setGroupByCreatedDate(DateGroupBy dateGroupBy) {
         groupBys.addDateGroupBy("createdDate", dateGroupBy);
+        return this;
+    }
+
+    public Long[] getIncludeMods() {
+        return this.includeMods;
+    }
+
+    public TotalSkuQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
+        return this;
+    }
+
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
+    }
+
+    public TotalSkuQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
+        return this;
+    }
+
+    public TotalSkuQuery setGroupByMods(java.lang.Long mods) {
+        if (mods!= null) {
+            groupBys.addModsGroupBy("mods", mods);
+        } else {
+            groupBys.removeGroupBy("mods");
+        }
         return this;
     }
 

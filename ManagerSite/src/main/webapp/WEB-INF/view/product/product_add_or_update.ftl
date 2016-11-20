@@ -7,7 +7,7 @@
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cubes"></i> 商品</a></li>
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cube""></i> 商品</a></li>
             <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 添加商品</li>
-            <li class="pull-right no-divider"><a href="javascript:;"><i class="fa fa-fw fa-refresh"></i> 刷新</a></li>
+            <li class="pull-right no-divider"><a href="javascript:;" class="refresh-a"><i class="fa fa-fw fa-refresh"></i> 刷新</a></li>
         </ol>
     </div>
 </div>
@@ -186,7 +186,7 @@
 <script>
     CKEDITOR.replace('editor01');
 
-    $("image-div .js-upload").uploadify({
+    $(".image-div .js-upload").uploadify({
         height        : 30,
         buttonText    :"上传",
         swf           : '/js/plugins/uploadify/uploadify.swf',

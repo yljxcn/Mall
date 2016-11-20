@@ -14,7 +14,6 @@ public class SkuProperty
     public final static long MODS_RELATIONSHIP = (MODS_Effective<< 1L);
     protected String name;
     protected String code;
-    protected String image;
 
     public SkuProperty setMods(Long mods) {
         if (mods == null) {
@@ -61,15 +60,6 @@ public class SkuProperty
 
     public SkuProperty setCode(String code) {
         this.code = code;
-        return this;
-    }
-
-    public String getImage() {
-        return this.image;
-    }
-
-    public SkuProperty setImage(String image) {
-        this.image = image;
         return this;
     }
 

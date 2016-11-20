@@ -7,6 +7,7 @@
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cubes"></i> 商品</a></li>
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-navicon""></i> 分类</a></li>
             <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 添加分类</li>
+            <li class="pull-right no-divider"><a href="javascript:;" class="refresh-a"><i class="fa fa-fw fa-refresh"></i> 刷新</a></li>
         </ol>
     </div>
 </div>
@@ -62,29 +63,31 @@
         </div>
     </div>
     <h2>分类属性</h2>
-    <table class="table table-bordered catalog-property-table">
-        <thead>
-            <tr>
-                <th class="actions-col"></th>
-                <th>名称</th>
-                <th>类型</th>
-                <th>值</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div>
+        <table class="table table-bordered catalog-property-table">
+            <thead>
+                <tr>
+                    <th class="actions-col"></th>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th>值</th>
+                </tr>
+            </thead>
+            <tbody>
 
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4">
-                    <button type="button" class="btn btn-default js-add">
-                        <i class="fa fa-fw fa-plus-square-o"></i> 增加
-                    </button>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-    <p class="text-center">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <button type="button" class="btn btn-default js-add">
+                            <i class="fa fa-fw fa-plus-square-o"></i> 增加
+                        </button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <p class="text-center" style="margin-top: 20px;">
         <button type="submit" class="btn btn-default">保存</button>
         <button type="reset" class="btn btn-default">重置</button>
     </p>
@@ -154,4 +157,9 @@
     };
 
     new CatalogPropertiesTable($('.catalog-property-table'));
+
+    $('.refresh-a').click(function(){
+        $('#content_body').load('/catalog/toSaveOrUpdate');
+        return false;
+    });
 </script>

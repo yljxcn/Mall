@@ -57,6 +57,12 @@
       <if test="skuQuery.price != null">AND sku.price = #{skuQuery.price}</if>
       <if test="skuQuery.minPrice != null">AND sku.price &gt;= #{skuQuery.minPrice}</if>
       <if test="skuQuery.maxPrice != null">AND sku.price &lt;= #{skuQuery.maxPrice}</if>
+      <if test="skuQuery.excludeMods != null">AND 
+        <foreach collection="skuQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">sku.mods &amp; #{mod } = 0</foreach>
+      </if>
+      <if test="skuQuery.includeMods != null &amp;&amp; skuQuery.excludeMods == null ">AND 
+        <foreach collection="skuQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">sku.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      </if>
     </if>
     <if test="skuPropertyQuery != null &amp;&amp; joinSkuProperty">
       <if test="skuPropertyQuery.ids != null">AND skuProperty.id IN

@@ -12,6 +12,7 @@ public class TotalSku {
     protected BigDecimal totalMaxPrice;
     protected BigDecimal totalMinPrice;
     protected Date createdDate;
+    protected Long mods;
 
     public Integer getRows() {
         return this.rows;
@@ -64,6 +65,15 @@ public class TotalSku {
 
     public TotalSku setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+        return this;
+    }
+
+    public Long getMods() {
+        return this.mods;
+    }
+
+    public TotalSku setMods(Long mods) {
+        this.mods = mods;
         return this;
     }
 

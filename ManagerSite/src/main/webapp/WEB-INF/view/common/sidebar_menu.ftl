@@ -34,6 +34,18 @@
                     'path': '/product/page',
                     'icon': 'fa fa-fw fa-cube',
                     'active': false
+                },
+                {
+                    'name': 'SKU 属性',
+                    'path': '/skuProperty/page',
+                    'icon': 'fa fa-fw fa-dashboard',
+                    'active': false
+                },
+                {
+                    'name': 'SKU',
+                    'path': '/sku/page',
+                    'icon': 'fa fa-fw fa-barcode',
+                    'active': false
                 }
             ]
         },

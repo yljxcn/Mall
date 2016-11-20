@@ -10,22 +10,23 @@
     <result property="productId" column="productId"/>
     <result property="code" column="code"/>
     <result property="price" column="price"/>
+    <result property="mods" column="mods"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">sku.id, sku.createdDate, sku.lastModifiedDate, sku.version,sku.productId,sku.code,sku.price</sql>
-  <sql id="QUERY_COLUMNS">sku.id, sku.createdDate, sku.lastModifiedDate, sku.version,sku.productId,sku.code,sku.price</sql>
+  <sql id="BASE_COLUMNS">sku.id, sku.createdDate, sku.lastModifiedDate, sku.version,sku.productId,sku.code,sku.price,sku.mods</sql>
+  <sql id="QUERY_COLUMNS">sku.id, sku.createdDate, sku.lastModifiedDate, sku.version,sku.productId,sku.code,sku.price,sku.mods</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedSku" extends="BASE_RESULT">
     <association property="product" column="productId" javaType="com.xmg.mall.product.domain.Product" columnPrefix="product_" resultMap="com.xmg.mall.product.mapper.ProductMapper.BASE_RESULT"/>
   </resultMap>
   <sql id="JOIN_COLUMNS">
-    <if test="joinProduct != null">, product.id AS product_id, product.name AS product_name</if>
+    <if test="joinProduct != null">, product.id AS product_id, product.name AS product_name, product.code AS product_code</if>
   </sql>
   <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
     <include refid="BASE_COLUMNS"/> FROM `Sku` sku WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Sku` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.Sku" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Sku`(id, createdDate, version,productId,code,price) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{code }, #{price })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.Sku" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Sku`(id, createdDate, version,productId,code,price,mods) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{code }, #{price }, #{mods })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.Sku">UPDATE `Sku`
-    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, price = #{price }</set>
+    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, price = #{price }, mods = #{mods }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN">
@@ -43,6 +44,12 @@
     <if test="price != null">AND sku.price = #{price}</if>
     <if test="minPrice != null">AND sku.price &gt;= #{minPrice}</if>
     <if test="maxPrice != null">AND sku.price &lt;= #{maxPrice}</if>
+    <if test="excludeMods != null">AND 
+      <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">sku.mods &amp; #{mod } = 0</foreach>
+    </if>
+    <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" AND ">sku.mods &amp; #{mod } &lt;&gt; 0</foreach>
+    </if>
     <if test="productQuery != null &amp;&amp; joinProduct">
       <if test="productQuery.ids != null">AND product.id IN
         <foreach collection="productQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>

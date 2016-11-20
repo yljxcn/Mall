@@ -20,6 +20,8 @@ public class SkuQuery
     protected BigDecimal price;
     protected BigDecimal minPrice;
     protected BigDecimal maxPrice;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
 
     public boolean hasIds() {
         return (this.ids.length!= 0);
@@ -126,6 +128,24 @@ public class SkuQuery
 
     public SkuQuery setMaxPrice(BigDecimal maxPrice) {
         this.maxPrice = maxPrice;
+        return this;
+    }
+
+    public Long[] getIncludeMods() {
+        return this.includeMods;
+    }
+
+    public SkuQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
+        return this;
+    }
+
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
+    }
+
+    public SkuQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 
