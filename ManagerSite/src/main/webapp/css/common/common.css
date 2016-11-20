@@ -74,3 +74,8 @@
 .breadcrumb > li + li.no-divider:before {
     display: none;
 }
+
+.form-control-inline{
+    display: inline-block;
+    width: auto;
+}

@@ -71,17 +71,17 @@
     </p>
 </form>
 <script id="skuPropertiesTableTemplate" type="text/x-template">
+    <div class="sku-property-filter">
+        <select class="form-control form-control-inline"
+            <option>型号</option>
+            <option>颜色</option>
+            <option>尺寸</option>
+        </select>
+        <a class="js-up" href="javascript:;"><i class="fa fa-fw fa-angle-double-up"></i> 上移</a>
+        <a class="js-down" href="javascript:;"><i class="fa fa-fw fa-angle-double-down"></i> 下移</a>
+    </div>
     <table class="table table-bordered sku-property-table">
         <thead>
-        <#--<caption>
-            <select class="form-control">
-                <option>型号</option>
-                <option>颜色</option>
-                <option>尺寸</option>
-            </select>
-            <a href="javascript:;"><i class="fa fa-fw fa-plus-square-o"></i> 上移</a>
-            <a href="javascript:;"><i class="fa fa-fw fa-plus-square-o"></i> 下移</a>
-        </caption>-->
         <tr>
             <th class="actions-col"></th>
             <th>名称</th>
@@ -116,12 +116,51 @@
 <script>
 
     $('.addSkuPropertiesTable').click(function(){
-        var propertiestablTemplate = $('#skuPropertiesTableTemplate').html();
-        var $table = $(propertiestablTemplate);
-
-        $(this).parent('h2').next('div').append($table);
-        new SkuPropertiesTable($table);
+        new SkuPropertiesTableDiv($(this).parent('h2').next('div'));
     });
+
+    function SkuPropertiesTableDiv($el){
+        this.$el = $el;
+        this.$table = $($('#skuPropertiesTableTemplate').html());
+        this.addPropertyTable();
+        this._bindEvents();
+    }
+
+    SkuPropertiesTableDiv.prototype = {
+        addPropertyTable: function () {
+            this.$el.append(this.$table);
+            new SkuPropertiesTable(this.$table);
+        },
+
+        _bindEvents: function () {
+            this.$el
+                .on('click', '.js-up', this.upPropertyTable.bind(this))
+                .on('click', '.js-down', this.downPropertyTable.bind(this));
+        },
+
+        upPropertyTable: function (e) {
+            var $currentDiv = $(e.currentTarget).parent('div');
+            var $currentTable = $currentDiv.next('table');
+            var $prevTable = $currentDiv.prev('table');
+            var $prevDive = $prevTable.prev('div');
+
+            if($prevTable.length && $prevDive.length){
+                console.info("上面有")
+            }
+        },
+
+        downPropertyTable: function (e) {
+            var $currentDiv = $(e.currentTarget).parent('div');
+            var $currentTable = $currentDiv.next('table');
+            var $nextDiv = $currentTable.next('div');
+            var $nextTable = $nextDiv.next('table');
+
+            if($nextDiv.length && $nextTable.length){
+                console.info("下面有")
+            }
+        }
+    };
+
 
     function SkuPropertiesTable($el) {
         this.$el = $el;
@@ -135,8 +174,8 @@
     SkuPropertiesTable.prototype = {
         _bindEvents: function () {
             this.$el
-                    .on('click', '.js-add', this.addPropertyRow.bind(this))
-                    .on('click', '.js-remove', this.removePropertyRow.bind(this));
+                .on('click', '.js-add', this.addPropertyRow.bind(this))
+                .on('click', '.js-remove', this.removePropertyRow.bind(this));
         },
 
         addPropertyRow: function () {
@@ -145,19 +184,8 @@
 
         removePropertyRow: function (e) {
             $(e.currentTarget).closest('tr').remove();
-        },
+        }
     };
-
-    // new SkuPropertiesTable($('.sku-property-table'));
-
-    /*
-    $(".image-div .js-upload").uploadify({
-        height        : 30,
-        buttonText    :"上传",
-        swf           : '/js/plugins/uploadify/uploadify.swf',
-        uploader      : '/uploadify/uploadify.php',
-        width         : 120
-    });*/
 
     $('.refresh-a').click(function(){
         $('#content_body').load('/sku/toSaveOrUpdate');
