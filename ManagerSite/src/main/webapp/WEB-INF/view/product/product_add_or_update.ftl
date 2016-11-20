@@ -186,17 +186,13 @@
 <script>
     CKEDITOR.replace('editor01');
 
-    var btnArray = [1, 2, 3, 4, 5, 6, 7, 8];
-    function setBtnuUploadify(element, index, array) {
-        $("#uploadImage-btn" + element).uploadify({
-            height        : 30,
-            buttonText    :"上传",
-            swf           : '/js/plugins/uploadify/uploadify.swf',
-            uploader      : '/uploadify/uploadify.php',
-            width         : 120
-        });
-    }
-    btnArray.forEach(setBtnuUploadify);
+    $("image-div .js-upload").uploadify({
+        height        : 30,
+        buttonText    :"上传",
+        swf           : '/js/plugins/uploadify/uploadify.swf',
+        uploader      : '/uploadify/uploadify.php',
+        width         : 120
+    });
 
     $('.refresh-a').click(function(){
         $('#content_body').load('/product/toSaveOrUpdate');
