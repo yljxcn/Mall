@@ -1,16 +1,17 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            添加
+            添加分类
         </h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cubes"></i> 商品</a></li>
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-navicon""></i> 分类</a></li>
-            <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 添加</li>
+            <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 添加分类</li>
         </ol>
     </div>
 </div>
 <form>
+    <h2>基本属性</h2>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
@@ -60,7 +61,7 @@
             </div>
         </div>
     </div>
-    <label>分类属性</label>
+    <h2>分类属性</h2>
     <table class="table table-bordered catalog-property-table">
         <thead>
             <tr>
