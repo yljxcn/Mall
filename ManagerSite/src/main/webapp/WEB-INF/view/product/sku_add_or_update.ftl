@@ -73,6 +73,15 @@
 <script id="skuPropertiesTableTemplate" type="text/x-template">
     <table class="table table-bordered sku-property-table">
         <thead>
+        <#--<caption>
+            <select class="form-control">
+                <option>型号</option>
+                <option>颜色</option>
+                <option>尺寸</option>
+            </select>
+            <a href="javascript:;"><i class="fa fa-fw fa-plus-square-o"></i> 上移</a>
+            <a href="javascript:;"><i class="fa fa-fw fa-plus-square-o"></i> 下移</a>
+        </caption>-->
         <tr>
             <th class="actions-col"></th>
             <th>名称</th>
@@ -108,9 +117,9 @@
 
     $('.addSkuPropertiesTable').click(function(){
         var propertiestablTemplate = $('#skuPropertiesTableTemplate').html();
-        $(this).parent('h2').next('div').append(propertiestablTemplate);
-
         var $table = $(propertiestablTemplate);
+
+        $(this).parent('h2').next('div').append($table);
         new SkuPropertiesTable($table);
     });
 
