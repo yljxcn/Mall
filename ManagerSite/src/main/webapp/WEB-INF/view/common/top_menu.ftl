@@ -81,8 +81,8 @@
         </ul>
     </li>
     <li class="dropdown">
-       <#-- <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> 高荣 <b class="caret"></b></a>-->
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="employee-avatar" src="/image/1.jpg"> 高荣</a>
+       <#-- <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> 某某 <b class="caret"></b></a>-->
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="employee-avatar" src="/image/2.jpg"> 某某</a>
         <ul class="dropdown-menu">
             <li>
                 <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>

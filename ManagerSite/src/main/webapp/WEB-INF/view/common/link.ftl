@@ -38,9 +38,9 @@
 <script src="/js/plugins/jQueryForm/jquery.form.settings.js"></script>
 
 <!-- datetimepicker JavaScript -->
-<script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.js" ></script>
-<script type="text/javascript" src="/js/plugins/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js" ></script>
-<script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.setting.js" ></script>
+<script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/js/plugins/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.setting.js"></script>
 
 <!-- ckeditor JavaScript -->
 <script type="text/javascript" src="/js/plugins/ckeditor/ckeditor.js" ></script>

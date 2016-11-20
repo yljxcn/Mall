@@ -136,9 +136,185 @@
             </div>
         </div>
     </div>
+    <label>商品图片</label>
     <div class="row">
         <div class="col-lg-3">
-            <div class="uploadify-button " id="file_upload_1-button" style="width: 120px; height: 30px; line-height: 30px;"><span class="uploadify-button-text">SELECT FILES</span></div>
+            <div class="image-div">
+                <div>
+                    <a href="javascript:;" id="uploadImage-btn1">上传</a>
+                </div>
+                <img alt="" src="" class="uploadImg">
+                <input type="hidden" name="image">
+            </div>
+            <div class="form-group">
+                <select class="form-control inline-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+                <input type="radio" name="cover" value="" checked>封面
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="image-div">
+                <div>
+                    <a href="javascript:;" id="uploadImage-btn2">上传</a>
+                </div>
+                <img alt="" src="" class="uploadImg">
+                <input type="hidden" name="image">
+            </div>
+            <div class="form-group">
+                <select class="form-control inline-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+                <input type="radio" name="cover" value="">封面
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="image-div">
+                <div>
+                    <a href="javascript:;" id="uploadImage-btn3">上传</a>
+                </div>
+                <img alt="" src="" class="uploadImg">
+                <input type="hidden" name="image">
+            </div>
+            <div class="form-group">
+                <select class="form-control inline-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+                <input type="radio" name="cover" value="">封面
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="image-div">
+                <div>
+                    <a href="javascript:;" id="uploadImage-btn4">上传</a>
+                </div>
+                <img alt="" src="" class="uploadImg">
+                <input type="hidden" name="image">
+            </div>
+            <div class="form-group">
+                <select class="form-control inline-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+                <input type="radio" name="cover" value="">封面
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="image-div">
+                <div>
+                    <a href="javascript:;" id="uploadImage-btn5">上传</a>
+                </div>
+                <img alt="" src="" class="uploadImg">
+                <input type="hidden" name="image">
+            </div>
+            <div class="form-group">
+                <select class="form-control inline-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+                <input type="radio" name="cover" value="">封面
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="image-div">
+                <div>
+                    <a href="javascript:;" id="uploadImage-btn6">上传</a>
+                </div>
+                <img alt="" src="" class="uploadImg">
+                <input type="hidden" name="image">
+            </div>
+            <div class="form-group">
+                <select class="form-control inline-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+                <input type="radio" name="cover" value="">封面
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="image-div">
+                <div>
+                    <a href="javascript:;" id="uploadImage-btn7">上传</a>
+                </div>
+                <img alt="" src="" class="uploadImg">
+                <input type="hidden" name="image">
+            </div>
+            <div class="form-group">
+                <select class="form-control inline-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+                <input type="radio" name="cover" value="">封面
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="image-div">
+                <div>
+                    <a href="javascript:;" id="uploadImage-btn8">上传</a>
+                </div>
+                <img alt="" src="" class="uploadImg">
+                <input type="hidden" name="image">
+            </div>
+            <div class="form-group">
+                <select class="form-control inline-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+                <input type="radio" name="cover" value="">封面
+            </div>
         </div>
     </div>
     <p class="text-center">
@@ -148,12 +324,16 @@
 </form>
 <script>
     CKEDITOR.replace('editor01');
-    console.info(1);
-    $("#file_upload_1-button").uploadify({
-        height        : 30,
-        swf           : '/js/plugins/uploadify/uploadify.swf',
-        uploader      : '/uploadify/uploadify.php',
-        width         : 120
-    });
-    console.info(2);
+
+    var btnArray = [1, 2, 3, 4, 5, 6, 7, 8];
+    function setBtnuUploadify(element, index, array) {
+        $("#uploadImage-btn" + element).uploadify({
+            height        : 30,
+            buttonText    :"上传",
+            swf           : '/js/plugins/uploadify/uploadify.swf',
+            uploader      : '/uploadify/uploadify.php',
+            width         : 120
+        });
+    }
+    btnArray.forEach(setBtnuUploadify);
 </script>
