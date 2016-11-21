@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalProductCatalogPropertyValueMapper;
 import com.xmg.mall.product.qo.TotalProductCatalogPropertyValueQuery;
 import com.xmg.mall.product.service.TotalProductCatalogPropertyValueService;
 import com.xmg.mall.product.vo.TotalProductCatalogPropertyValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalProductCatalogPropertyValueService")
 public class BasicTotalProductCatalogPropertyValueService
     implements TotalProductCatalogPropertyValueService
 {
 
     protected TotalProductCatalogPropertyValueMapper totalProductCatalogPropertyValueMapper;
 
+    @Autowired
     public BasicTotalProductCatalogPropertyValueService setTotalProductCatalogPropertyValueMapper(TotalProductCatalogPropertyValueMapper totalProductCatalogPropertyValueMapper) {
         this.totalProductCatalogPropertyValueMapper = totalProductCatalogPropertyValueMapper;
         return this;

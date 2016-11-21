@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalProductFreightMapper;
 import com.xmg.mall.product.qo.TotalProductFreightQuery;
 import com.xmg.mall.product.service.TotalProductFreightService;
 import com.xmg.mall.product.vo.TotalProductFreight;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalProductFreightService")
 public class BasicTotalProductFreightService
     implements TotalProductFreightService
 {
 
     protected TotalProductFreightMapper totalProductFreightMapper;
 
+    @Autowired
     public BasicTotalProductFreightService setTotalProductFreightMapper(TotalProductFreightMapper totalProductFreightMapper) {
         this.totalProductFreightMapper = totalProductFreightMapper;
         return this;

@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalCatalogPropertyMapper;
 import com.xmg.mall.product.qo.TotalCatalogPropertyQuery;
 import com.xmg.mall.product.service.TotalCatalogPropertyService;
 import com.xmg.mall.product.vo.TotalCatalogProperty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalCatalogPropertyService")
 public class BasicTotalCatalogPropertyService
     implements TotalCatalogPropertyService
 {
 
     protected TotalCatalogPropertyMapper totalCatalogPropertyMapper;
 
+    @Autowired
     public BasicTotalCatalogPropertyService setTotalCatalogPropertyMapper(TotalCatalogPropertyMapper totalCatalogPropertyMapper) {
         this.totalCatalogPropertyMapper = totalCatalogPropertyMapper;
         return this;

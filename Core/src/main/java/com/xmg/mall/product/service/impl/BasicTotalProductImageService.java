@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalProductImageMapper;
 import com.xmg.mall.product.qo.TotalProductImageQuery;
 import com.xmg.mall.product.service.TotalProductImageService;
 import com.xmg.mall.product.vo.TotalProductImage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalProductImageService")
 public class BasicTotalProductImageService
     implements TotalProductImageService
 {
 
     protected TotalProductImageMapper totalProductImageMapper;
 
+    @Autowired
     public BasicTotalProductImageService setTotalProductImageMapper(TotalProductImageMapper totalProductImageMapper) {
         this.totalProductImageMapper = totalProductImageMapper;
         return this;

@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            添加SKU
+            添加 SKU
         </h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cubes"></i> 商品</a></li>
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-barcode""></i> SKU</a></li>
-            <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 添加SKU</li>
+            <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 添加 SKU</li>
             <li class="pull-right no-divider"><a href="javascript:;" class="refresh-a"><i class="fa fa-fw fa-refresh"></i> 刷新</a></li>
         </ol>
     </div>
@@ -44,7 +44,7 @@
     <h2>SKU属性 <button type="button" class="btn btn-default addSkuPropertiesTable"><i class="fa fa-fw fa-plus-square-o"></i> 增加</button></h2>
     <div class="sku-properties-container">
     </div>
-    <h2>SKU <button type="button" class="btn btn-default generateSkus"><i class="fa fa-fw fa-plus-square-o"></i> 生成</button><button type="button" class="btn btn-default resetSkus"><i class="fa fa-fw fa-plus-square-o"></i> 重置</button></h2>
+    <h2>SKU <button type="button" class="btn btn-default generateSkus"><i class="fa fa-fw fa-rotate-right"></i> 生成</button><button type="button" class="btn btn-default resetSkus"><i class="fa fa-fw fa-eraser"></i> 重置</button></h2>
     <div class="sku-container">
     </div>
     <p class="text-center" style="margin-top: 20px;">
@@ -208,6 +208,15 @@
             ]
         };
 
-        $skuContainer.load('/skuProperty/generateSkus', JSON.stringify(obj));
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/skuProperty/generateSkus",
+            data: JSON.stringify(obj),
+            dataType: 'html',
+            timeout: 100000
+        }).done(function (data) {
+            $skuContainer.html(data);
+        });
     });
 </script>

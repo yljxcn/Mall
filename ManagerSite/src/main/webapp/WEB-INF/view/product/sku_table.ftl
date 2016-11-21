@@ -2,27 +2,28 @@
     <thead>
         <tr>
             <th class="actions-col"></th>
-            <th>SKU编号</th>
+            <th>SKU 编号</th>
             <#list skuProperties as skuProperty>
-                <th>skuProperty.name</th>
+                <th>${skuProperty.name}</th>
             </#list>
             <th>售价</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td class="actions-col">
-                <button type="button" class="btn btn-default js-remove">
-                    <i class="fa fa-fw fa-minus-square-o"></i> 移除
-                </button>
-            </td>
-            <#list skus as sku>
+        <#list skus as sku>
+            <tr>
+                <td class="actions-col">
+                    <button type="button" class="btn btn-default js-remove">
+                        <i class="fa fa-fw fa-minus-square-o"></i> 移除
+                    </button>
+                </td>
+                <td>${sku.code}</td>
                 <#list skuProperties as skuProperty>
-                    <th>sku[skuProperty.name]</th>
+                    <th>${sku[skuProperty.name]}</th>
                 </#list>
-                <th>sku.code</th>
-            </#list>
-            <td><input class="form-control"></td>
-        </tr>
+
+                <td><input class="form-control"></td>
+            </tr>
+        </#list>
     </tbody>
 </table>

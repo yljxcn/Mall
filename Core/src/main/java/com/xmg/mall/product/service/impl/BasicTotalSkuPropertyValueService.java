@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalSkuPropertyValueMapper;
 import com.xmg.mall.product.qo.TotalSkuPropertyValueQuery;
 import com.xmg.mall.product.service.TotalSkuPropertyValueService;
 import com.xmg.mall.product.vo.TotalSkuPropertyValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalSkuPropertyValueService")
 public class BasicTotalSkuPropertyValueService
     implements TotalSkuPropertyValueService
 {
 
     protected TotalSkuPropertyValueMapper totalSkuPropertyValueMapper;
 
+    @Autowired
     public BasicTotalSkuPropertyValueService setTotalSkuPropertyValueMapper(TotalSkuPropertyValueMapper totalSkuPropertyValueMapper) {
         this.totalSkuPropertyValueMapper = totalSkuPropertyValueMapper;
         return this;

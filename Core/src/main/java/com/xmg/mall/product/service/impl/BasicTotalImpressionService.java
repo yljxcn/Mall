@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalImpressionMapper;
 import com.xmg.mall.product.qo.TotalImpressionQuery;
 import com.xmg.mall.product.service.TotalImpressionService;
 import com.xmg.mall.product.vo.TotalImpression;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalImpressionService")
 public class BasicTotalImpressionService
     implements TotalImpressionService
 {
 
     protected TotalImpressionMapper totalImpressionMapper;
 
+    @Autowired
     public BasicTotalImpressionService setTotalImpressionMapper(TotalImpressionMapper totalImpressionMapper) {
         this.totalImpressionMapper = totalImpressionMapper;
         return this;

@@ -5,6 +5,7 @@ import com.xmg.mall.base.query.PaginationUtil;
 import com.xmg.mall.product.domain.Product;
 import com.xmg.mall.product.domain.SkuProperty;
 import com.xmg.mall.product.domain.SkuPropertyValue;
+import com.xmg.mall.product.form.GenerateSkuForm;
 import com.xmg.mall.product.qo.ProductQuery;
 import com.xmg.mall.product.qo.SkuPropertyQuery;
 import com.xmg.mall.product.service.ProductService;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -56,9 +58,9 @@ public class SkuPropertyController {
     }
 
     @RequestMapping("/generateSkus")
-    public String generateSkus(Model model, @RequestParam(value = "productId")Long productId, @RequestParam(value = "skuProperties")List<SkuProperty> skuProperties, @RequestParam(value = "skuPropertyValues")List<SkuPropertyValue> skuPropertyValues) {
-        List<Map<String, Object>> skus = skuPropertyService.generateSkus(productId, skuProperties, skuPropertyValues);
-        model.addAttribute("skuProperties", skuProperties);
+    public String generateSkus(Model model, @RequestBody GenerateSkuForm generateSkuForm) {
+        List<Map<String, Object>> skus = skuPropertyService.generateSkus(generateSkuForm.getProductId(), generateSkuForm.getSkuProperties(), generateSkuForm.getSkuPropertyValues());
+        model.addAttribute("skuProperties", generateSkuForm.getSkuProperties());
         model.addAttribute("skus", skus);
         return "product/sku_table";
     }

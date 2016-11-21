@@ -5,7 +5,6 @@ import java.util.*;
 
 import com.xmg.mall.base.exception.StaleObjectStateException;
 import com.xmg.mall.base.query.Pagination;
-import com.xmg.mall.base.validation.ValidationUtils;
 import com.xmg.mall.product.domain.Catalog;
 import com.xmg.mall.product.domain.Product;
 import com.xmg.mall.product.domain.SkuProperty;
@@ -18,6 +17,7 @@ import com.xmg.mall.product.service.ProductService;
 import com.xmg.mall.product.service.SkuPropertyService;
 import com.xmg.mall.product.vo.ExtendedSkuProperty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service("skuPropertyService")
@@ -136,8 +136,8 @@ public class BasicSkuPropertyService
             Map<String, Object> map = new HashMap<>();
 
             map.put("code", skuprefix + i);
-            for (String value : recursiveResult.get(i)) {
-                map.put(skuProperties.get(i).getName(), value);
+            for (int j = 0; j < recursiveResult.get(i).size(); j++) {
+                map.put(skuProperties.get(j).getName(), recursiveResult.get(i).get(j));
             }
             pageResult.add(map);
         }

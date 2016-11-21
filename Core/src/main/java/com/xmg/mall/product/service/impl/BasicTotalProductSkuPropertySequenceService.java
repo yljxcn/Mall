@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalProductSkuPropertySequenceMapper;
 import com.xmg.mall.product.qo.TotalProductSkuPropertySequenceQuery;
 import com.xmg.mall.product.service.TotalProductSkuPropertySequenceService;
 import com.xmg.mall.product.vo.TotalProductSkuPropertySequence;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalProductSkuPropertySequenceService")
 public class BasicTotalProductSkuPropertySequenceService
     implements TotalProductSkuPropertySequenceService
 {
 
     protected TotalProductSkuPropertySequenceMapper totalProductSkuPropertySequenceMapper;
 
+    @Autowired
     public BasicTotalProductSkuPropertySequenceService setTotalProductSkuPropertySequenceMapper(TotalProductSkuPropertySequenceMapper totalProductSkuPropertySequenceMapper) {
         this.totalProductSkuPropertySequenceMapper = totalProductSkuPropertySequenceMapper;
         return this;

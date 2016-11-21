@@ -79,3 +79,7 @@
     display: inline-block;
     width: auto;
 }
+
+.actions-col {
+    width: 1%;
+}

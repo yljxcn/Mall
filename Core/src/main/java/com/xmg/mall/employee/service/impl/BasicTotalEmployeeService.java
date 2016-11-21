@@ -6,13 +6,17 @@ import com.xmg.mall.employee.mapper.TotalEmployeeMapper;
 import com.xmg.mall.employee.qo.TotalEmployeeQuery;
 import com.xmg.mall.employee.service.TotalEmployeeService;
 import com.xmg.mall.employee.vo.TotalEmployee;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalEmployeeService")
 public class BasicTotalEmployeeService
     implements TotalEmployeeService
 {
 
     protected TotalEmployeeMapper totalEmployeeMapper;
 
+    @Autowired
     public BasicTotalEmployeeService setTotalEmployeeMapper(TotalEmployeeMapper totalEmployeeMapper) {
         this.totalEmployeeMapper = totalEmployeeMapper;
         return this;

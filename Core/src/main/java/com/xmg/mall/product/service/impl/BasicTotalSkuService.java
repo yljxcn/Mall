@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalSkuMapper;
 import com.xmg.mall.product.qo.TotalSkuQuery;
 import com.xmg.mall.product.service.TotalSkuService;
 import com.xmg.mall.product.vo.TotalSku;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalSkuService")
 public class BasicTotalSkuService
     implements TotalSkuService
 {
 
     protected TotalSkuMapper totalSkuMapper;
 
+    @Autowired
     public BasicTotalSkuService setTotalSkuMapper(TotalSkuMapper totalSkuMapper) {
         this.totalSkuMapper = totalSkuMapper;
         return this;

@@ -6,13 +6,17 @@ import com.xmg.mall.product.mapper.TotalBrandMapper;
 import com.xmg.mall.product.qo.TotalBrandQuery;
 import com.xmg.mall.product.service.TotalBrandService;
 import com.xmg.mall.product.vo.TotalBrand;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("totalBrandService")
 public class BasicTotalBrandService
     implements TotalBrandService
 {
 
     protected TotalBrandMapper totalBrandMapper;
 
+    @Autowired
     public BasicTotalBrandService setTotalBrandMapper(TotalBrandMapper totalBrandMapper) {
         this.totalBrandMapper = totalBrandMapper;
         return this;

@@ -36,7 +36,9 @@ import com.xmg.mall.product.service.TotalSkuPropertyRelationshipValueService;
 import com.xmg.mall.product.service.TotalSkuPropertyService;
 import com.xmg.mall.product.service.TotalSkuPropertyValueService;
 import com.xmg.mall.product.service.TotalSkuService;
+import org.springframework.stereotype.Service;
 
+@Service("productModuleService")
 public class BasicProductModuleService
     implements ProductModuleService
 {
@@ -80,6 +82,7 @@ public class BasicProductModuleService
         return this.brandService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setBrandService(BrandService brandService) {
         this.brandService = brandService;
         return this;
@@ -89,6 +92,7 @@ public class BasicProductModuleService
         return this.totalBrandService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalBrandService(TotalBrandService totalBrandService) {
         this.totalBrandService = totalBrandService;
         return this;
@@ -98,6 +102,7 @@ public class BasicProductModuleService
         return this.catalogService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setCatalogService(CatalogService catalogService) {
         this.catalogService = catalogService;
         return this;
@@ -107,6 +112,7 @@ public class BasicProductModuleService
         return this.totalCatalogService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalCatalogService(TotalCatalogService totalCatalogService) {
         this.totalCatalogService = totalCatalogService;
         return this;
@@ -116,6 +122,7 @@ public class BasicProductModuleService
         return this.catalogPropertyService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setCatalogPropertyService(CatalogPropertyService catalogPropertyService) {
         this.catalogPropertyService = catalogPropertyService;
         return this;
@@ -125,6 +132,7 @@ public class BasicProductModuleService
         return this.totalCatalogPropertyService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalCatalogPropertyService(TotalCatalogPropertyService totalCatalogPropertyService) {
         this.totalCatalogPropertyService = totalCatalogPropertyService;
         return this;
@@ -134,6 +142,7 @@ public class BasicProductModuleService
         return this.catalogPropertyValueService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setCatalogPropertyValueService(CatalogPropertyValueService catalogPropertyValueService) {
         this.catalogPropertyValueService = catalogPropertyValueService;
         return this;
@@ -143,6 +152,7 @@ public class BasicProductModuleService
         return this.totalCatalogPropertyValueService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalCatalogPropertyValueService(TotalCatalogPropertyValueService totalCatalogPropertyValueService) {
         this.totalCatalogPropertyValueService = totalCatalogPropertyValueService;
         return this;
@@ -152,6 +162,7 @@ public class BasicProductModuleService
         return this.impressionService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setImpressionService(ImpressionService impressionService) {
         this.impressionService = impressionService;
         return this;
@@ -161,6 +172,7 @@ public class BasicProductModuleService
         return this.totalImpressionService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalImpressionService(TotalImpressionService totalImpressionService) {
         this.totalImpressionService = totalImpressionService;
         return this;
@@ -170,6 +182,7 @@ public class BasicProductModuleService
         return this.productService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setProductService(ProductService productService) {
         this.productService = productService;
         return this;
@@ -179,6 +192,7 @@ public class BasicProductModuleService
         return this.totalProductService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalProductService(TotalProductService totalProductService) {
         this.totalProductService = totalProductService;
         return this;
@@ -188,6 +202,7 @@ public class BasicProductModuleService
         return this.productDescriptionService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setProductDescriptionService(ProductDescriptionService productDescriptionService) {
         this.productDescriptionService = productDescriptionService;
         return this;
@@ -197,6 +212,7 @@ public class BasicProductModuleService
         return this.totalProductDescriptionService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalProductDescriptionService(TotalProductDescriptionService totalProductDescriptionService) {
         this.totalProductDescriptionService = totalProductDescriptionService;
         return this;
@@ -206,6 +222,7 @@ public class BasicProductModuleService
         return this.productImageService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setProductImageService(ProductImageService productImageService) {
         this.productImageService = productImageService;
         return this;
@@ -215,6 +232,7 @@ public class BasicProductModuleService
         return this.totalProductImageService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalProductImageService(TotalProductImageService totalProductImageService) {
         this.totalProductImageService = totalProductImageService;
         return this;
@@ -224,6 +242,7 @@ public class BasicProductModuleService
         return this.productImpressionService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setProductImpressionService(ProductImpressionService productImpressionService) {
         this.productImpressionService = productImpressionService;
         return this;
@@ -233,6 +252,7 @@ public class BasicProductModuleService
         return this.totalProductImpressionService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalProductImpressionService(TotalProductImpressionService totalProductImpressionService) {
         this.totalProductImpressionService = totalProductImpressionService;
         return this;
@@ -242,6 +262,7 @@ public class BasicProductModuleService
         return this.productFreightService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setProductFreightService(ProductFreightService productFreightService) {
         this.productFreightService = productFreightService;
         return this;
@@ -251,6 +272,7 @@ public class BasicProductModuleService
         return this.totalProductFreightService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalProductFreightService(TotalProductFreightService totalProductFreightService) {
         this.totalProductFreightService = totalProductFreightService;
         return this;
@@ -260,6 +282,7 @@ public class BasicProductModuleService
         return this.productAuditService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setProductAuditService(ProductAuditService productAuditService) {
         this.productAuditService = productAuditService;
         return this;
@@ -269,6 +292,7 @@ public class BasicProductModuleService
         return this.totalProductAuditService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalProductAuditService(TotalProductAuditService totalProductAuditService) {
         this.totalProductAuditService = totalProductAuditService;
         return this;
@@ -278,6 +302,7 @@ public class BasicProductModuleService
         return this.productCatalogPropertyValueService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setProductCatalogPropertyValueService(ProductCatalogPropertyValueService productCatalogPropertyValueService) {
         this.productCatalogPropertyValueService = productCatalogPropertyValueService;
         return this;
@@ -287,6 +312,7 @@ public class BasicProductModuleService
         return this.totalProductCatalogPropertyValueService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalProductCatalogPropertyValueService(TotalProductCatalogPropertyValueService totalProductCatalogPropertyValueService) {
         this.totalProductCatalogPropertyValueService = totalProductCatalogPropertyValueService;
         return this;
@@ -296,6 +322,7 @@ public class BasicProductModuleService
         return this.skuService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setSkuService(SkuService skuService) {
         this.skuService = skuService;
         return this;
@@ -305,6 +332,7 @@ public class BasicProductModuleService
         return this.totalSkuService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalSkuService(TotalSkuService totalSkuService) {
         this.totalSkuService = totalSkuService;
         return this;
@@ -314,6 +342,7 @@ public class BasicProductModuleService
         return this.skuPropertyService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setSkuPropertyService(SkuPropertyService skuPropertyService) {
         this.skuPropertyService = skuPropertyService;
         return this;
@@ -323,6 +352,7 @@ public class BasicProductModuleService
         return this.totalSkuPropertyService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalSkuPropertyService(TotalSkuPropertyService totalSkuPropertyService) {
         this.totalSkuPropertyService = totalSkuPropertyService;
         return this;
@@ -332,6 +362,7 @@ public class BasicProductModuleService
         return this.skuPropertyRelationshipValueService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setSkuPropertyRelationshipValueService(SkuPropertyRelationshipValueService skuPropertyRelationshipValueService) {
         this.skuPropertyRelationshipValueService = skuPropertyRelationshipValueService;
         return this;
@@ -341,6 +372,7 @@ public class BasicProductModuleService
         return this.totalSkuPropertyRelationshipValueService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalSkuPropertyRelationshipValueService(TotalSkuPropertyRelationshipValueService totalSkuPropertyRelationshipValueService) {
         this.totalSkuPropertyRelationshipValueService = totalSkuPropertyRelationshipValueService;
         return this;
@@ -350,6 +382,7 @@ public class BasicProductModuleService
         return this.productSkuPropertySequenceService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setProductSkuPropertySequenceService(ProductSkuPropertySequenceService productSkuPropertySequenceService) {
         this.productSkuPropertySequenceService = productSkuPropertySequenceService;
         return this;
@@ -359,6 +392,7 @@ public class BasicProductModuleService
         return this.totalProductSkuPropertySequenceService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalProductSkuPropertySequenceService(TotalProductSkuPropertySequenceService totalProductSkuPropertySequenceService) {
         this.totalProductSkuPropertySequenceService = totalProductSkuPropertySequenceService;
         return this;
@@ -368,6 +402,7 @@ public class BasicProductModuleService
         return this.skuPropertyValueService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setSkuPropertyValueService(SkuPropertyValueService skuPropertyValueService) {
         this.skuPropertyValueService = skuPropertyValueService;
         return this;
@@ -377,6 +412,7 @@ public class BasicProductModuleService
         return this.totalSkuPropertyValueService;
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
     public BasicProductModuleService setTotalSkuPropertyValueService(TotalSkuPropertyValueService totalSkuPropertyValueService) {
         this.totalSkuPropertyValueService = totalSkuPropertyValueService;
         return this;
