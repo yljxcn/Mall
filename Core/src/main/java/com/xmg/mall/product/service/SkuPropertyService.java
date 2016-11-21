@@ -2,8 +2,12 @@
 package com.xmg.mall.product.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.xmg.mall.base.query.Pagination;
+import com.xmg.mall.product.domain.Product;
 import com.xmg.mall.product.domain.SkuProperty;
+import com.xmg.mall.product.domain.SkuPropertyValue;
 import com.xmg.mall.product.qo.SkuPropertyQuery;
 import com.xmg.mall.product.vo.ExtendedSkuProperty;
 
@@ -20,4 +24,5 @@ public interface SkuPropertyService {
 
     public int countSkuPropertys(SkuPropertyQuery qo);
 
+    List<Map<String,Object>> generateSkus(Long productId, List<SkuProperty> skuProperties, List<SkuPropertyValue> skuPropertyValues);
 }

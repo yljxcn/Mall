@@ -42,8 +42,28 @@
         </div>
     </div>
     <h2>SKU属性 <button type="button" class="btn btn-default addSkuPropertiesTable"><i class="fa fa-fw fa-plus-square-o"></i> 增加</button></h2>
-    <div>
-       <#-- <table class="table table-bordered sku-property-table">
+    <div class="sku-properties-container">
+    </div>
+    <h2>SKU <button type="button" class="btn btn-default generateSkus"><i class="fa fa-fw fa-plus-square-o"></i> 生成</button><button type="button" class="btn btn-default resetSkus"><i class="fa fa-fw fa-plus-square-o"></i> 重置</button></h2>
+    <div class="sku-container">
+    </div>
+    <p class="text-center" style="margin-top: 20px;">
+        <button type="submit" class="btn btn-default">保存</button>
+        <button type="reset" class="btn btn-default">重置</button>
+    </p>
+</form>
+<script id="skuPropertiesTableTemplate" type="text/x-template">
+    <div class="sku-properties">
+        <div class="sku-property-name">
+            <select class="form-control form-control-inline"
+                <option>型号</option>
+                <option>颜色</option>
+                <option>尺寸</option>
+            </select>
+            <a class="js-up" href="javascript:;"><i class="fa fa-fw fa-angle-double-up"></i> 上移</a>
+            <a class="js-down" href="javascript:;"><i class="fa fa-fw fa-angle-double-down"></i> 下移</a>
+        </div>
+        <table class="table table-bordered sku-property-table">
             <thead>
             <tr>
                 <th class="actions-col"></th>
@@ -63,44 +83,8 @@
                 </td>
             </tr>
             </tfoot>
-        </table>-->
-    </div>
-    <p class="text-center" style="margin-top: 20px;">
-        <button type="submit" class="btn btn-default">保存</button>
-        <button type="reset" class="btn btn-default">重置</button>
-    </p>
-</form>
-<script id="skuPropertiesTableTemplate" type="text/x-template">
-    <div class="sku-property-filter">
-        <select class="form-control form-control-inline"
-            <option>型号</option>
-            <option>颜色</option>
-            <option>尺寸</option>
-        </select>
-        <a class="js-up" href="javascript:;"><i class="fa fa-fw fa-angle-double-up"></i> 上移</a>
-        <a class="js-down" href="javascript:;"><i class="fa fa-fw fa-angle-double-down"></i> 下移</a>
-    </div>
-    <table class="table table-bordered sku-property-table">
-        <thead>
-        <tr>
-            <th class="actions-col"></th>
-            <th>名称</th>
-            <th>图片</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="4">
-                <button type="button" class="btn btn-default js-add">
-                    <i class="fa fa-fw fa-plus-square-o"></i> 增加
-                </button>
-            </td>
-        </tr>
-        </tfoot>
-    </table>
+        </table>
+    <div>
 </script>
 <script id="skuPropertyRowTemplate" type="text/x-template">
     <tr>
@@ -133,30 +117,26 @@
         },
 
         _bindEvents: function () {
-            this.$el
+            this.$table
                 .on('click', '.js-up', this.upPropertyTable.bind(this))
                 .on('click', '.js-down', this.downPropertyTable.bind(this));
         },
 
         upPropertyTable: function (e) {
-            var $currentDiv = $(e.currentTarget).parent('div');
-            var $currentTable = $currentDiv.next('table');
-            var $prevTable = $currentDiv.prev('table');
-            var $prevDive = $prevTable.prev('div');
+            var $currentDiv = $(e.currentTarget).parent('div').parent('div');
+            var $prevDiv= $currentDiv.prev('div');
 
-            if($prevTable.length && $prevDive.length){
-                console.info("上面有")
+            if($prevDiv.length){
+                $prevDiv.before($currentDiv);
             }
         },
 
         downPropertyTable: function (e) {
-            var $currentDiv = $(e.currentTarget).parent('div');
-            var $currentTable = $currentDiv.next('table');
-            var $nextDiv = $currentTable.next('div');
-            var $nextTable = $nextDiv.next('table');
+            var $currentDiv = $(e.currentTarget).parent('div').parent('div');
+            var $nextDiv= $currentDiv.next('div');
 
-            if($nextDiv.length && $nextTable.length){
-                console.info("下面有")
+            if($nextDiv.length){
+                $nextDiv.after($currentDiv);
             }
         }
     };
@@ -164,7 +144,7 @@
 
     function SkuPropertiesTable($el) {
         this.$el = $el;
-        this.$body = this.$el.children('tbody');
+        this.$body = this.$el.children('table').children('tbody');
 
         this.propertyRowTemplate = $('#skuPropertyRowTemplate').html();
 
@@ -190,5 +170,44 @@
     $('.refresh-a').click(function(){
         $('#content_body').load('/sku/toSaveOrUpdate');
         return false;
+    });
+
+    $('.generateSkus').click(function(){
+        var $skuContainer = $('.sku-container');
+        $skuContainer.empty();
+        var obj = {
+            'productId': 1,
+            'skuProperties': [
+                {
+                    'id': 1,
+                    'name': '型号'
+                },
+                {
+                    'id': 2,
+                    'name': '颜色'
+                }
+
+            ],
+            'skuPropertyValues': [
+                {
+                    'value': 'i3',
+                    'skuPropertyId': 1
+                },
+                {
+                    'value': 'i5',
+                    'skuPropertyId': 1
+                },
+                {
+                    'value': '金色',
+                    'skuPropertyId': 2
+                },
+                {
+                    'value': '白色',
+                    'skuPropertyId': 2
+                }
+            ]
+        };
+
+        $skuContainer.load('/skuProperty/generateSkus', JSON.stringify(obj));
     });
 </script>

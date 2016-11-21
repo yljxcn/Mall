@@ -2,17 +2,25 @@ package com.xmg.mall.web.controller.product;
 
 import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
+import com.xmg.mall.product.domain.Product;
+import com.xmg.mall.product.domain.SkuProperty;
+import com.xmg.mall.product.domain.SkuPropertyValue;
 import com.xmg.mall.product.qo.ProductQuery;
 import com.xmg.mall.product.qo.SkuPropertyQuery;
 import com.xmg.mall.product.service.ProductService;
 import com.xmg.mall.product.service.SkuPropertyService;
 import com.xmg.mall.product.vo.ExtendedProduct;
+import com.xmg.mall.product.vo.ExtendedSku;
 import com.xmg.mall.product.vo.ExtendedSkuProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lony on 2016/11/9.
@@ -47,4 +55,11 @@ public class SkuPropertyController {
         return "product/skuProperty_add_or_update";
     }
 
+    @RequestMapping("/generateSkus")
+    public String generateSkus(Model model, @RequestParam(value = "productId")Long productId, @RequestParam(value = "skuProperties")List<SkuProperty> skuProperties, @RequestParam(value = "skuPropertyValues")List<SkuPropertyValue> skuPropertyValues) {
+        List<Map<String, Object>> skus = skuPropertyService.generateSkus(productId, skuProperties, skuPropertyValues);
+        model.addAttribute("skuProperties", skuProperties);
+        model.addAttribute("skus", skus);
+        return "product/sku_table";
+    }
 }
