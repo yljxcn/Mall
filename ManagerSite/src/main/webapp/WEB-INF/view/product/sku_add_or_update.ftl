@@ -176,8 +176,7 @@
         $skuContainer.empty();
 
         var $skuPropertiesDivs = $('.sku-properties');
-        var $skuPropertiesDivlength = $skuPropertiesDivs.length;
-        if(!$skuPropertiesDivlength){
+        if(!$skuPropertiesDivs.length){
             alert('未有添加 SKU 属性');
             return;
         }
@@ -185,24 +184,23 @@
         var skuPropertiesArray = [];
         var skuPropertyValuesArray = [];
 
-        for(var i = 0; i < $skuPropertiesDivlength; i++){
-            var $skuPropertiesDiv = $($skuPropertiesDivs[i]);
-            var $skuPropertySelect = $skuPropertiesDiv.find('select');
+        $skuPropertiesDivs.each(function(i){
+            var $skuPropertySelect = $(this).find('select');
             var $skuPropertyOption = $skuPropertySelect.find('option:selected');
 
             skuPropertiesArray.push({'id': $skuPropertySelect.val(), 'name': $skuPropertyOption.html()});
 
-            var $skuPropertyValueInput = $skuPropertiesDiv.find('input.sku-property-value');
-            var skuPropertyValueInputLength = $skuPropertyValueInput.length;
-            if(!skuPropertyValueInputLength){
+            var $skuPropertyValueInputs = $(this).find('input.sku-property-value');
+            if(!$skuPropertyValueInputs.length){
                 alert('未有添加 SKU 属性值');
                 return;
             }
 
-            for(var j = 0; j < skuPropertyValueInputLength; j++){
-                skuPropertyValuesArray.push({'value': $($skuPropertyValueInput[j]).val(), 'skuPropertyId': $skuPropertySelect.val()});
-            }
-        }
+            $skuPropertyValueInputs.each(function(i){
+                skuPropertyValuesArray.push({'value': $(this).val(), 'skuPropertyId': $skuPropertySelect.val()});
+            });
+
+        });
 
         console.info(JSON.stringify(skuPropertiesArray));
         console.info(JSON.stringify(skuPropertyValuesArray));
