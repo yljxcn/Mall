@@ -27,3 +27,8 @@
         </#list>
     </tbody>
 </table>
+<script>
+    $('.sku-table').on('click', '.js-remove', function(){
+        $(this).closest('tr').remove();
+    });
+</script>

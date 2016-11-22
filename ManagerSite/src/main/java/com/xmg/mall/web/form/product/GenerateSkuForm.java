@@ -1,4 +1,4 @@
-package com.xmg.mall.product.form;
+package com.xmg.mall.web.form.product;
 
 import com.xmg.mall.product.domain.SkuProperty;
 import com.xmg.mall.product.domain.SkuPropertyValue;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by lony on 2016/11/21.
  */
-public class GenerateSkuForm{
+public class GenerateSkuForm {
     private Long productId;
     private List<SkuProperty> skuProperties;
     private List<SkuPropertyValue> skuPropertyValues;

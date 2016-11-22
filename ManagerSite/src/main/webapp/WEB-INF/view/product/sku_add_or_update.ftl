@@ -41,10 +41,10 @@
             </div>
         </div>
     </div>
-    <h2>SKU属性 <button type="button" class="btn btn-default addSkuPropertiesTable"><i class="fa fa-fw fa-plus-square-o"></i> 增加</button></h2>
+    <h2>SKU 属性 <button type="button" class="btn btn-default addSkuPropertiesTable"><i class="fa fa-fw fa-plus-square-o"></i> 增加</button></h2>
     <div class="sku-properties-container">
     </div>
-    <h2>SKU <button type="button" class="btn btn-default generateSkus"><i class="fa fa-fw fa-rotate-right"></i> 生成</button><button type="button" class="btn btn-default resetSkus"><i class="fa fa-fw fa-eraser"></i> 重置</button></h2>
+    <h2>SKU <button type="button" class="btn btn-default generateSkus"><i class="fa fa-fw fa-rotate-right"></i> 生成</h2>
     <div class="sku-container">
     </div>
     <p class="text-center" style="margin-top: 20px;">
@@ -55,10 +55,9 @@
 <script id="skuPropertiesTableTemplate" type="text/x-template">
     <div class="sku-properties">
         <div class="sku-property-name">
-            <select class="form-control form-control-inline"
-                <option>型号</option>
-                <option>颜色</option>
-                <option>尺寸</option>
+            <select class="form-control form-control-inline">
+                <option value="1">处理器</option>
+                <option value="2">颜色</option>
             </select>
             <a class="js-up" href="javascript:;"><i class="fa fa-fw fa-angle-double-up"></i> 上移</a>
             <a class="js-down" href="javascript:;"><i class="fa fa-fw fa-angle-double-down"></i> 下移</a>
@@ -67,7 +66,7 @@
             <thead>
             <tr>
                 <th class="actions-col"></th>
-                <th>名称</th>
+                <th>值</th>
                 <th>图片</th>
             </tr>
             </thead>
@@ -93,7 +92,7 @@
                 <i class="fa fa-fw fa-minus-square-o"></i> 移除
             </button>
         </td>
-        <td><input class="form-control"></td>
+        <td><input class="form-control sku-property-value"></td>
         <td><input type="file"></td>
     </tr>
 </script>
@@ -175,37 +174,43 @@
     $('.generateSkus').click(function(){
         var $skuContainer = $('.sku-container');
         $skuContainer.empty();
+
+        var $skuPropertiesDivs = $('.sku-properties');
+        var $skuPropertiesDivlength = $skuPropertiesDivs.length;
+        if(!$skuPropertiesDivlength){
+            alert('未有添加 SKU 属性');
+            return;
+        }
+
+        var skuPropertiesArray = [];
+        var skuPropertyValuesArray = [];
+
+        for(var i = 0; i < $skuPropertiesDivlength; i++){
+            var $skuPropertiesDiv = $($skuPropertiesDivs[i]);
+            var $skuPropertySelect = $skuPropertiesDiv.find('select');
+            var $skuPropertyOption = $skuPropertySelect.find('option:selected');
+
+            skuPropertiesArray.push({'id': $skuPropertySelect.val(), 'name': $skuPropertyOption.html()});
+
+            var $skuPropertyValueInput = $skuPropertiesDiv.find('input.sku-property-value');
+            var skuPropertyValueInputLength = $skuPropertyValueInput.length;
+            if(!skuPropertyValueInputLength){
+                alert('未有添加 SKU 属性值');
+                return;
+            }
+
+            for(var j = 0; j < skuPropertyValueInputLength; j++){
+                skuPropertyValuesArray.push({'value': $($skuPropertyValueInput[j]).val(), 'skuPropertyId': $skuPropertySelect.val()});
+            }
+        }
+
+        console.info(JSON.stringify(skuPropertiesArray));
+        console.info(JSON.stringify(skuPropertyValuesArray));
+
         var obj = {
             'productId': 1,
-            'skuProperties': [
-                {
-                    'id': 1,
-                    'name': '型号'
-                },
-                {
-                    'id': 2,
-                    'name': '颜色'
-                }
-
-            ],
-            'skuPropertyValues': [
-                {
-                    'value': 'i3',
-                    'skuPropertyId': 1
-                },
-                {
-                    'value': 'i5',
-                    'skuPropertyId': 1
-                },
-                {
-                    'value': '金色',
-                    'skuPropertyId': 2
-                },
-                {
-                    'value': '白色',
-                    'skuPropertyId': 2
-                }
-            ]
+            'skuProperties': skuPropertiesArray,
+            'skuPropertyValues': skuPropertyValuesArray
         };
 
         $.ajax({
@@ -218,5 +223,6 @@
         }).done(function (data) {
             $skuContainer.html(data);
         });
+
     });
 </script>
