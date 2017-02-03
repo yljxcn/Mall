@@ -62,10 +62,18 @@
                 <version>2.3.20</version>
             </dependency>
 
-            <dependency><!-- needed for freemarker FreeMarkerConfigurer stuff -->
+            <!-- needed for freemarker FreeMarkerConfigurer stuff -->
+            <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context-support</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+
+            <!-- SpringMVC 上传使用依赖 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>com.springsource.org.apache.commons.fileupload</artifactId>
+                <version>1.2.0</version>
             </dependency>
 
         </dependencies>

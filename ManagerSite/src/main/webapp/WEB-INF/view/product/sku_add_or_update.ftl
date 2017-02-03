@@ -97,6 +97,10 @@
     </tr>
 </script>
 <script>
+    $('.refresh-a').click(function(){
+        $('#content_body').load('/sku/toSaveOrUpdate');
+        return false;
+    });
 
     $('.addSkuPropertiesTable').click(function(){
         new SkuPropertiesTableDiv($(this).parent('h2').next('div'));
@@ -165,11 +169,6 @@
             $(e.currentTarget).closest('tr').remove();
         }
     };
-
-    $('.refresh-a').click(function(){
-        $('#content_body').load('/sku/toSaveOrUpdate');
-        return false;
-    });
 
     $('.generateSkus').click(function(){
         var $skuContainer = $('.sku-container');

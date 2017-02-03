@@ -1,6 +1,13 @@
 package com.xmg.mall.base.domain;
 
+/**
+ * &：参与运算的两个数，若相应位数的值都为1，则该位结果值是1，否则是0。
 
+ |：参与运算的两个数相应位中只要有一个1，结果就是1。
+
+ ^：参与运算的两个数相应位相同则结果为0，否则为1。
+
+ */
 public class Mod {
 
 	public static boolean hasMod(Long mods, long mod){

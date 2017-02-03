@@ -4,8 +4,8 @@
             添加分类
         </h1>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cubes"></i> 商品</a></li>
-            <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-navicon""></i> 分类</a></li>
+            <li class="breadcrumb-item"><a href="javascript:;"><i class="fa fa-fw fa-cubes"></i> 商品</a></li>
+            <li class="breadcrumb-item"><a href="javascript:;"><i class="fa fa-fw fa-navicon""></i> 分类</a></li>
             <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 添加分类</li>
             <li class="pull-right no-divider"><a href="javascript:;" class="refresh-a"><i class="fa fa-fw fa-refresh"></i> 刷新</a></li>
         </ol>

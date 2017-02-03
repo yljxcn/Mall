@@ -8,10 +8,9 @@ import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class HardDiskFileUploader implements FileUploader {
-
-	private String mappingUrlPrefix = "/files"; //
 
 	private String baseDirectory;			//
 	private String[] validFileExtensions; 	// 合法文件扩展名
@@ -48,13 +47,13 @@ public class HardDiskFileUploader implements FileUploader {
 	}
 
 	@Override
-	public String upload(UploadFile file) throws IOException {
+	public String upload(CommonsMultipartFile file) throws IOException {
 		return upload(null, file);
 	}
 
 
 	@Override
-	public String upload(String name, UploadFile file) throws IOException {
+	public String upload(String name, CommonsMultipartFile file) throws IOException {
 
 		if (file == null) throw new IllegalArgumentException("必须指定所上传的文件");
 
@@ -65,7 +64,7 @@ public class HardDiskFileUploader implements FileUploader {
 		if (name == null) name = UUID.randomUUID().toString();
 
 
-		String filename = file.getName();
+		String filename = file.getOriginalFilename();
 		String extension = FilenameUtils.getExtension(filename);
 
 		boolean validExtension = FilenameUtils.isExtension(filename, validFileExtensions);
@@ -84,17 +83,20 @@ public class HardDiskFileUploader implements FileUploader {
 		IOUtils.closeQuietly(fos);
 		IOUtils.closeQuietly(is);
 
-		return FilenameUtils.separatorsToUnix(mappingUrlPrefix + baseFile);
+		return getMappingUrlPrefix(baseDirectory) + baseFile;
 
 	}
 
 	@Override
 	public void delete(String filename) {
-		filename = filename.substring(mappingUrlPrefix.length());
-		File destFile = new File(baseDirectory, filename);
+		File destFile = new File(baseDirectory + filename.substring(getMappingUrlPrefix(baseDirectory).length()));
 
 		if(!destFile.exists())
 			return;
 		destFile.delete();
+	}
+
+	private String getMappingUrlPrefix(String baseDirectory){
+		return baseDirectory.substring(baseDirectory.lastIndexOf("/"));
 	}
 }

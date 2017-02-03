@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import com.xmg.mall.base.exception.StaleObjectStateException;
 import com.xmg.mall.base.query.Pagination;
+import com.xmg.mall.base.upload.FileUploader;
 import com.xmg.mall.product.domain.Brand;
 import com.xmg.mall.product.mapper.BrandMapper;
 import com.xmg.mall.product.qo.BrandQuery;
@@ -20,6 +21,12 @@ public class BasicBrandService
 {
 
     private BrandMapper brandMapper;
+    private FileUploader fileUploader;
+
+    @Autowired
+    public void setFileUploader(FileUploader fileUploader) {
+        this.fileUploader = fileUploader;
+    }
 
     @Autowired
     public void setBrandMapper(BrandMapper brandMapper) {
@@ -69,4 +76,16 @@ public class BasicBrandService
         return brandMapper.count(qo);
     }
 
+    @Override
+    public void save(Brand brand) {
+        brandMapper.add(brand);
+    }
+
+    @Override
+    public void update(Brand brand) {
+        String oldLogo = getBrand(brand.getId()).getLogo();
+        updateBrand(brand);
+        // 找到原来 LOGO 删除掉
+        fileUploader.delete(oldLogo);
+    }
 }

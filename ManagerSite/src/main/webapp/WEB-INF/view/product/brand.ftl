@@ -27,13 +27,21 @@
                     $select.attr('name', 'excludeMods')
                 }
             });
+
+//            $('#addBrand').click(function(){
+//                $('#content_body').load('/brand/toSaveOrUpdate');
+//            });
+//            $('#updateBrand').click(function(){
+//                console.info($('tbody#t_body > tr.info').data('id'));
+//                // $('#content_body').load('/brand/toSaveOrUpdate?brandId' + );
+//            });
+
+
         });
     </script>
-
 </head>
 
 <body>
-
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -44,7 +52,7 @@
     </nav>
 
     <div id="page-wrapper">
-        <div class="container-fluid">
+        <div id="content_body" class="container-fluid">
 
             <!-- Page Heading -->
             <div class="row">
@@ -66,10 +74,10 @@
                     <button type="button" class="btn btn-success">Success</button>
                     <button type="button" class="btn btn-info">Info</button>
                     <button type="button" class="btn btn-warning">Warning</button>-->
-                    <button type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
-                    <button type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
-                    <button type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addOrUpdate">模态框</button>
+                    <button id="add" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
+                    <button id="update" type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
+                    <button type="delete" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
+                    <#--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addOrUpdate">模态框</button>-->
                 </div>
                 <div class="col-lg-3 text-right">
                     <button id="search-link" type="button" class="btn btn-default"><i class="fa fa-fw fa-search"></i> 搜索</button>

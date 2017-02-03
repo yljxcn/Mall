@@ -22,7 +22,9 @@
 		<property name="maxFileSize" value="#{BASE_PROPS['upload.disk.maxFileSize']}" />
 		<property name="namespace" value="#{BASE_PROPS['upload.disk.namespace']}" />
 	</bean>
-	
+
+	<bean id="imageHardDiskFileUploader" class="com.xmg.mall.base.upload.ImageHardDiskFileUploader" parent="hardDiskFileUploader"/>
+
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
 		<property name="driverClassName" value="#{JDBC_PROPS['jdbc.driver']}" />
 		<property name="url" value="#{JDBC_PROPS['jdbc.url']}" />

@@ -16,6 +16,10 @@ public class BasicDomain implements Serializable {
 		version += 1;
 	}
 
+	public static void main(String[] args) {
+
+	}
+
 	public Long getId() {
 		return id;
 	}

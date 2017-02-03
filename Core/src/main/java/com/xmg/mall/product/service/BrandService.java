@@ -20,4 +20,8 @@ public interface BrandService {
 
     public int countBrands(BrandQuery qo);
 
+    public void save(Brand brand);
+
+    public void update(Brand brand);
+
 }

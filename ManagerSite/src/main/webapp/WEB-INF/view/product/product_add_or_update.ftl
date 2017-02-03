@@ -184,7 +184,9 @@
     </p>
 </form>
 <script>
-    CKEDITOR.replace('editor01');
+    var editor = CKEDITOR.replace('editor01');
+    editor.setData("XXX");
+    console.info(editor.getData());
 
     $(".image-div .js-upload").uploadify({
         height        : 30,

@@ -6,7 +6,7 @@
             <th>创立时间</th>
             <th>中文名</th>
             <th>英文名</th>
-            <th>是否可见</th>
+            <th>可见</th>
         </tr>
         </thead>
         <tbody id="t_body">
