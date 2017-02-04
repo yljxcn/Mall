@@ -24,4 +24,6 @@ public interface BrandService {
 
     public void update(Brand brand);
 
+    public void delete(Long id);
+
 }

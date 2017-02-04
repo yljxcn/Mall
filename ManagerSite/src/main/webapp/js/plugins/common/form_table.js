@@ -56,6 +56,13 @@ function initFormAndTable(options){
         if(id)
             $('#content_body').load(options.tOAddOrUpdateUrl + '?id=' + id);
     });
+
+    // 为删除按钮注册事件
+    $('#delete').click(function(){
+        var id = $('#' + options.tableId).find('tr.info').data('id');
+        if(id)
+            window.location.href = options.deleteUrl + '?id=' + id;
+    });
 }
 
 // 一些默认设置
@@ -65,6 +72,7 @@ initFormAndTable.defaults = {
     tableId: 't_table',
     url: '/brand/list',
     tOAddOrUpdateUrl: '/brand/toSaveOrUpdate',
+    deleteUrl: '/brand/delete',
     searchLinkId: 'search-link',
     dateInputClass: 'form_datetime',
     pageInputId: 'currentPage'

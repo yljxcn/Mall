@@ -76,7 +76,7 @@
                     <button type="button" class="btn btn-warning">Warning</button>-->
                     <button id="add" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
                     <button id="update" type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
-                    <button type="delete" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
+                    <button id="delete" type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
                     <#--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addOrUpdate">模态框</button>-->
                 </div>
                 <div class="col-lg-3 text-right">

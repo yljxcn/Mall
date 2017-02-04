@@ -6,6 +6,7 @@ import com.xmg.mall.base.upload.FileUploader;
 import com.xmg.mall.product.domain.Brand;
 import com.xmg.mall.product.qo.BrandQuery;
 import com.xmg.mall.product.service.BrandService;
+import com.xmg.mall.product.service.ProductModuleService;
 import com.xmg.mall.product.vo.ExtendedBrand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 public class BrandController {
 
     private BrandService brandService;
-
     private FileUploader fileUploader;
 
     @Autowired
@@ -70,6 +70,16 @@ public class BrandController {
            } else {
                brandService.update(brand);
            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "redirect:/brand/page";
+    }
+
+    @RequestMapping("/delete")
+    public String delete(Model model, Long id) { // 不想 SpringMVC 自动封装实体对象 brand 中的 logo 属性，传参数的时候避免出入与属性名一样的参数，再另外用一个参数接收
+        try{
+           brandService.delete(id);
         }catch (Exception e){
             e.printStackTrace();
         }

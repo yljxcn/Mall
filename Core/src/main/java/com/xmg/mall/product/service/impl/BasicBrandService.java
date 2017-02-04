@@ -88,4 +88,18 @@ public class BasicBrandService
         // 找到原来 LOGO 删除掉
         fileUploader.delete(oldLogo);
     }
+
+    @Override
+    public void delete(Long id) {
+        if(id == null)
+            throw new IllegalArgumentException("品牌 id 不能为空");
+
+        Brand brand = getBrand(id);
+        if(brand == null)
+            throw new IllegalStateException("此品牌不存在");
+
+        // TODO 当品牌已被关联是不能被删除的
+
+        brandMapper.delete(id);
+    }
 }
