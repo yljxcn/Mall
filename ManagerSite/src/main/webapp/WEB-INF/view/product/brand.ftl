@@ -27,16 +27,6 @@
                     $select.attr('name', 'excludeMods')
                 }
             });
-
-//            $('#addBrand').click(function(){
-//                $('#content_body').load('/brand/toSaveOrUpdate');
-//            });
-//            $('#updateBrand').click(function(){
-//                console.info($('tbody#t_body > tr.info').data('id'));
-//                // $('#content_body').load('/brand/toSaveOrUpdate?brandId' + );
-//            });
-
-
         });
     </script>
 </head>

@@ -51,6 +51,8 @@
 <!-- Menu JavaScript -->
 <script type="text/javascript" src="/js/plugins/common/menu.js" ></script>
 <script type="text/javascript" src="/js/plugins/common/form_table.js" ></script>
+<script type="text/javascript" src="/js/plugins/common/pagination.js" ></script>
+<script type="text/javascript" src="/js/plugins/common/tr_selected.js" ></script>
 
 <!-- Morris Charts JavaScript
 <script src="/js/plugins/morris/raphael.min.js"></script>
