@@ -8,14 +8,14 @@ public class ExtendedCatalogPropertyValue
 {
 
     private final static long serialVersionUID = 1L;
-    protected com.xmg.mall.product.domain.CatalogProperty catalog;
+    protected com.xmg.mall.product.domain.CatalogProperty catalogProperty;
 
-    public com.xmg.mall.product.domain.CatalogProperty getCatalog() {
-        return this.catalog;
+    public com.xmg.mall.product.domain.CatalogProperty getCatalogProperty() {
+        return this.catalogProperty;
     }
 
-    public ExtendedCatalogPropertyValue setCatalog(com.xmg.mall.product.domain.CatalogProperty catalog) {
-        this.catalog = catalog;
+    public ExtendedCatalogPropertyValue setCatalogProperty(com.xmg.mall.product.domain.CatalogProperty catalogProperty) {
+        this.catalogProperty = catalogProperty;
         return this;
     }
 

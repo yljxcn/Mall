@@ -64,7 +64,7 @@
       <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
     </if>
     <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
-      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" OR ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
     </if>
     <if test="catalogQuery != null &amp;&amp; joinCatalog">
       <if test="catalogQuery.ids != null">AND catalog.id IN
@@ -96,7 +96,7 @@
         <foreach collection="brandQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">brand.mods &amp; #{mod } = 0</foreach>
       </if>
       <if test="brandQuery.includeMods != null &amp;&amp; brandQuery.excludeMods == null ">AND 
-        <foreach collection="brandQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">brand.mods &amp; #{mod } &lt;&gt; 0</foreach>
+        <foreach collection="brandQuery.includeMods" item="mod" open="(" close=")" separator=" OR ">brand.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
     </if>
   </sql>

@@ -20,4 +20,5 @@ public interface CatalogPropertyValueService {
 
     public int countCatalogPropertyValues(CatalogPropertyValueQuery qo);
 
+    void save(CatalogPropertyValue catalogPropertyValue);
 }

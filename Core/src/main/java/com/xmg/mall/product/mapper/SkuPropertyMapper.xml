@@ -39,7 +39,7 @@
       <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } = 0</foreach>
     </if>
     <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
-      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" OR ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
     </if>
   </sql>
   <sql id="QUERY_WHERE">

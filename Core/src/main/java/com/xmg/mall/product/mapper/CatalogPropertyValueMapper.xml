@@ -7,29 +7,29 @@
     <result property="createdDate" column="createdDate"/>
     <result property="lastModifiedDate" column="lastModifiedDate"/>
     <result property="version" column="version"/>
-    <result property="catalogId" column="catalogId"/>
+    <result property="catalogPropertyId" column="catalogPropertyId"/>
     <result property="value" column="value"/>
     <result property="sequence" column="sequence"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">catalogPropertyValue.id, catalogPropertyValue.createdDate, catalogPropertyValue.lastModifiedDate, catalogPropertyValue.version,catalogPropertyValue.catalogId,catalogPropertyValue.value,catalogPropertyValue.sequence</sql>
-  <sql id="QUERY_COLUMNS">catalogPropertyValue.id, catalogPropertyValue.createdDate, catalogPropertyValue.lastModifiedDate, catalogPropertyValue.version,catalogPropertyValue.catalogId,catalogPropertyValue.value,catalogPropertyValue.sequence</sql>
+  <sql id="BASE_COLUMNS">catalogPropertyValue.id, catalogPropertyValue.createdDate, catalogPropertyValue.lastModifiedDate, catalogPropertyValue.version,catalogPropertyValue.catalogPropertyId,catalogPropertyValue.value,catalogPropertyValue.sequence</sql>
+  <sql id="QUERY_COLUMNS">catalogPropertyValue.id, catalogPropertyValue.createdDate, catalogPropertyValue.lastModifiedDate, catalogPropertyValue.version,catalogPropertyValue.catalogPropertyId,catalogPropertyValue.value,catalogPropertyValue.sequence</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedCatalogPropertyValue" extends="BASE_RESULT">
-    <association property="catalog" column="catalogId" javaType="com.xmg.mall.product.domain.CatalogProperty" columnPrefix="catalog_" resultMap="com.xmg.mall.product.mapper.CatalogPropertyMapper.BASE_RESULT"/>
+    <association property="catalogProperty" column="catalogPropertyId" javaType="com.xmg.mall.product.domain.CatalogProperty" columnPrefix="catalogProperty_" resultMap="com.xmg.mall.product.mapper.CatalogPropertyMapper.BASE_RESULT"/>
   </resultMap>
   <sql id="JOIN_COLUMNS">
-    <if test="joinCatalog != null">, catalog.id AS catalog_id, catalog.name AS catalog_name</if>
+    <if test="joinCatalogProperty != null">, catalogProperty.id AS catalogProperty_id, catalogProperty.name AS catalogProperty_name</if>
   </sql>
   <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
     <include refid="BASE_COLUMNS"/> FROM `CatalogPropertyValue` catalogPropertyValue WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `CatalogPropertyValue` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.CatalogPropertyValue" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `CatalogPropertyValue`(id, createdDate, version,catalogId,value,sequence) VALUES(#{id }, #{createdDate}, 0, #{catalogId }, #{value }, #{sequence })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.CatalogPropertyValue" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `CatalogPropertyValue`(id, createdDate, version,catalogPropertyId,value,sequence) VALUES(#{id }, #{createdDate}, 0, #{catalogPropertyId }, #{value }, #{sequence })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.CatalogPropertyValue">UPDATE `CatalogPropertyValue`
-    <set>lastModifiedDate = now(), version = version + 1, catalogId = #{catalogId }, value = #{value }, sequence = #{sequence }</set>
+    <set>lastModifiedDate = now(), version = version + 1, catalogPropertyId = #{catalogPropertyId }, value = #{value }, sequence = #{sequence }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN">
-    <if test="joinCatalog != null">${joinCatalog.name} `CatalogProperty` catalog ON catalog.id = catalogPropertyValue.catalogId</if>
+    <if test="joinCatalogProperty != null">${joinCatalogProperty.name} `CatalogProperty` catalogProperty ON catalogProperty.id = catalogPropertyValue.catalogPropertyId</if>
   </sql>
   <sql id="QUERY_WHERE_SQL">
     <if test="ids != null">AND catalogPropertyValue.id IN
@@ -37,23 +37,23 @@
     </if>
     <if test="startCreatedDate != null">AND catalogPropertyValue.createdDate &gt;= #{startCreatedDate }</if>
     <if test="endCreatedDate != null">AND catalogPropertyValue.createdDate &lt;= #{endCreatedDate }</if>
-    <if test="catalogId != null">AND catalogPropertyValue.catalogId = #{catalogId}</if>
+    <if test="catalogPropertyId != null">AND catalogPropertyValue.catalogPropertyId = #{catalogPropertyId}</if>
     <if test="value != null">AND catalogPropertyValue.value = #{value}</if>
     <if test="likeValue != null">AND catalogPropertyValue.value LIKE CONCAT(#{likeValue} ,'%')</if>
-    <if test="catalogQuery != null &amp;&amp; joinCatalog">
-      <if test="catalogQuery.ids != null">AND catalog.id IN
-        <foreach collection="catalogQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    <if test="catalogPropertyQuery != null &amp;&amp; joinCatalogProperty">
+      <if test="catalogPropertyQuery.ids != null">AND catalogProperty.id IN
+        <foreach collection="catalogPropertyQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
       </if>
-      <if test="catalogQuery.startCreatedDate != null">AND catalog.createdDate &gt;= #{catalogQuery.startCreatedDate }</if>
-      <if test="catalogQuery.endCreatedDate != null">AND catalog.createdDate &lt;= #{catalogQuery.endCreatedDate }</if>
-      <if test="catalogQuery.catalogId != null">AND catalog.catalogId = #{catalogQuery.catalogId}</if>
-      <if test="catalogQuery.name != null">AND catalog.name = #{catalogQuery.name}</if>
-      <if test="catalogQuery.likeName != null">AND catalog.name LIKE CONCAT(#{catalogQuery.likeName} ,'%')</if>
-      <if test="catalogQuery.excludeTypes != null">AND catalog.type NOT IN
-        <foreach collection="catalogQuery.excludeTypes" item="type" open="(" close=")" separator=", ">#{type }</foreach>
+      <if test="catalogPropertyQuery.startCreatedDate != null">AND catalogProperty.createdDate &gt;= #{catalogPropertyQuery.startCreatedDate }</if>
+      <if test="catalogPropertyQuery.endCreatedDate != null">AND catalogProperty.createdDate &lt;= #{catalogPropertyQuery.endCreatedDate }</if>
+      <if test="catalogPropertyQuery.catalogId != null">AND catalogProperty.catalogId = #{catalogPropertyQuery.catalogId}</if>
+      <if test="catalogPropertyQuery.name != null">AND catalogProperty.name = #{catalogPropertyQuery.name}</if>
+      <if test="catalogPropertyQuery.likeName != null">AND catalogProperty.name LIKE CONCAT(#{catalogPropertyQuery.likeName} ,'%')</if>
+      <if test="catalogPropertyQuery.excludeTypes != null">AND catalogProperty.type NOT IN
+        <foreach collection="catalogPropertyQuery.excludeTypes" item="type" open="(" close=")" separator=", ">#{type }</foreach>
       </if>
-      <if test="catalogQuery.includeTypes != null &amp;&amp; catalogQuery.excludeTypes == null">AND catalog.type IN
-        <foreach collection="catalogQuery.includeTypes" item="type" open="(" close=")" separator=", ">#{type }</foreach>
+      <if test="catalogPropertyQuery.includeTypes != null &amp;&amp; catalogPropertyQuery.excludeTypes == null">AND catalogProperty.type IN
+        <foreach collection="catalogPropertyQuery.includeTypes" item="type" open="(" close=")" separator=", ">#{type }</foreach>
       </if>
     </if>
   </sql>

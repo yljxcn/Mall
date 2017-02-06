@@ -77,7 +77,7 @@ public class BrandController {
     }
 
     @RequestMapping("/delete")
-    public String delete(Model model, Long id) { // 不想 SpringMVC 自动封装实体对象 brand 中的 logo 属性，传参数的时候避免出入与属性名一样的参数，再另外用一个参数接收
+    public String delete(Model model, Long id) {
         try{
            brandService.delete(id);
         }catch (Exception e){

@@ -79,7 +79,7 @@
             <div class="form-group">
                 <label>LOGO</label>
                 <input type="file" name="file" accept="image/*" onchange="loadFile(event)">
-                <img id="output" height="50%" width="50%" src="${(brand.logo)!""}">
+                <img id="output" height="30%" width="30%" src="${(brand.logo)!""}">
             </div>
         </div>
     </div>

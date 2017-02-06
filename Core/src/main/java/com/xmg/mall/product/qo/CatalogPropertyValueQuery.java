@@ -8,12 +8,12 @@ public class CatalogPropertyValueQuery
     extends QueryCondition
 {
 
-    protected com.xmg.mall.base.query.JoinType joinCatalog;
-    protected CatalogPropertyQuery catalogQuery;
+    protected com.xmg.mall.base.query.JoinType joinCatalogProperty;
+    protected CatalogPropertyQuery catalogPropertyQuery;
     protected Long[] ids;
     protected Date startCreatedDate;
     protected Date endCreatedDate;
-    protected Long catalogId;
+    protected Long catalogPropertyId;
     protected String value;
     protected String likeValue;
 
@@ -21,26 +21,26 @@ public class CatalogPropertyValueQuery
         return (this.ids.length!= 0);
     }
 
-    public com.xmg.mall.base.query.JoinType getJoinCatalog() {
-        return this.joinCatalog;
+    public com.xmg.mall.base.query.JoinType getJoinCatalogProperty() {
+        return this.joinCatalogProperty;
     }
 
-    public CatalogPropertyValueQuery setJoinCatalog(com.xmg.mall.base.query.JoinType joinCatalog) {
-        this.joinCatalog = joinCatalog;
+    public CatalogPropertyValueQuery setJoinCatalogProperty(com.xmg.mall.base.query.JoinType joinCatalogProperty) {
+        this.joinCatalogProperty = joinCatalogProperty;
         return this;
     }
 
-    public CatalogPropertyQuery getCatalogQuery() {
-        return this.catalogQuery;
+    public CatalogPropertyQuery getCatalogPropertyQuery() {
+        return this.catalogPropertyQuery;
     }
 
-    public CatalogPropertyValueQuery setCatalogQuery(CatalogPropertyQuery catalogQuery) {
-        this.catalogQuery = catalogQuery;
+    public CatalogPropertyValueQuery setCatalogPropertyQuery(CatalogPropertyQuery catalogPropertyQuery) {
+        this.catalogPropertyQuery = catalogPropertyQuery;
         return this;
     }
 
-    public CatalogPropertyValueQuery setJoinCatalog() {
-        this.setJoinCatalog(com.xmg.mall.base.query.JoinType.LEFT);
+    public CatalogPropertyValueQuery setJoinCatalogProperty() {
+        this.setJoinCatalogProperty(com.xmg.mall.base.query.JoinType.LEFT);
         return this;
     }
 
@@ -71,12 +71,12 @@ public class CatalogPropertyValueQuery
         return this;
     }
 
-    public Long getCatalogId() {
-        return this.catalogId;
+    public Long getCatalogPropertyId() {
+        return this.catalogPropertyId;
     }
 
-    public CatalogPropertyValueQuery setCatalogId(Long catalogId) {
-        this.catalogId = catalogId;
+    public CatalogPropertyValueQuery setCatalogPropertyId(Long catalogPropertyId) {
+        this.catalogPropertyId = catalogPropertyId;
         return this;
     }
 

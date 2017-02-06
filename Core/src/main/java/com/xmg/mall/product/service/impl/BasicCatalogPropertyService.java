@@ -69,4 +69,9 @@ public class BasicCatalogPropertyService
         return catalogPropertyMapper.count(qo);
     }
 
+    @Override
+    public void save(CatalogProperty catalogProperty) {
+        catalogPropertyMapper.add(catalogProperty);
+    }
+
 }

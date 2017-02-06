@@ -7,9 +7,14 @@ import java.util.List;
 import com.xmg.mall.base.exception.StaleObjectStateException;
 import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.product.domain.Catalog;
+import com.xmg.mall.product.domain.CatalogProperty;
+import com.xmg.mall.product.domain.CatalogPropertyValue;
 import com.xmg.mall.product.mapper.CatalogMapper;
 import com.xmg.mall.product.qo.CatalogQuery;
+import com.xmg.mall.product.service.CatalogPropertyService;
+import com.xmg.mall.product.service.CatalogPropertyValueService;
 import com.xmg.mall.product.service.CatalogService;
+import com.xmg.mall.product.service.ProductModuleService;
 import com.xmg.mall.product.vo.ExtendedCatalog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +25,16 @@ public class BasicCatalogService
 {
 
     private CatalogMapper catalogMapper;
+    private ProductModuleService productModuleService;
 
     @Autowired
     public void setCatalogMapper(CatalogMapper catalogMapper) {
         this.catalogMapper = catalogMapper;
+    }
+
+    @Autowired
+    public void setProductModuleService(ProductModuleService productModuleService) {
+        this.productModuleService = productModuleService;
     }
 
     @Override
@@ -67,6 +78,51 @@ public class BasicCatalogService
     @Override
     public int countCatalogs(CatalogQuery qo) {
         return catalogMapper.count(qo);
+    }
+
+    @Override
+    public void save(Catalog catalog, List<CatalogProperty> catalogProperties, List<CatalogPropertyValue> catalogPropertyValues) {
+        // TODO 参数验证
+        // 保存分类
+        catalogMapper.add(catalog);
+
+        // 保存分类属性
+        for (int i = 0; i < catalogProperties.size(); i++) {
+            CatalogProperty catalogProperty = catalogProperties.get(i);
+            catalogProperty.setCatalogId(catalog.getId());
+            catalogProperty.setSequence(i);
+            productModuleService.getCatalogPropertyService().save(catalogProperty);
+        }
+
+        // 保存分类属性值
+        for (int i = 0; i < catalogPropertyValues.size(); i++) {
+            CatalogPropertyValue catalogPropertyValue = catalogPropertyValues.get(i);
+            CatalogProperty catalogProperty = catalogProperties.get(i);
+            if(catalogProperty.isRelationship()){
+                String values = catalogPropertyValue.getValue();
+                String[] valueArray = values.split(",|，");
+                for (int j = 0; j < valueArray.length; j++) {
+                    CatalogPropertyValue temp = new CatalogPropertyValue();
+                    temp.setSequence(j);
+                    temp.setCatalogPropertyId(catalogProperty.getId());
+                    temp.setValue(valueArray[j]);
+                    productModuleService.getCatalogPropertyValueService().save(temp);
+                }
+            }else {
+                catalogPropertyValue.setCatalogPropertyId(catalogProperty.getId());
+                catalogPropertyValue.setSequence(0);
+                productModuleService.getCatalogPropertyValueService().save(catalogPropertyValue);
+            }
+        }
+    }
+
+    @Override
+    public void update(Catalog catalog, List<CatalogProperty> catalogProperties, List<CatalogPropertyValue> catalogPropertyValues) {
+        // TODO 参数验证
+        catalogMapper.update(catalog);
+
+        // TODO 能否允许删除已被关联的分类属性
+
     }
 
 }

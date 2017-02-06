@@ -11,19 +11,20 @@
         </ol>
     </div>
 </div>
-<form>
+<form action="/catalog/saveOrUpdate" method="post">
+    <input type="hidden" id="catalogId" name="catalog.id" value="">
     <h2>基本属性</h2>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
                 <label>分类名称</label>
-                <input class="form-control">
+                <input class="form-control" name="catalog.name" value="">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>分类编号</label>
-                <input class="form-control">
+                <input class="form-control" name="catalog.code" value="">
             </div>
         </div>
     </div>
@@ -31,34 +32,30 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>上级分类</label>
-                <input class="form-control">
+                <select class="form-control" name="catalog.parentCatalogId">
+                    <#list catalogs as catalog>
+                        <option value="${catalog.id}">${catalog.name}</option>
+                    </#list>
+                        <option value="">无</option>
+                </select>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
-                <label>分类排序</label>
-                <input class="form-control">
+                <label>分类等级</label>
+                <select class="form-control" name="catalog.level">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                </select>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
-                <label>是否显示</label>
-                <div>
-                    <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked>是
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">否
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form-group">
-                <label>分类图片</label>
-                <input type="file">
+                <label>分类排序</label>
+                <input class="form-control" name="catalog.sequence">
             </div>
         </div>
     </div>
@@ -99,18 +96,24 @@
                 <i class="fa fa-fw fa-minus-square-o"></i> 移除
             </button>
         </td>
-        <td><input class="form-control"></td>
         <td>
-            <select name="type" class="form-control js-select-type">
-                <option value="numeric">数值</option>
-                <option value="text">文本</option>
-                <option value="dropdown">下拉列表</option>
+            <input type="hidden" name="catalogProperties[].id">
+            <input class="form-control" name="catalogProperties[].name">
+        </td>
+        <td>
+            <select name="catalogProperties[].type" class="form-control js-select-type">
+                <option value="0">数值</option>
+                <option value="1">文本</option>
+                <option value="2">下拉列表</option>
             </select>
         </td>
-        <td><input class="form-control"></td>
+        <td>
+            <input type="hidden" name="catalogPropertyValues[].id">
+            <input class="form-control" name="catalogPropertyValues[].value">
+        </td>
     </tr>
 </script>
-<script id="catalogPropertyValueTemplate" type="text/x-template">
+<#--<script id="catalogPropertyValueTemplate" type="text/x-template">
     <select multiple class="form-control">
         <option>1</option>
         <option>2</option>
@@ -118,14 +121,14 @@
         <option>4</option>
         <option>5</option>
     </select>
-</script>
+</script>-->
 <script>
     function CatalogPropertiesTable($el) {
         this.$el = $el;
         this.$body = this.$el.children('tbody');
 
         this.propertyRowTemplate = $('#catalogPropertyRowTemplate').html();
-
+        this.rows = 0;
         this._bindEvents();
     }
 
@@ -138,17 +141,19 @@
         },
 
         addPropertyRow: function () {
-            this.$body.append(this.propertyRowTemplate);
+            this.$body.append(this.propertyRowTemplate.replace(/\[\]/g, "[" + this.rows + "]"));
+            this.rows++;
         },
 
         removePropertyRow: function (e) {
             $(e.currentTarget).closest('tr').remove();
+            this.rows--;
         },
 
         updateLastCellPerRow: function (e) {
             var $currentTarget = $(e.currentTarget);
             var $input = $currentTarget.parent('td').next('td').find('input');
-            if($currentTarget.val() == 'dropdown'){
+            if($currentTarget.val() == 2){
                 $input.attr('placeholder', '值以逗号分隔');
             }else{
                 $input.removeAttr('placeholder')
@@ -158,8 +163,19 @@
 
     new CatalogPropertiesTable($('.catalog-property-table'));
 
+
     $('.refresh-a').click(function(){
-        $('#content_body').load('/catalog/toSaveOrUpdate');
+        var catalogId = $('#catalogId').val();
+        if(catalogId){
+            $('#content_body').load('/catalog/toSaveOrUpdate?id=' + catalogId);
+        }else{
+            $('#content_body').load('/catalog/toSaveOrUpdate');
+        }
         return false;
     });
+
+    /*var loadFile = function(event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };*/
 </script>

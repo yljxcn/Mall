@@ -54,7 +54,7 @@
         <foreach collection="skuPropertyQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } = 0</foreach>
       </if>
       <if test="skuPropertyQuery.includeMods != null &amp;&amp; skuPropertyQuery.excludeMods == null ">AND 
-        <foreach collection="skuPropertyQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
+        <foreach collection="skuPropertyQuery.includeMods" item="mod" open="(" close=")" separator=" OR ">skuProperty.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
     </if>
   </sql>

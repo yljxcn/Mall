@@ -43,7 +43,7 @@
       <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">productImage.mods &amp; #{mod } = 0</foreach>
     </if>
     <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
-      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" AND ">productImage.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" OR ">productImage.mods &amp; #{mod } &lt;&gt; 0</foreach>
     </if>
     <if test="productQuery != null &amp;&amp; joinProduct">
       <if test="productQuery.ids != null">AND product.id IN
@@ -56,7 +56,7 @@
         <foreach collection="productQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } = 0</foreach>
       </if>
       <if test="productQuery.includeMods != null &amp;&amp; productQuery.excludeMods == null ">AND 
-        <foreach collection="productQuery.includeMods" item="mod" open="(" close=")" separator=" AND ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+        <foreach collection="productQuery.includeMods" item="mod" open="(" close=")" separator=" OR ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
     </if>
   </sql>

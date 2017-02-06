@@ -8,7 +8,7 @@ public class BasicDomain implements Serializable {
 	private static final long serialVersionUID = 0L;
 
 	protected Long id;
-	private Date createdDate;
+	private Date createdDate = new Date();
 	private Date lastModifiedDate;
 	private Integer version = 0;
 

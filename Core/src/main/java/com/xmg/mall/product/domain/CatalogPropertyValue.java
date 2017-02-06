@@ -8,16 +8,16 @@ public class CatalogPropertyValue
 {
 
     private final static long serialVersionUID = 1L;
-    protected Long catalogId;
+    protected Long catalogPropertyId;
     protected String value;
     protected Integer sequence;
 
-    public Long getCatalogId() {
-        return this.catalogId;
+    public Long getCatalogPropertyId() {
+        return this.catalogPropertyId;
     }
 
-    public CatalogPropertyValue setCatalogId(Long catalogId) {
-        this.catalogId = catalogId;
+    public CatalogPropertyValue setCatalogPropertyId(Long catalogPropertyId) {
+        this.catalogPropertyId = catalogPropertyId;
         return this;
     }
 
