@@ -71,7 +71,7 @@ public class BasicCatalogPropertyValueService
 
     @Override
     public void save(CatalogPropertyValue catalogPropertyValue) {
-        catalogPropertyValueMapper.add(catalogPropertyValue);
+        addCatalogPropertyValue(catalogPropertyValue);
     }
 
 }

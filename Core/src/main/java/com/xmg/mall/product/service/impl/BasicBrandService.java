@@ -78,7 +78,7 @@ public class BasicBrandService
 
     @Override
     public void save(Brand brand) {
-        brandMapper.add(brand);
+        addBrand(brand);
     }
 
     @Override

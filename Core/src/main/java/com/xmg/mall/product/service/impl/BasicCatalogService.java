@@ -84,7 +84,8 @@ public class BasicCatalogService
     public void save(Catalog catalog, List<CatalogProperty> catalogProperties, List<CatalogPropertyValue> catalogPropertyValues) {
         // TODO 参数验证
         // 保存分类
-        catalogMapper.add(catalog);
+        // catalogMapper.add(catalog);
+        addCatalog(catalog);
 
         // 保存分类属性
         for (int i = 0; i < catalogProperties.size(); i++) {
