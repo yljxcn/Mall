@@ -12,19 +12,19 @@
     </div>
 </div>
 <form action="/catalog/saveOrUpdate" method="post">
-    <input type="hidden" id="catalogId" name="catalog.id" value="">
+    <input type="hidden" id="catalogId" name="catalog.id" value="${(catalog.id)!""}">
     <h2>基本属性</h2>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
                 <label>分类名称</label>
-                <input class="form-control" name="catalog.name" value="">
+                <input class="form-control" name="catalog.name" value="${(catalog.name)!""}">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>分类编号</label>
-                <input class="form-control" name="catalog.code" value="">
+                <input class="form-control" name="catalog.code" value="${(catalog.code)!""}">
             </div>
         </div>
     </div>
@@ -33,10 +33,23 @@
             <div class="form-group">
                 <label>上级分类</label>
                 <select class="form-control" name="catalog.parentCatalogId">
-                    <#list catalogs as catalog>
-                        <option value="${catalog.id}">${catalog.name}</option>
-                    </#list>
+                    <#if (catalog.id)??>
+                        <#list catalogs as c>
+                            <#if catalog.parentCatalogId == c.id ><#-- 回显上级分类 -->
+                                <option value="${c.id}" selected>${c.name}</option>
+                            <#else>
+                                <option value="${c.id}">${c.name}</option>
+                            </#if>
+                        </#list>
+                        <#if catalog.id??>
+                            <option value="">无</option>
+                        </#if>
+                    <#else>
+                        <#list catalogs as c>
+                            <option value="${c.id}">${c.name}</option>
+                        </#list>
                         <option value="">无</option>
+                    </#if>
                 </select>
             </div>
         </div>
@@ -44,9 +57,9 @@
             <div class="form-group">
                 <label>分类等级</label>
                 <select class="form-control" name="catalog.level">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
+                    <option value="1" ${((catalog.level==1)?string('selected', ''))!""}>1</option>
+                    <option value="2" ${((catalog.level==2)?string('selected', ''))!""}>2</option>
+                    <option value="3" ${((catalog.level==3)?string('selected', ''))!""}>3</option>
                 </select>
             </div>
         </div>
@@ -55,7 +68,7 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>分类排序</label>
-                <input class="form-control" name="catalog.sequence">
+                <input class="form-control" name="catalog.sequence" value="${(catalog.sequence)!""}">
             </div>
         </div>
     </div>
@@ -89,6 +102,7 @@
         <button type="reset" class="btn btn-default">重置</button>
     </p>
 </form>
+<#-- 分类属性行模板 -->
 <script id="catalogPropertyRowTemplate" type="text/x-template">
     <tr>
         <td class="actions-col">
@@ -113,23 +127,49 @@
         </td>
     </tr>
 </script>
-<#--<script id="catalogPropertyValueTemplate" type="text/x-template">
-    <select multiple class="form-control">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select>
-</script>-->
+<#-- 回显分类属性行模板-->
+<#if (catalog.id)??>
+    <script id="echoCatalogPropertyRowTemplate" type="text/x-template">
+        <#list eCatalogPropertyValues as cpv>
+            <tr>
+                <td class="actions-col">
+                    <button type="button" class="btn btn-default js-remove">
+                        <i class="fa fa-fw fa-minus-square-o"></i> 移除
+                    </button>
+                </td>
+                <td>
+                    <input type="hidden" name="catalogProperties[${cpv.catalogProperty.sequence}].id" value="${cpv.catalogProperty.id}">
+                    <input class="form-control" name="catalogProperties[${cpv.catalogProperty.sequence}].name" value="${cpv.catalogProperty.name}">
+                </td>
+                <td>
+                    <select name="catalogProperties[${cpv.catalogProperty.sequence}].type" class="form-control js-select-type">
+                        <option value="0" ${(cpv.catalogProperty.type==0)?string('selected', '')}>数值</option>
+                        <option value="1" ${(cpv.catalogProperty.type==1)?string('selected', '')}>文本</option>
+                        <option value="2" ${(cpv.catalogProperty.type==2)?string('selected', '')}>下拉列表</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="hidden" name="catalogPropertyValues[${cpv.catalogProperty.sequence}].id"> <#--暂时不设置 id 值-->
+                    <input class="form-control" name="catalogPropertyValues[${cpv.catalogProperty.sequence}].value" value="${cpv.value}">
+                    <#--${catalogPropertyMap[key]}-->
+                </td>
+            </tr>
+        </#list>
+    </script>
+</#if>
+
 <script>
     function CatalogPropertiesTable($el) {
         this.$el = $el;
         this.$body = this.$el.children('tbody');
 
         this.propertyRowTemplate = $('#catalogPropertyRowTemplate').html();
-        this.rows = 0;
+        this.rows = 0; // 传多个参数的数组下标
         this._bindEvents();
+        <#if (catalog.id)??>
+            this.initProperyRow();
+            this.rows = ${eCatalogPropertyValues?size};
+        </#if>
     }
 
     CatalogPropertiesTable.prototype = {
@@ -140,7 +180,12 @@
                 .on('change', '.js-select-type', this.updateLastCellPerRow.bind(this));
         },
 
+        initProperyRow: function(){
+            this.$body.append($('#echoCatalogPropertyRowTemplate').html());
+        },
+
         addPropertyRow: function () {
+            // 结合模板来看这个方法
             this.$body.append(this.propertyRowTemplate.replace(/\[\]/g, "[" + this.rows + "]"));
             this.rows++;
         },
@@ -174,8 +219,4 @@
         return false;
     });
 
-    /*var loadFile = function(event) {
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
-    };*/
 </script>

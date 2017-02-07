@@ -17,7 +17,7 @@
     <association property="catalogProperty" column="catalogPropertyId" javaType="com.xmg.mall.product.domain.CatalogProperty" columnPrefix="catalogProperty_" resultMap="com.xmg.mall.product.mapper.CatalogPropertyMapper.BASE_RESULT"/>
   </resultMap>
   <sql id="JOIN_COLUMNS">
-    <if test="joinCatalogProperty != null">, catalogProperty.id AS catalogProperty_id, catalogProperty.name AS catalogProperty_name</if>
+    <if test="joinCatalogProperty != null">, catalogProperty.id AS catalogProperty_id, catalogProperty.name AS catalogProperty_name, catalogProperty.type AS catalogProperty_type, catalogProperty.sequence AS catalogProperty_sequence</if>
   </sql>
   <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
     <include refid="BASE_COLUMNS"/> FROM `CatalogPropertyValue` catalogPropertyValue WHERE id = #{id }

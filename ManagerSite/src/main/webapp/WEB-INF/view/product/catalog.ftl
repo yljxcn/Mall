@@ -13,7 +13,7 @@
     <script>
         $(function(){
             initMenu();
-            initFormAndTable({url:'/catalog/list'});
+            initFormAndTable({url:'/catalog/list',tOAddOrUpdateUrl: '/catalog/toSaveOrUpdate',});
 
             $('.mods-select').change(function(){
                 var $select = $(this);
@@ -28,9 +28,9 @@
                 }
             });
 
-            $('#addCatalog').click(function(){
+           /* $('#addCatalog').click(function(){
                 $('#content_body').load('/catalog/toSaveOrUpdate');
-            });
+            });*/
         });
     </script>
 
@@ -70,9 +70,9 @@
                     <button type="button" class="btn btn-success">Success</button>
                     <button type="button" class="btn btn-info">Info</button>
                     <button type="button" class="btn btn-warning">Warning</button>-->
-                    <button id="addCatalog" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
-                    <button id="updateCatalog" type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
-                    <button type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
+                    <button id="add" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
+                    <button id="update" type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
+                    <button id="" type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
                 </div>
                 <div class="col-lg-3 text-right">
                     <button id="search-link" type="button" class="btn btn-default"><i class="fa fa-fw fa-search"></i> 搜索</button>
