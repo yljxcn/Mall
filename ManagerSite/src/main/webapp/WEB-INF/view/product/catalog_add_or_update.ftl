@@ -151,7 +151,6 @@
                 <td>
                     <input type="hidden" name="catalogPropertyValues[${cpv.catalogProperty.sequence}].id"> <#--暂时不设置 id 值-->
                     <input class="form-control" name="catalogPropertyValues[${cpv.catalogProperty.sequence}].value" value="${cpv.value}">
-                    <#--${catalogPropertyMap[key]}-->
                 </td>
             </tr>
         </#list>

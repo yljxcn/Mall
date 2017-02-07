@@ -4,16 +4,11 @@ import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
 import com.xmg.mall.base.query.QueryCondition;
 import com.xmg.mall.product.domain.Catalog;
-import com.xmg.mall.product.domain.CatalogProperty;
-import com.xmg.mall.product.domain.CatalogPropertyValue;
-import com.xmg.mall.product.qo.BrandQuery;
 import com.xmg.mall.product.qo.CatalogPropertyQuery;
 import com.xmg.mall.product.qo.CatalogPropertyValueQuery;
 import com.xmg.mall.product.qo.CatalogQuery;
-import com.xmg.mall.product.service.BrandService;
 import com.xmg.mall.product.service.CatalogService;
 import com.xmg.mall.product.service.ProductModuleService;
-import com.xmg.mall.product.vo.ExtendedBrand;
 import com.xmg.mall.product.vo.ExtendedCatalog;
 import com.xmg.mall.product.vo.ExtendedCatalogProperty;
 import com.xmg.mall.product.vo.ExtendedCatalogPropertyValue;
@@ -23,13 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lony on 2016/11/9.
@@ -71,12 +62,13 @@ public class CatalogController {
         model.addAttribute("catalogs", catalogs);
 
         if(id != null){
+            // 查询回显数据
             Catalog catalog = catalogService.getCatalog(id);
             model.addAttribute("catalog", catalog);
 
             CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
             catalogPropertyQuery.setCatalogId(catalog.getId());
-            // catalogPropertyQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
+            catalogPropertyQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
             List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
             model.addAttribute("catalogProperties", catalogProperties);
 
@@ -88,7 +80,7 @@ public class CatalogController {
                 catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
                 // catalogPropertyValueQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
                 List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
-                if(catalogProperty.isRelationship()){ // 把多条数据的值用,号合并成字符串
+                if(catalogProperty.isRelationship()){ // 把多条数据的值用逗号合并成字符串
                     StringBuilder sb = new StringBuilder();
                     for (ExtendedCatalogPropertyValue catalogPropertyValue : catalogPropertyValues) {
                         sb.append(catalogPropertyValue.getValue()).append(",");
