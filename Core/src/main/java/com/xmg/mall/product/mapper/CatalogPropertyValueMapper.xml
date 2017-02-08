@@ -64,7 +64,7 @@
   </sql>
   <sql id="QUERY_ORDER_BY">
     <if test="orderBys.size() &gt; 0">ORDER BY
-      <foreach collection="orderBys.entrySet()" item="entry" separator=", ">catalogPropertyValue.${entry.key} ${entry.value}</foreach>
+      <foreach collection="orderBys" item="value" index="key" separator=", ">catalogPropertyValue.${key} ${value}</foreach>
     </if>
   </sql>
   <sql id="QUERY_LIMIT">

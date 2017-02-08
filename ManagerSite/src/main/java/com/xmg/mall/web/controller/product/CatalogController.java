@@ -70,15 +70,13 @@ public class CatalogController {
             catalogPropertyQuery.setCatalogId(catalog.getId());
             catalogPropertyQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
             List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
-            model.addAttribute("catalogProperties", catalogProperties);
 
             List<ExtendedCatalogPropertyValue> eCatalogPropertyValues  = new ArrayList<>();
-
             for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
                 CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();
                 catalogPropertyValueQuery.setJoinCatalogProperty();
                 catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
-                // catalogPropertyValueQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
+                catalogPropertyValueQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
                 List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
                 if(catalogProperty.isRelationship()){ // 把多条数据的值用逗号合并成字符串
                     StringBuilder sb = new StringBuilder();

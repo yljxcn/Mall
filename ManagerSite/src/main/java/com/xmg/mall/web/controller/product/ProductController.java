@@ -2,15 +2,22 @@ package com.xmg.mall.web.controller.product;
 
 import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
-import com.xmg.mall.product.qo.ProductQuery;
+import com.xmg.mall.product.domain.Brand;
+import com.xmg.mall.product.domain.CatalogProperty;
+import com.xmg.mall.product.domain.CatalogPropertyValue;
+import com.xmg.mall.product.qo.*;
 import com.xmg.mall.product.service.CatalogService;
+import com.xmg.mall.product.service.ProductModuleService;
 import com.xmg.mall.product.service.ProductService;
-import com.xmg.mall.product.vo.ExtendedProduct;
+import com.xmg.mall.product.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lony on 2016/11/9.
@@ -20,6 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProductController {
 
     private ProductService productService;
+    private ProductModuleService productModuleService;
+
+    @Autowired
+    public void setProductModuleService(ProductModuleService productModuleService) {
+        this.productModuleService = productModuleService;
+    }
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -42,7 +55,42 @@ public class ProductController {
 
     @RequestMapping("/toSaveOrUpdate")
     public String toSaveOrUpdate(Model model) {
+        // 所有可见的品牌
+        BrandQuery brandQuery = new BrandQuery();
+        brandQuery.setIncludeMods(new Long[]{Brand.MODS_VISIBLE});
+        List<ExtendedBrand> brands = productModuleService.getBrandService().listBrands(brandQuery);
+
+        // 查询三级分类
+        CatalogQuery catalogQuery = new CatalogQuery();
+        catalogQuery.setLevel(2); // TODO 改成常量
+        List<ExtendedCatalog> catalogs = productModuleService.getCatalogService().listCatalogs(catalogQuery);
+
+        model.addAttribute("brands", brands);
+        model.addAttribute("catalogs", catalogs);
         return "product/product_add_or_update";
+    }
+
+    @RequestMapping("/catalogPropertiesAndValues")
+    public String catalogPropertiesAndValues(Model model, Long catalogId) {
+
+        CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
+        catalogPropertyQuery.setCatalogId(catalogId);
+        List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
+
+        List<CatalogPropertiesAndValuesVO> voes = new ArrayList<>(catalogProperties.size());
+        for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
+            CatalogPropertiesAndValuesVO vo = new CatalogPropertiesAndValuesVO();
+            vo.setCatalogProperty(catalogProperty);
+
+            CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();
+            catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
+            List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
+            vo.setCatalogPropertyValues(catalogPropertyValues);
+            voes.add(vo);
+        }
+
+        model.addAttribute("voes", voes);
+        return "product/product_add_or_update_catalog_table";
     }
 
 }

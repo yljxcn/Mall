@@ -31,13 +31,23 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>所属分类</label>
-                <input class="form-control">
+                <select class="form-control" id="catalogId">
+                    <option>请选择</option>
+                <#list catalogs as catalog>
+                    <option value="${catalog.id}">${catalog.name}</option>
+                </#list>
+                </select>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>所属品牌</label>
-                <input class="form-control">
+                <select class="form-control">
+                    <option>请选择</option>
+                    <#list brands as brand>
+                        <option value="${brand.id}">${brand.chineseName}</option>
+                    </#list>
+                </select>
             </div>
         </div>
     </div>
@@ -61,10 +71,10 @@
                 <label>是否上架</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked>是
+                        <input type="radio" name="optionsRadiosInline1" value="option1" checked>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">否
+                        <input type="radio" name="optionsRadiosInline1" value="option2">否
                     </label>
                 </div>
             </div>
@@ -74,10 +84,10 @@
                 <label>是否推荐</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked>是
+                        <input type="radio" name="optionsRadiosInline2" value="option1" checked>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">否
+                        <input type="radio" name="optionsRadiosInline2" value="option2">否
                     </label>
                 </div>
             </div>
@@ -107,27 +117,7 @@
                 <th>类型</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>CPU系列</td>
-                <td><input class="form-control"></td>
-            </tr>
-            <tr>
-                <td>CPU型号</td>
-                <td><input class="form-control"></td>
-            </tr>
-            <tr>
-                <td>CPU接口</td>
-                <td>
-                    <select class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </td>
-            </tr>
+        <tbody id="catalogPropertiesAndValues_tody">
         </tbody>
     </table>
     <h2>商品详情</h2>
@@ -199,5 +189,11 @@
     $('.refresh-a').click(function(){
         $('#content_body').load('/product/toSaveOrUpdate');
         return false;
+    });
+
+    $('#catalogId').change(function(){
+        var catalogId = $(this).val();
+        if(catalogId)
+            $('#catalogPropertiesAndValues_tody').load('/product/catalogPropertiesAndValues?catalogId=' + catalogId);
     });
 </script>
