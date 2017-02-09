@@ -99,7 +99,6 @@ public class BasicBrandService
             throw new IllegalStateException("此品牌不存在");
 
         // TODO 当品牌已被关联是不能被删除的
-
         brandMapper.delete(id);
     }
 }

@@ -56,72 +56,79 @@ public class CatalogController {
         return "product/catalog_list";
     }
 
-    @RequestMapping("/toSaveOrUpdate")
-    public String toSaveOrUpdate(Model model, Long id) {
-        Catalog catalog = null;
+    @RequestMapping("/toSave")
+    public String toSave(Model model) {
         CatalogQuery catalogQuery = new CatalogQuery();
-        if(id != null){ // 修改只能显示此分类的上级分类
-            catalog = catalogService.getCatalog(id);
-            if(catalog.isOne()){
-                catalogQuery.setExcludeLevels(new Integer[]{Catalog.LEVEL_ONE, Catalog.LEVEL_SECOND, Catalog.LEVEL_THIRD});
-                // 不查上级分类
-            }else if (catalog.isSecond()){
-                // 查询一级分类
-                catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_ONE});
-            }else if (catalog.isThird()){
-                // 查询二级分类
-                catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_SECOND});
-            }
-        }else{
-            // 新增加的话只查询一级分类和二级分类
-            catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_ONE, Catalog.LEVEL_SECOND});
+        // 新增加的话只查询一级分类和二级分类
+        catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_ONE, Catalog.LEVEL_SECOND});
+        List<ExtendedCatalog> catalogs = catalogService.listCatalogs(catalogQuery);
+        model.addAttribute("catalogs", catalogs);
+        return "product/catalog_save";
+    }
+
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Model model, Long id) {
+        Catalog catalog = catalogService.getCatalog(id);
+        CatalogQuery catalogQuery = new CatalogQuery();
+        if(catalog.isOne()){
+            catalogQuery.setExcludeLevels(new Integer[]{Catalog.LEVEL_ONE, Catalog.LEVEL_SECOND, Catalog.LEVEL_THIRD});
+            // 不查上级分类
+        }else if (catalog.isSecond()){
+            // 查询一级分类
+            catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_ONE});
+        }else if (catalog.isThird()){
+            // 查询二级分类
+            catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_SECOND});
         }
         List<ExtendedCatalog> catalogs = catalogService.listCatalogs(catalogQuery);
         model.addAttribute("catalogs", catalogs);
+        model.addAttribute("catalog", catalog);
 
-        if(id != null){
-            // 查询回显数据
-            model.addAttribute("catalog", catalog);
+        CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
+        catalogPropertyQuery.setCatalogId(catalog.getId());
+        catalogPropertyQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
+        List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
 
-            CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
-            catalogPropertyQuery.setCatalogId(catalog.getId());
-            catalogPropertyQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
-            List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
-
-            List<ExtendedCatalogPropertyValue> eCatalogPropertyValues  = new ArrayList<>();
-            for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
-                CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();
-                catalogPropertyValueQuery.setJoinCatalogProperty();
-                catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
-                catalogPropertyValueQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
-                List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
-                if(catalogProperty.isRelationship()){ // 把多条数据的值用逗号合并成字符串
-                    StringBuilder sb = new StringBuilder();
-                    for (ExtendedCatalogPropertyValue catalogPropertyValue : catalogPropertyValues) {
-                        sb.append(catalogPropertyValue.getValue()).append(",");
-                    }
-                    sb.deleteCharAt(sb.length() - 1);
-                    ExtendedCatalogPropertyValue catalogPropertyValue = new ExtendedCatalogPropertyValue();
-                    catalogPropertyValue.setCatalogProperty(catalogPropertyValues.get(0).getCatalogProperty());
-                    catalogPropertyValue.setValue(sb.toString());
-                    eCatalogPropertyValues.add(catalogPropertyValue);
-                }else { // 因为只会查出一条数据
-                    eCatalogPropertyValues.add(catalogPropertyValues.get(0));
+        List<ExtendedCatalogPropertyValue> eCatalogPropertyValues  = new ArrayList<>();
+        for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
+            CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();
+            catalogPropertyValueQuery.setJoinCatalogProperty();
+            catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
+            catalogPropertyValueQuery.setOrderBySequence(QueryCondition.ORDER_BY_KEYWORD_ASC);
+            List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
+            if(catalogProperty.isRelationship()){ // 把多条数据的值用逗号合并成字符串
+                StringBuilder sb = new StringBuilder();
+                for (ExtendedCatalogPropertyValue catalogPropertyValue : catalogPropertyValues) {
+                    sb.append(catalogPropertyValue.getValue()).append(",");
                 }
+                sb.deleteCharAt(sb.length() - 1);
+                ExtendedCatalogPropertyValue catalogPropertyValue = new ExtendedCatalogPropertyValue();
+                catalogPropertyValue.setCatalogProperty(catalogPropertyValues.get(0).getCatalogProperty());
+                catalogPropertyValue.setValue(sb.toString());
+                eCatalogPropertyValues.add(catalogPropertyValue);
+            }else { // 因为只会查出一条数据
+                eCatalogPropertyValues.add(catalogPropertyValues.get(0));
             }
-            model.addAttribute("eCatalogPropertyValues", eCatalogPropertyValues);
         }
-        return "product/catalog_add_or_update";
+        model.addAttribute("eCatalogPropertyValues", eCatalogPropertyValues);
+
+        return "product/catalog_update";
     }
 
-    @RequestMapping("/saveOrUpdate")
-    public String saveOrUpdate(Model model, CatalogForm catalogForm) {
+    @RequestMapping("/save")
+    public String save(CatalogForm catalogForm) {
         try{
-            if(catalogForm.getCatalog().getId() == null){
-                catalogService.save(catalogForm.getCatalog(), catalogForm.getCatalogProperties(), catalogForm.getCatalogPropertyValues());
-            } else {
-                catalogService.update(catalogForm.getCatalog(), catalogForm.getCatalogProperties(), catalogForm.getCatalogPropertyValues());
-            }
+            catalogService.save(catalogForm.getCatalog(), catalogForm.getCatalogProperties(), catalogForm.getCatalogPropertyValues());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "redirect:/catalog/page";
+    }
+
+    @RequestMapping("/update")
+    public String update(CatalogForm catalogForm) {
+        try{
+            catalogService.update(catalogForm.getCatalog(), catalogForm.getCatalogProperties(), catalogForm.getCatalogPropertyValues());
         }catch (Exception e){
             e.printStackTrace();
         }

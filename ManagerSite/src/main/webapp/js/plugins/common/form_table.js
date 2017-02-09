@@ -46,19 +46,19 @@ function initFormAndTable(options){
     });
 
     // 为添加按钮注册事件
-    $('#add').click(function(){
-        $('#' + options.contentBodyId).load(options.toAddOrUpdateUrl);
+    $('#' + options.saveBtnId).click(function(){
+        $('#' + options.contentBodyId).load(options.toSaveUrl);
     });
 
     // 为修改按钮注册事件
-    $('#update').click(function(){
+    $('#' + options.updateBtnId).click(function(){
         var id = $('#' + options.tableId).find('tr.info').data('id');
         if(id)
-            $('#content_body').load(options.toAddOrUpdateUrl + '?id=' + id);
+            $('#' + options.contentBodyId).load(options.toUpdateUrl + '?id=' + id);
     });
 
     // 为删除按钮注册事件
-    $('#delete').click(function(){
+    $('#' + options.deleteBtnId).click(function(){
         var id = $('#' + options.tableId).find('tr.info').data('id');
         if(id)
             window.location.href = options.deleteUrl + '?id=' + id;
@@ -71,9 +71,13 @@ initFormAndTable.defaults = {
     formId: 'search-form',
     tableId: 't_table',
     url: '/brand/list',
-    toAddOrUpdateUrl: '/brand/toSaveOrUpdate',
+    toSaveUrl: '/brand/toSave',
+    toUpdateUrl: '/brand/toUpdate',
     deleteUrl: '/brand/delete',
     searchLinkId: 'search-link',
     dateInputClass: 'form_datetime',
-    pageInputId: 'currentPage'
+    pageInputId: 'currentPage',
+    saveBtnId: 'save',
+    updateBtnId: 'update',
+    deleteBtnId: 'delete'
 };

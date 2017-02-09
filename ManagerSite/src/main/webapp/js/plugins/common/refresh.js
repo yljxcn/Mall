@@ -9,9 +9,9 @@ function initRefresh(options){
         var $contentBody = $('#' + options.contentBodyId);
 
         if(oId)
-            $contentBody.load(options.toAddOrUpdateUrl + '?id=' + oId);
+            $contentBody.load(options.toUpdateUrl + '?id=' + oId);
         else
-            $contentBody.load(options.toAddOrUpdateUrl);
+            $contentBody.load(options.toSaveUrl);
 
         return false;
     });
@@ -20,5 +20,6 @@ function initRefresh(options){
 initRefresh.defaults = {
     contentBodyId: 'content_body',
     inputId: 'oId',
-    toAddOrUpdateUrl: '/brand/toSaveOrUpdate'
+    toSaveUrl: '/brand/toSave',
+    toUpdateUrl: '/brand/toUpdate'
 };

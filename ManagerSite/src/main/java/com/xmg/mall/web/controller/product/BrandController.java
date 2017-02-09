@@ -60,16 +60,36 @@ public class BrandController {
         return "product/brand_add_or_update";
     }
 
-    @RequestMapping("/saveOrUpdate")
+    @RequestMapping("/toSave")
+    public String toSave() {
+        return "product/brand_save";
+    }
+
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Model model, Long id) {
+        Brand brand = brandService.getBrand(id);
+        model.addAttribute("brand", brand);
+        return "product/brand_update";
+    }
+
+    @RequestMapping("/save")
     public String save(Model model, Brand brand, @RequestParam("file")CommonsMultipartFile file) { // 不想 SpringMVC 自动封装实体对象 brand 中的 logo 属性，传参数的时候避免出入与属性名一样的参数，再另外用一个参数接收
         try{
             String filePath = fileUploader.upload(file);
             brand.setLogo(filePath);
-            if(brand.getId() == null){
-               brandService.save(brand);
-           } else {
-               brandService.update(brand);
-           }
+            brandService.save(brand);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "redirect:/brand/page";
+    }
+
+    @RequestMapping("/update")
+    public String update(Model model, Brand brand, @RequestParam("file")CommonsMultipartFile file) {
+        try{
+            String filePath = fileUploader.upload(file);
+            brand.setLogo(filePath);
+            brandService.update(brand);
         }catch (Exception e){
             e.printStackTrace();
         }
