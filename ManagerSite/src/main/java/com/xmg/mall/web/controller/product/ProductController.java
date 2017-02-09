@@ -3,10 +3,8 @@ package com.xmg.mall.web.controller.product;
 import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
 import com.xmg.mall.product.domain.Brand;
-import com.xmg.mall.product.domain.CatalogProperty;
-import com.xmg.mall.product.domain.CatalogPropertyValue;
+import com.xmg.mall.product.domain.Catalog;
 import com.xmg.mall.product.qo.*;
-import com.xmg.mall.product.service.CatalogService;
 import com.xmg.mall.product.service.ProductModuleService;
 import com.xmg.mall.product.service.ProductService;
 import com.xmg.mall.product.vo.*;
@@ -62,7 +60,7 @@ public class ProductController {
 
         // 查询三级分类
         CatalogQuery catalogQuery = new CatalogQuery();
-        catalogQuery.setLevel(2); // TODO 改成常量
+        catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_THIRD});
         List<ExtendedCatalog> catalogs = productModuleService.getCatalogService().listCatalogs(catalogQuery);
 
         model.addAttribute("brands", brands);
@@ -77,9 +75,9 @@ public class ProductController {
         catalogPropertyQuery.setCatalogId(catalogId);
         List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
 
-        List<CatalogPropertiesAndValuesVO> voes = new ArrayList<>(catalogProperties.size());
+        List<ExtendedCatalogPropertiesAndValues> voes = new ArrayList<>(catalogProperties.size());
         for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
-            CatalogPropertiesAndValuesVO vo = new CatalogPropertiesAndValuesVO();
+            ExtendedCatalogPropertiesAndValues vo = new ExtendedCatalogPropertiesAndValues();
             vo.setCatalogProperty(catalogProperty);
 
             CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();

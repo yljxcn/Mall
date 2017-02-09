@@ -47,14 +47,14 @@ function initFormAndTable(options){
 
     // 为添加按钮注册事件
     $('#add').click(function(){
-        $('#' + options.contentBodyId).load(options.tOAddOrUpdateUrl);
+        $('#' + options.contentBodyId).load(options.toAddOrUpdateUrl);
     });
 
     // 为修改按钮注册事件
     $('#update').click(function(){
         var id = $('#' + options.tableId).find('tr.info').data('id');
         if(id)
-            $('#content_body').load(options.tOAddOrUpdateUrl + '?id=' + id);
+            $('#content_body').load(options.toAddOrUpdateUrl + '?id=' + id);
     });
 
     // 为删除按钮注册事件
@@ -71,7 +71,7 @@ initFormAndTable.defaults = {
     formId: 'search-form',
     tableId: 't_table',
     url: '/brand/list',
-    tOAddOrUpdateUrl: '/brand/toSaveOrUpdate',
+    toAddOrUpdateUrl: '/brand/toSaveOrUpdate',
     deleteUrl: '/brand/delete',
     searchLinkId: 'search-link',
     dateInputClass: 'form_datetime',

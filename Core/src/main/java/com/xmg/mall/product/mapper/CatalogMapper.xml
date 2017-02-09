@@ -7,16 +7,16 @@
     <result property="createdDate" column="createdDate"/>
     <result property="lastModifiedDate" column="lastModifiedDate"/>
     <result property="version" column="version"/>
-    <result property="level" column="level"/>
     <result property="name" column="name"/>
     <result property="code" column="code"/>
     <result property="sequence" column="sequence"/>
     <result property="childrenCatalogs" column="childrenCatalogs"/>
     <result property="products" column="products"/>
     <result property="parentCatalogId" column="parentCatalogId"/>
+    <result property="level" column="level"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">catalog.id, catalog.createdDate, catalog.lastModifiedDate, catalog.version,catalog.level,catalog.name,catalog.code,catalog.sequence,catalog.childrenCatalogs,catalog.products,catalog.parentCatalogId</sql>
-  <sql id="QUERY_COLUMNS">catalog.id, catalog.createdDate, catalog.lastModifiedDate, catalog.version,catalog.level,catalog.name,catalog.code,catalog.sequence,catalog.childrenCatalogs,catalog.products,catalog.parentCatalogId</sql>
+  <sql id="BASE_COLUMNS">catalog.id, catalog.createdDate, catalog.lastModifiedDate, catalog.version,catalog.name,catalog.code,catalog.sequence,catalog.childrenCatalogs,catalog.products,catalog.parentCatalogId,catalog.level</sql>
+  <sql id="QUERY_COLUMNS">catalog.id, catalog.createdDate, catalog.lastModifiedDate, catalog.version,catalog.name,catalog.code,catalog.sequence,catalog.childrenCatalogs,catalog.products,catalog.parentCatalogId,catalog.level</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedCatalog" extends="BASE_RESULT">
     <association property="parentCatalog" column="parentCatalogId" javaType="com.xmg.mall.product.domain.Catalog" columnPrefix="parentCatalog_" resultMap="com.xmg.mall.product.mapper.CatalogMapper.BASE_RESULT"/>
   </resultMap>
@@ -27,9 +27,9 @@
     <include refid="BASE_COLUMNS"/> FROM `Catalog` catalog WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Catalog` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.Catalog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Catalog`(id, createdDate, version,level,name,code,sequence,childrenCatalogs,products,parentCatalogId) VALUES(#{id }, #{createdDate}, 0, #{level }, #{name }, #{code }, #{sequence }, #{childrenCatalogs }, #{products }, #{parentCatalogId })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.Catalog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Catalog`(id, createdDate, version,name,code,sequence,childrenCatalogs,products,parentCatalogId,level) VALUES(#{id }, #{createdDate}, 0, #{name }, #{code }, #{sequence }, #{childrenCatalogs }, #{products }, #{parentCatalogId }, #{level })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.Catalog">UPDATE `Catalog`
-    <set>lastModifiedDate = now(), version = version + 1, level = #{level }, name = #{name }, code = #{code }, sequence = #{sequence }, childrenCatalogs = #{childrenCatalogs }, products = #{products }, parentCatalogId = #{parentCatalogId }</set>
+    <set>lastModifiedDate = now(), version = version + 1, name = #{name }, code = #{code }, sequence = #{sequence }, childrenCatalogs = #{childrenCatalogs }, products = #{products }, parentCatalogId = #{parentCatalogId }, level = #{level }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN">
@@ -41,24 +41,34 @@
     </if>
     <if test="startCreatedDate != null">AND catalog.createdDate &gt;= #{startCreatedDate }</if>
     <if test="endCreatedDate != null">AND catalog.createdDate &lt;= #{endCreatedDate }</if>
-    <if test="level != null">AND catalog.level = #{level}</if>
     <if test="name != null">AND catalog.name = #{name}</if>
     <if test="likeName != null">AND catalog.name LIKE CONCAT(#{likeName} ,'%')</if>
     <if test="code != null">AND catalog.code = #{code}</if>
     <if test="likeCode != null">AND catalog.code LIKE CONCAT(#{likeCode} ,'%')</if>
     <if test="parentCatalogId != null">AND catalog.parentCatalogId = #{parentCatalogId}</if>
+    <if test="excludeLevels != null">AND catalog.level NOT IN
+      <foreach collection="excludeLevels" item="level" open="(" close=")" separator=", ">#{level }</foreach>
+    </if>
+    <if test="includeLevels != null &amp;&amp; excludeLevels == null">AND catalog.level IN
+      <foreach collection="includeLevels" item="level" open="(" close=")" separator=", ">#{level }</foreach>
+    </if>
     <if test="parentCatalogQuery != null &amp;&amp; joinParentCatalog">
       <if test="parentCatalogQuery.ids != null">AND parentCatalog.id IN
         <foreach collection="parentCatalogQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
       </if>
       <if test="parentCatalogQuery.startCreatedDate != null">AND parentCatalog.createdDate &gt;= #{parentCatalogQuery.startCreatedDate }</if>
       <if test="parentCatalogQuery.endCreatedDate != null">AND parentCatalog.createdDate &lt;= #{parentCatalogQuery.endCreatedDate }</if>
-      <if test="parentCatalogQuery.level != null">AND parentCatalog.level = #{parentCatalogQuery.level}</if>
       <if test="parentCatalogQuery.name != null">AND parentCatalog.name = #{parentCatalogQuery.name}</if>
       <if test="parentCatalogQuery.likeName != null">AND parentCatalog.name LIKE CONCAT(#{parentCatalogQuery.likeName} ,'%')</if>
       <if test="parentCatalogQuery.code != null">AND parentCatalog.code = #{parentCatalogQuery.code}</if>
       <if test="parentCatalogQuery.likeCode != null">AND parentCatalog.code LIKE CONCAT(#{parentCatalogQuery.likeCode} ,'%')</if>
       <if test="parentCatalogQuery.parentCatalogId != null">AND parentCatalog.parentCatalogId = #{parentCatalogQuery.parentCatalogId}</if>
+      <if test="parentCatalogQuery.excludeLevels != null">AND parentCatalog.level NOT IN
+        <foreach collection="parentCatalogQuery.excludeLevels" item="level" open="(" close=")" separator=", ">#{level }</foreach>
+      </if>
+      <if test="parentCatalogQuery.includeLevels != null &amp;&amp; parentCatalogQuery.excludeLevels == null">AND parentCatalog.level IN
+        <foreach collection="parentCatalogQuery.includeLevels" item="level" open="(" close=")" separator=", ">#{level }</foreach>
+      </if>
     </if>
   </sql>
   <sql id="QUERY_WHERE">

@@ -6,10 +6,6 @@ import java.util.Date;
 public class TotalCatalog {
 
     protected Integer rows;
-    protected Integer totalSumLevel;
-    protected Integer totalAvgLevel;
-    protected Integer totalMaxLevel;
-    protected Integer totalMinLevel;
     protected Integer totalSumSequence;
     protected Integer totalAvgSequence;
     protected Integer totalMaxSequence;
@@ -23,6 +19,7 @@ public class TotalCatalog {
     protected Integer totalMaxProducts;
     protected Integer totalMinProducts;
     protected Date createdDate;
+    protected Integer level;
 
     public Integer getRows() {
         return this.rows;
@@ -30,42 +27,6 @@ public class TotalCatalog {
 
     public TotalCatalog setRows(Integer rows) {
         this.rows = rows;
-        return this;
-    }
-
-    public Integer getTotalSumLevel() {
-        return this.totalSumLevel;
-    }
-
-    public TotalCatalog setTotalSumLevel(Integer totalSumLevel) {
-        this.totalSumLevel = totalSumLevel;
-        return this;
-    }
-
-    public Integer getTotalAvgLevel() {
-        return this.totalAvgLevel;
-    }
-
-    public TotalCatalog setTotalAvgLevel(Integer totalAvgLevel) {
-        this.totalAvgLevel = totalAvgLevel;
-        return this;
-    }
-
-    public Integer getTotalMaxLevel() {
-        return this.totalMaxLevel;
-    }
-
-    public TotalCatalog setTotalMaxLevel(Integer totalMaxLevel) {
-        this.totalMaxLevel = totalMaxLevel;
-        return this;
-    }
-
-    public Integer getTotalMinLevel() {
-        return this.totalMinLevel;
-    }
-
-    public TotalCatalog setTotalMinLevel(Integer totalMinLevel) {
-        this.totalMinLevel = totalMinLevel;
         return this;
     }
 
@@ -183,6 +144,15 @@ public class TotalCatalog {
 
     public TotalCatalog setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+        return this;
+    }
+
+    public Integer getLevel() {
+        return this.level;
+    }
+
+    public TotalCatalog setLevel(Integer level) {
+        this.level = level;
         return this;
     }
 

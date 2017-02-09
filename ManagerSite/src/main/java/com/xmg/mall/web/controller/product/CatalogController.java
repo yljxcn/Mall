@@ -58,12 +58,29 @@ public class CatalogController {
 
     @RequestMapping("/toSaveOrUpdate")
     public String toSaveOrUpdate(Model model, Long id) {
-        List<ExtendedCatalog> catalogs = catalogService.listCatalogs(new CatalogQuery());
+        Catalog catalog = null;
+        CatalogQuery catalogQuery = new CatalogQuery();
+        if(id != null){ // 修改只能显示此分类的上级分类
+            catalog = catalogService.getCatalog(id);
+            if(catalog.isOne()){
+                catalogQuery.setExcludeLevels(new Integer[]{Catalog.LEVEL_ONE, Catalog.LEVEL_SECOND, Catalog.LEVEL_THIRD});
+                // 不查上级分类
+            }else if (catalog.isSecond()){
+                // 查询一级分类
+                catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_ONE});
+            }else if (catalog.isThird()){
+                // 查询二级分类
+                catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_SECOND});
+            }
+        }else{
+            // 新增加的话只查询一级分类和二级分类
+            catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_ONE, Catalog.LEVEL_SECOND});
+        }
+        List<ExtendedCatalog> catalogs = catalogService.listCatalogs(catalogQuery);
         model.addAttribute("catalogs", catalogs);
 
         if(id != null){
             // 查询回显数据
-            Catalog catalog = catalogService.getCatalog(id);
             model.addAttribute("catalog", catalog);
 
             CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
@@ -98,7 +115,7 @@ public class CatalogController {
     }
 
     @RequestMapping("/saveOrUpdate")
-    public String save(Model model, CatalogForm catalogForm) {
+    public String saveOrUpdate(Model model, CatalogForm catalogForm) {
         try{
             if(catalogForm.getCatalog().getId() == null){
                 catalogService.save(catalogForm.getCatalog(), catalogForm.getCatalogProperties(), catalogForm.getCatalogPropertyValues());

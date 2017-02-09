@@ -12,7 +12,7 @@
     </div>
 </div>
 <form action="/catalog/saveOrUpdate" method="post">
-    <input type="hidden" id="catalogId" name="catalog.id" value="${(catalog.id)!""}">
+    <input type="hidden" id="oId" name="catalog.id" value="${(catalog.id)!""}">
     <h2>基本属性</h2>
     <div class="row">
         <div class="col-lg-6">
@@ -57,9 +57,9 @@
             <div class="form-group">
                 <label>分类等级</label>
                 <select class="form-control" name="catalog.level">
-                    <option value="1" ${((catalog.level==1)?string('selected', ''))!""}>1</option>
-                    <option value="2" ${((catalog.level==2)?string('selected', ''))!""}>2</option>
-                    <option value="3" ${((catalog.level==3)?string('selected', ''))!""}>3</option>
+                    <option value="0" ${((catalog.level==0)?string('selected', ''))!""}>一级</option>
+                    <option value="1" ${((catalog.level==1)?string('selected', ''))!""}>二级</option>
+                    <option value="2" ${((catalog.level==2)?string('selected', ''))!""}>三级</option>
                 </select>
             </div>
         </div>
@@ -204,18 +204,8 @@
             }
         }
     };
-
     new CatalogPropertiesTable($('.catalog-property-table'));
 
-
-    $('.refresh-a').click(function(){
-        var catalogId = $('#catalogId').val();
-        if(catalogId){
-            $('#content_body').load('/catalog/toSaveOrUpdate?id=' + catalogId);
-        }else{
-            $('#content_body').load('/catalog/toSaveOrUpdate');
-        }
-        return false;
-    });
+    initRefresh({tOAddOrUpdateUrl: '/catalog/toSaveOrUpdate'});
 
 </script>

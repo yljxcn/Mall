@@ -122,6 +122,7 @@ public class BasicCatalogService
         // TODO 参数验证
         catalogMapper.update(catalog);
 
+        // TODO 分类修改一样，若有商品挂在这个分类下面，一修改都有可能导致商品的数据都不对了
         // TODO 能否允许删除已被关联的分类属性
 
     }

@@ -13,7 +13,7 @@
     <script>
         $(function(){
             initMenu();
-            initFormAndTable({url:'/catalog/list',tOAddOrUpdateUrl: '/catalog/toSaveOrUpdate',});
+            initFormAndTable({url:'/catalog/list',toAddOrUpdateUrl: '/catalog/toSaveOrUpdate'});
 
             $('.mods-select').change(function(){
                 var $select = $(this);
@@ -27,10 +27,6 @@
                     $select.attr('name', 'excludeMods')
                 }
             });
-
-           /* $('#addCatalog').click(function(){
-                $('#content_body').load('/catalog/toSaveOrUpdate');
-            });*/
         });
     </script>
 

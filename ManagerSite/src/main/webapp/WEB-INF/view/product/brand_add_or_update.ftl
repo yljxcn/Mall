@@ -12,7 +12,7 @@
     </div>
 </div>
 <form action="/brand/saveOrUpdate" method="post" enctype="multipart/form-data">
-    <input type="hidden" id="brandId" name="id" value="${(brand.id)!""}">
+    <input type="hidden" id="oId" name="id" value="${(brand.id)!""}">
     <div class="row">
         <div class="col-lg-4">
             <div class="form-group">
@@ -95,17 +95,10 @@
         startDate: "1970-01-01"
     });
 
-    $('.refresh-a').click(function(){
-        var brandId = $('#brandId').val();
-        if(brandId){
-            $('#content_body').load('/brand/toSaveOrUpdate?id=' + brandId);
-        }else{
-            $('#content_body').load('/brand/toSaveOrUpdate');
-        }
-        return false;
-    });
     var loadFile = function(event) {
         var output = document.getElementById('output');
         output.src = URL.createObjectURL(event.target.files[0]);
     };
+
+    initRefresh();
 </script>

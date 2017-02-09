@@ -5,6 +5,7 @@
   <resultMap id="TOTAL_RESULT" type="com.xmg.mall.product.vo.TotalCatalog">
     <result column="rows" property="rows"/>
     <result column="createdDate" property="createdDate"/>
+    <result column="level" property="level"/>
   </resultMap>
   <sql id="QUERY_WHERE">
     <where>
@@ -17,10 +18,6 @@
       <if test="groupBys.size() &gt; 0">
         <foreach collection="groupBys.keySet()" item="key">catalog.${key} AS ${key},</foreach>
       </if>
-      <if test="totalSumLevel">SUM(catalog.level) AS totalSumLevel,</if>
-      <if test="totalMinLevel">MIN(catalog.level) AS totalMinLevel,</if>
-      <if test="totalMaxLevel">MAX(catalog.level) AS totalMaxLevel,</if>
-      <if test="totalAvgLevel">AVG(catalog.level) AS totalAvgLevel,</if>
       <if test="totalSumSequence">SUM(catalog.sequence) AS totalSumSequence,</if>
       <if test="totalMinSequence">MIN(catalog.sequence) AS totalMinSequence,</if>
       <if test="totalMaxSequence">MAX(catalog.sequence) AS totalMaxSequence,</if>
@@ -54,14 +51,6 @@
     <trim prefixOverrides="AND | OR" prefix="HAVING">
       <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
       <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
-      <if test="minTotalSumLevel != null">AND SUM(catalog.level) &gt;= #{minTotalSumLevel}</if>
-      <if test="maxTotalSumLevel != null">AND SUM(catalog.level) &lt;= #{maxTotalSumLevel}</if>
-      <if test="minTotalMinLevel != null">AND MIN(catalog.level) &gt;= #{minTotalMinLevel}</if>
-      <if test="maxTotalMinLevel != null">AND MIN(catalog.level) &lt;= #{maxTotalMinLevel}</if>
-      <if test="minTotalMaxLevel != null">AND MAX(catalog.level) &gt;= #{minTotalMaxLevel}</if>
-      <if test="maxTotalMaxLevel != null">AND MAX(catalog.level) &lt;= #{maxTotalMaxLevel}</if>
-      <if test="minTotalAvgLevel != null">AND AVG(catalog.level) &gt;= #{minTotalAvgLevel}</if>
-      <if test="maxTotalAvgLevel != null">AND AVG(catalog.level) &lt;= #{maxTotalAvgLevel}</if>
       <if test="minTotalSumSequence != null">AND SUM(catalog.sequence) &gt;= #{minTotalSumSequence}</if>
       <if test="maxTotalSumSequence != null">AND SUM(catalog.sequence) &lt;= #{maxTotalSumSequence}</if>
       <if test="minTotalMinSequence != null">AND MIN(catalog.sequence) &gt;= #{minTotalMinSequence}</if>

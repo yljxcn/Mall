@@ -16,24 +16,11 @@ public class TotalCatalogQuery
     protected Boolean totalCountRows;
     protected Date startCreatedDate;
     protected Date endCreatedDate;
-    protected Integer level;
     protected String likeName;
     protected String name;
     protected String likeCode;
     protected String code;
     protected Long parentCatalogId;
-    protected Boolean totalSumLevel;
-    protected Boolean totalMaxLevel;
-    protected Boolean totalMinLevel;
-    protected Boolean totalAvgLevel;
-    protected Integer maxTotalSumLevel;
-    protected Integer minTotalSumLevel;
-    protected Integer minTotalMinLevel;
-    protected Integer maxTotalMinLevel;
-    protected Integer minTotalMaxLevel;
-    protected Integer maxTotalMaxLevel;
-    protected Integer minTotalAvgLevel;
-    protected Integer maxTotalAvgLevel;
     protected Boolean totalSumSequence;
     protected Boolean totalMaxSequence;
     protected Boolean totalMinSequence;
@@ -70,6 +57,8 @@ public class TotalCatalogQuery
     protected Integer maxTotalMaxProducts;
     protected Integer minTotalAvgProducts;
     protected Integer maxTotalAvgProducts;
+    protected Integer[] includeLevels;
+    protected Integer[] excludeLevels;
     protected com.xmg.mall.base.query.JoinType joinParentCatalog;
     protected CatalogQuery parentCatalogQuery;
 
@@ -139,15 +128,6 @@ public class TotalCatalogQuery
         return getOrderByKeyword("createdDate");
     }
 
-    public Integer getLevel() {
-        return this.level;
-    }
-
-    public TotalCatalogQuery setLevel(Integer level) {
-        this.level = level;
-        return this;
-    }
-
     public String getLikeName() {
         return this.likeName;
     }
@@ -214,114 +194,6 @@ public class TotalCatalogQuery
 
     public TotalCatalogQuery setParentCatalogId(Long parentCatalogId) {
         this.parentCatalogId = parentCatalogId;
-        return this;
-    }
-
-    public Boolean getTotalSumLevel() {
-        return this.totalSumLevel;
-    }
-
-    public TotalCatalogQuery setTotalSumLevel(Boolean totalSumLevel) {
-        this.totalSumLevel = totalSumLevel;
-        return this;
-    }
-
-    public Boolean getTotalMaxLevel() {
-        return this.totalMaxLevel;
-    }
-
-    public TotalCatalogQuery setTotalMaxLevel(Boolean totalMaxLevel) {
-        this.totalMaxLevel = totalMaxLevel;
-        return this;
-    }
-
-    public Boolean getTotalMinLevel() {
-        return this.totalMinLevel;
-    }
-
-    public TotalCatalogQuery setTotalMinLevel(Boolean totalMinLevel) {
-        this.totalMinLevel = totalMinLevel;
-        return this;
-    }
-
-    public Boolean getTotalAvgLevel() {
-        return this.totalAvgLevel;
-    }
-
-    public TotalCatalogQuery setTotalAvgLevel(Boolean totalAvgLevel) {
-        this.totalAvgLevel = totalAvgLevel;
-        return this;
-    }
-
-    public Integer getMaxTotalSumLevel() {
-        return this.maxTotalSumLevel;
-    }
-
-    public TotalCatalogQuery setMaxTotalSumLevel(Integer maxTotalSumLevel) {
-        this.maxTotalSumLevel = maxTotalSumLevel;
-        return this;
-    }
-
-    public Integer getMinTotalSumLevel() {
-        return this.minTotalSumLevel;
-    }
-
-    public TotalCatalogQuery setMinTotalSumLevel(Integer minTotalSumLevel) {
-        this.minTotalSumLevel = minTotalSumLevel;
-        return this;
-    }
-
-    public Integer getMinTotalMinLevel() {
-        return this.minTotalMinLevel;
-    }
-
-    public TotalCatalogQuery setMinTotalMinLevel(Integer minTotalMinLevel) {
-        this.minTotalMinLevel = minTotalMinLevel;
-        return this;
-    }
-
-    public Integer getMaxTotalMinLevel() {
-        return this.maxTotalMinLevel;
-    }
-
-    public TotalCatalogQuery setMaxTotalMinLevel(Integer maxTotalMinLevel) {
-        this.maxTotalMinLevel = maxTotalMinLevel;
-        return this;
-    }
-
-    public Integer getMinTotalMaxLevel() {
-        return this.minTotalMaxLevel;
-    }
-
-    public TotalCatalogQuery setMinTotalMaxLevel(Integer minTotalMaxLevel) {
-        this.minTotalMaxLevel = minTotalMaxLevel;
-        return this;
-    }
-
-    public Integer getMaxTotalMaxLevel() {
-        return this.maxTotalMaxLevel;
-    }
-
-    public TotalCatalogQuery setMaxTotalMaxLevel(Integer maxTotalMaxLevel) {
-        this.maxTotalMaxLevel = maxTotalMaxLevel;
-        return this;
-    }
-
-    public Integer getMinTotalAvgLevel() {
-        return this.minTotalAvgLevel;
-    }
-
-    public TotalCatalogQuery setMinTotalAvgLevel(Integer minTotalAvgLevel) {
-        this.minTotalAvgLevel = minTotalAvgLevel;
-        return this;
-    }
-
-    public Integer getMaxTotalAvgLevel() {
-        return this.maxTotalAvgLevel;
-    }
-
-    public TotalCatalogQuery setMaxTotalAvgLevel(Integer maxTotalAvgLevel) {
-        this.maxTotalAvgLevel = maxTotalAvgLevel;
         return this;
     }
 
@@ -651,6 +523,33 @@ public class TotalCatalogQuery
 
     public TotalCatalogQuery setGroupByCreatedDate(DateGroupBy dateGroupBy) {
         groupBys.addDateGroupBy("createdDate", dateGroupBy);
+        return this;
+    }
+
+    public Integer[] getIncludeLevels() {
+        return this.includeLevels;
+    }
+
+    public TotalCatalogQuery setIncludeLevels(Integer[] includeLevels) {
+        this.includeLevels = includeLevels;
+        return this;
+    }
+
+    public Integer[] getExcludeLevels() {
+        return this.excludeLevels;
+    }
+
+    public TotalCatalogQuery setExcludeLevels(Integer[] excludeLevels) {
+        this.excludeLevels = excludeLevels;
+        return this;
+    }
+
+    public TotalCatalogQuery setGroupByLevel(Boolean groupBy) {
+        if (groupBy) {
+            groupBys.addGroupBy("level");
+        } else {
+            groupBys.removeGroupBy("level");
+        }
         return this;
     }
 

@@ -13,12 +13,13 @@ public class CatalogQuery
     protected Long[] ids;
     protected Date startCreatedDate;
     protected Date endCreatedDate;
-    protected Integer level;
     protected String name;
     protected String likeName;
     protected String code;
     protected String likeCode;
     protected Long parentCatalogId;
+    protected Integer[] includeLevels;
+    protected Integer[] excludeLevels;
 
     public boolean hasIds() {
         return (this.ids.length!= 0);
@@ -74,15 +75,6 @@ public class CatalogQuery
         return this;
     }
 
-    public Integer getLevel() {
-        return this.level;
-    }
-
-    public CatalogQuery setLevel(Integer level) {
-        this.level = level;
-        return this;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -125,6 +117,24 @@ public class CatalogQuery
 
     public CatalogQuery setParentCatalogId(Long parentCatalogId) {
         this.parentCatalogId = parentCatalogId;
+        return this;
+    }
+
+    public Integer[] getIncludeLevels() {
+        return this.includeLevels;
+    }
+
+    public CatalogQuery setIncludeLevels(Integer[] includeLevels) {
+        this.includeLevels = includeLevels;
+        return this;
+    }
+
+    public Integer[] getExcludeLevels() {
+        return this.excludeLevels;
+    }
+
+    public CatalogQuery setExcludeLevels(Integer[] excludeLevels) {
+        this.excludeLevels = excludeLevels;
         return this;
     }
 

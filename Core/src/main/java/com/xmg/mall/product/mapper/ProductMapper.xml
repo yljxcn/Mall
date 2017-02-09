@@ -72,12 +72,17 @@
       </if>
       <if test="catalogQuery.startCreatedDate != null">AND catalog.createdDate &gt;= #{catalogQuery.startCreatedDate }</if>
       <if test="catalogQuery.endCreatedDate != null">AND catalog.createdDate &lt;= #{catalogQuery.endCreatedDate }</if>
-      <if test="catalogQuery.level != null">AND catalog.level = #{catalogQuery.level}</if>
       <if test="catalogQuery.name != null">AND catalog.name = #{catalogQuery.name}</if>
       <if test="catalogQuery.likeName != null">AND catalog.name LIKE CONCAT(#{catalogQuery.likeName} ,'%')</if>
       <if test="catalogQuery.code != null">AND catalog.code = #{catalogQuery.code}</if>
       <if test="catalogQuery.likeCode != null">AND catalog.code LIKE CONCAT(#{catalogQuery.likeCode} ,'%')</if>
       <if test="catalogQuery.parentCatalogId != null">AND catalog.parentCatalogId = #{catalogQuery.parentCatalogId}</if>
+      <if test="catalogQuery.excludeLevels != null">AND catalog.level NOT IN
+        <foreach collection="catalogQuery.excludeLevels" item="level" open="(" close=")" separator=", ">#{level }</foreach>
+      </if>
+      <if test="catalogQuery.includeLevels != null &amp;&amp; catalogQuery.excludeLevels == null">AND catalog.level IN
+        <foreach collection="catalogQuery.includeLevels" item="level" open="(" close=")" separator=", ">#{level }</foreach>
+      </if>
     </if>
     <if test="brandQuery != null &amp;&amp; joinBrand">
       <if test="brandQuery.ids != null">AND brand.id IN

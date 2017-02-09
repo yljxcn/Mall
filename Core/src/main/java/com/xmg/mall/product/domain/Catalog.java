@@ -9,6 +9,9 @@ public class Catalog
 
     private final static long serialVersionUID = 1L;
     protected Integer level;
+    public final static int LEVEL_ONE = 0;
+    public final static int LEVEL_SECOND = (LEVEL_ONE + 1);
+    public final static int LEVEL_THIRD = (LEVEL_SECOND + 1);
     protected String name;
     protected String code;
     protected Integer sequence;
@@ -16,12 +19,44 @@ public class Catalog
     protected Integer products;
     protected Long parentCatalogId;
 
+    public Catalog setLevel(Integer level) {
+        this.level = level;
+        return this;
+    }
+
     public Integer getLevel() {
         return this.level;
     }
 
-    public Catalog setLevel(Integer level) {
-        this.level = level;
+    public final static Integer[] getValidLevels() {
+        Integer[] validLevels = new Integer[] {LEVEL_ONE, LEVEL_SECOND, LEVEL_THIRD };
+        return validLevels;
+    }
+
+    public boolean isOne() {
+        return (this.level == LEVEL_ONE);
+    }
+
+    public Catalog setOne() {
+        this.level = LEVEL_ONE;
+        return this;
+    }
+
+    public boolean isSecond() {
+        return (this.level == LEVEL_SECOND);
+    }
+
+    public Catalog setSecond() {
+        this.level = LEVEL_SECOND;
+        return this;
+    }
+
+    public boolean isThird() {
+        return (this.level == LEVEL_THIRD);
+    }
+
+    public Catalog setThird() {
+        this.level = LEVEL_THIRD;
         return this;
     }
 

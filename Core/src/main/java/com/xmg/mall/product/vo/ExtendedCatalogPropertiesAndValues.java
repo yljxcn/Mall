@@ -1,14 +1,13 @@
-package com.xmg.mall.web.controller.product;
+package com.xmg.mall.product.vo;
 
 import com.xmg.mall.product.domain.CatalogProperty;
-import com.xmg.mall.product.vo.ExtendedCatalogPropertyValue;
 
 import java.util.List;
 
 /**
  * Created by lony on 2017/2/7.
  */
-public class CatalogPropertiesAndValuesVO{
+public class ExtendedCatalogPropertiesAndValues {
     private CatalogProperty catalogProperty;
     private List<ExtendedCatalogPropertyValue> catalogPropertyValues;
 
