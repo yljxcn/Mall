@@ -9,6 +9,7 @@ public class ExtendedProductCatalogPropertyValue
 
     private final static long serialVersionUID = 1L;
     protected com.xmg.mall.product.domain.Product product;
+    protected com.xmg.mall.product.domain.Catalog catalog;
 
     public com.xmg.mall.product.domain.Product getProduct() {
         return this.product;
@@ -16,6 +17,15 @@ public class ExtendedProductCatalogPropertyValue
 
     public ExtendedProductCatalogPropertyValue setProduct(com.xmg.mall.product.domain.Product product) {
         this.product = product;
+        return this;
+    }
+
+    public com.xmg.mall.product.domain.Catalog getCatalog() {
+        return this.catalog;
+    }
+
+    public ExtendedProductCatalogPropertyValue setCatalog(com.xmg.mall.product.domain.Catalog catalog) {
+        this.catalog = catalog;
         return this;
     }
 

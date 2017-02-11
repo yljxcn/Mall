@@ -1,6 +1,7 @@
 
 package com.xmg.mall.product.qo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import com.xmg.mall.base.query.DateGroupBy;
 import com.xmg.mall.base.query.QueryCondition;
@@ -17,23 +18,40 @@ public class TotalProductFreightQuery
     protected Date startCreatedDate;
     protected Date endCreatedDate;
     protected Long productId;
-    protected Long impressionId;
-    protected Boolean totalSumCount;
-    protected Boolean totalMaxCount;
-    protected Boolean totalMinCount;
-    protected Boolean totalAvgCount;
-    protected Integer maxTotalSumCount;
-    protected Integer minTotalSumCount;
-    protected Integer minTotalMinCount;
-    protected Integer maxTotalMinCount;
-    protected Integer minTotalMaxCount;
-    protected Integer maxTotalMaxCount;
-    protected Integer minTotalAvgCount;
-    protected Integer maxTotalAvgCount;
+    protected BigDecimal minLowerLimit;
+    protected BigDecimal maxLowerLimit;
+    protected BigDecimal lowerLimit;
+    protected BigDecimal minFreight;
+    protected BigDecimal maxFreight;
+    protected BigDecimal freight;
+    protected Boolean totalSumLowerLimit;
+    protected Boolean totalMaxLowerLimit;
+    protected Boolean totalMinLowerLimit;
+    protected Boolean totalAvgLowerLimit;
+    protected BigDecimal maxTotalSumLowerLimit;
+    protected BigDecimal minTotalSumLowerLimit;
+    protected BigDecimal minTotalMinLowerLimit;
+    protected BigDecimal maxTotalMinLowerLimit;
+    protected BigDecimal minTotalMaxLowerLimit;
+    protected BigDecimal maxTotalMaxLowerLimit;
+    protected BigDecimal minTotalAvgLowerLimit;
+    protected BigDecimal maxTotalAvgLowerLimit;
+    protected Boolean totalSumFreight;
+    protected Boolean totalMaxFreight;
+    protected Boolean totalMinFreight;
+    protected Boolean totalAvgFreight;
+    protected BigDecimal maxTotalSumFreight;
+    protected BigDecimal minTotalSumFreight;
+    protected BigDecimal minTotalMinFreight;
+    protected BigDecimal maxTotalMinFreight;
+    protected BigDecimal minTotalMaxFreight;
+    protected BigDecimal maxTotalMaxFreight;
+    protected BigDecimal minTotalAvgFreight;
+    protected BigDecimal maxTotalAvgFreight;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
     protected com.xmg.mall.base.query.JoinType joinProduct;
     protected ProductQuery productQuery;
-    protected com.xmg.mall.base.query.JoinType joinImpression;
-    protected ImpressionQuery impressionQuery;
 
     public com.xmg.mall.base.query.GroupBys getGroupBys() {
         return this.groupBys;
@@ -110,133 +128,321 @@ public class TotalProductFreightQuery
         return this;
     }
 
-    public Long getImpressionId() {
-        return this.impressionId;
+    public BigDecimal getMinLowerLimit() {
+        return this.minLowerLimit;
     }
 
-    public TotalProductFreightQuery setImpressionId(Long impressionId) {
-        this.impressionId = impressionId;
+    public TotalProductFreightQuery setMinLowerLimit(BigDecimal minLowerLimit) {
+        this.minLowerLimit = minLowerLimit;
         return this;
     }
 
-    public void setOrderByCount(int keyword) {
-        setOrderBy("count", keyword);
+    public BigDecimal getMaxLowerLimit() {
+        return this.maxLowerLimit;
     }
 
-    public int getOrderByCount() {
-        return getOrderByKeyword("count");
-    }
-
-    public Boolean getTotalSumCount() {
-        return this.totalSumCount;
-    }
-
-    public TotalProductFreightQuery setTotalSumCount(Boolean totalSumCount) {
-        this.totalSumCount = totalSumCount;
+    public TotalProductFreightQuery setMaxLowerLimit(BigDecimal maxLowerLimit) {
+        this.maxLowerLimit = maxLowerLimit;
         return this;
     }
 
-    public Boolean getTotalMaxCount() {
-        return this.totalMaxCount;
+    public BigDecimal getLowerLimit() {
+        return this.lowerLimit;
     }
 
-    public TotalProductFreightQuery setTotalMaxCount(Boolean totalMaxCount) {
-        this.totalMaxCount = totalMaxCount;
+    public TotalProductFreightQuery setLowerLimit(BigDecimal lowerLimit) {
+        this.lowerLimit = lowerLimit;
         return this;
     }
 
-    public Boolean getTotalMinCount() {
-        return this.totalMinCount;
+    public void setOrderByLowerLimit(int keyword) {
+        setOrderBy("lowerLimit", keyword);
     }
 
-    public TotalProductFreightQuery setTotalMinCount(Boolean totalMinCount) {
-        this.totalMinCount = totalMinCount;
+    public int getOrderByLowerLimit() {
+        return getOrderByKeyword("lowerLimit");
+    }
+
+    public BigDecimal getMinFreight() {
+        return this.minFreight;
+    }
+
+    public TotalProductFreightQuery setMinFreight(BigDecimal minFreight) {
+        this.minFreight = minFreight;
         return this;
     }
 
-    public Boolean getTotalAvgCount() {
-        return this.totalAvgCount;
+    public BigDecimal getMaxFreight() {
+        return this.maxFreight;
     }
 
-    public TotalProductFreightQuery setTotalAvgCount(Boolean totalAvgCount) {
-        this.totalAvgCount = totalAvgCount;
+    public TotalProductFreightQuery setMaxFreight(BigDecimal maxFreight) {
+        this.maxFreight = maxFreight;
         return this;
     }
 
-    public Integer getMaxTotalSumCount() {
-        return this.maxTotalSumCount;
+    public BigDecimal getFreight() {
+        return this.freight;
     }
 
-    public TotalProductFreightQuery setMaxTotalSumCount(Integer maxTotalSumCount) {
-        this.maxTotalSumCount = maxTotalSumCount;
+    public TotalProductFreightQuery setFreight(BigDecimal freight) {
+        this.freight = freight;
         return this;
     }
 
-    public Integer getMinTotalSumCount() {
-        return this.minTotalSumCount;
+    public void setOrderByFreight(int keyword) {
+        setOrderBy("freight", keyword);
     }
 
-    public TotalProductFreightQuery setMinTotalSumCount(Integer minTotalSumCount) {
-        this.minTotalSumCount = minTotalSumCount;
+    public int getOrderByFreight() {
+        return getOrderByKeyword("freight");
+    }
+
+    public Boolean getTotalSumLowerLimit() {
+        return this.totalSumLowerLimit;
+    }
+
+    public TotalProductFreightQuery setTotalSumLowerLimit(Boolean totalSumLowerLimit) {
+        this.totalSumLowerLimit = totalSumLowerLimit;
         return this;
     }
 
-    public Integer getMinTotalMinCount() {
-        return this.minTotalMinCount;
+    public Boolean getTotalMaxLowerLimit() {
+        return this.totalMaxLowerLimit;
     }
 
-    public TotalProductFreightQuery setMinTotalMinCount(Integer minTotalMinCount) {
-        this.minTotalMinCount = minTotalMinCount;
+    public TotalProductFreightQuery setTotalMaxLowerLimit(Boolean totalMaxLowerLimit) {
+        this.totalMaxLowerLimit = totalMaxLowerLimit;
         return this;
     }
 
-    public Integer getMaxTotalMinCount() {
-        return this.maxTotalMinCount;
+    public Boolean getTotalMinLowerLimit() {
+        return this.totalMinLowerLimit;
     }
 
-    public TotalProductFreightQuery setMaxTotalMinCount(Integer maxTotalMinCount) {
-        this.maxTotalMinCount = maxTotalMinCount;
+    public TotalProductFreightQuery setTotalMinLowerLimit(Boolean totalMinLowerLimit) {
+        this.totalMinLowerLimit = totalMinLowerLimit;
         return this;
     }
 
-    public Integer getMinTotalMaxCount() {
-        return this.minTotalMaxCount;
+    public Boolean getTotalAvgLowerLimit() {
+        return this.totalAvgLowerLimit;
     }
 
-    public TotalProductFreightQuery setMinTotalMaxCount(Integer minTotalMaxCount) {
-        this.minTotalMaxCount = minTotalMaxCount;
+    public TotalProductFreightQuery setTotalAvgLowerLimit(Boolean totalAvgLowerLimit) {
+        this.totalAvgLowerLimit = totalAvgLowerLimit;
         return this;
     }
 
-    public Integer getMaxTotalMaxCount() {
-        return this.maxTotalMaxCount;
+    public BigDecimal getMaxTotalSumLowerLimit() {
+        return this.maxTotalSumLowerLimit;
     }
 
-    public TotalProductFreightQuery setMaxTotalMaxCount(Integer maxTotalMaxCount) {
-        this.maxTotalMaxCount = maxTotalMaxCount;
+    public TotalProductFreightQuery setMaxTotalSumLowerLimit(BigDecimal maxTotalSumLowerLimit) {
+        this.maxTotalSumLowerLimit = maxTotalSumLowerLimit;
         return this;
     }
 
-    public Integer getMinTotalAvgCount() {
-        return this.minTotalAvgCount;
+    public BigDecimal getMinTotalSumLowerLimit() {
+        return this.minTotalSumLowerLimit;
     }
 
-    public TotalProductFreightQuery setMinTotalAvgCount(Integer minTotalAvgCount) {
-        this.minTotalAvgCount = minTotalAvgCount;
+    public TotalProductFreightQuery setMinTotalSumLowerLimit(BigDecimal minTotalSumLowerLimit) {
+        this.minTotalSumLowerLimit = minTotalSumLowerLimit;
         return this;
     }
 
-    public Integer getMaxTotalAvgCount() {
-        return this.maxTotalAvgCount;
+    public BigDecimal getMinTotalMinLowerLimit() {
+        return this.minTotalMinLowerLimit;
     }
 
-    public TotalProductFreightQuery setMaxTotalAvgCount(Integer maxTotalAvgCount) {
-        this.maxTotalAvgCount = maxTotalAvgCount;
+    public TotalProductFreightQuery setMinTotalMinLowerLimit(BigDecimal minTotalMinLowerLimit) {
+        this.minTotalMinLowerLimit = minTotalMinLowerLimit;
+        return this;
+    }
+
+    public BigDecimal getMaxTotalMinLowerLimit() {
+        return this.maxTotalMinLowerLimit;
+    }
+
+    public TotalProductFreightQuery setMaxTotalMinLowerLimit(BigDecimal maxTotalMinLowerLimit) {
+        this.maxTotalMinLowerLimit = maxTotalMinLowerLimit;
+        return this;
+    }
+
+    public BigDecimal getMinTotalMaxLowerLimit() {
+        return this.minTotalMaxLowerLimit;
+    }
+
+    public TotalProductFreightQuery setMinTotalMaxLowerLimit(BigDecimal minTotalMaxLowerLimit) {
+        this.minTotalMaxLowerLimit = minTotalMaxLowerLimit;
+        return this;
+    }
+
+    public BigDecimal getMaxTotalMaxLowerLimit() {
+        return this.maxTotalMaxLowerLimit;
+    }
+
+    public TotalProductFreightQuery setMaxTotalMaxLowerLimit(BigDecimal maxTotalMaxLowerLimit) {
+        this.maxTotalMaxLowerLimit = maxTotalMaxLowerLimit;
+        return this;
+    }
+
+    public BigDecimal getMinTotalAvgLowerLimit() {
+        return this.minTotalAvgLowerLimit;
+    }
+
+    public TotalProductFreightQuery setMinTotalAvgLowerLimit(BigDecimal minTotalAvgLowerLimit) {
+        this.minTotalAvgLowerLimit = minTotalAvgLowerLimit;
+        return this;
+    }
+
+    public BigDecimal getMaxTotalAvgLowerLimit() {
+        return this.maxTotalAvgLowerLimit;
+    }
+
+    public TotalProductFreightQuery setMaxTotalAvgLowerLimit(BigDecimal maxTotalAvgLowerLimit) {
+        this.maxTotalAvgLowerLimit = maxTotalAvgLowerLimit;
+        return this;
+    }
+
+    public Boolean getTotalSumFreight() {
+        return this.totalSumFreight;
+    }
+
+    public TotalProductFreightQuery setTotalSumFreight(Boolean totalSumFreight) {
+        this.totalSumFreight = totalSumFreight;
+        return this;
+    }
+
+    public Boolean getTotalMaxFreight() {
+        return this.totalMaxFreight;
+    }
+
+    public TotalProductFreightQuery setTotalMaxFreight(Boolean totalMaxFreight) {
+        this.totalMaxFreight = totalMaxFreight;
+        return this;
+    }
+
+    public Boolean getTotalMinFreight() {
+        return this.totalMinFreight;
+    }
+
+    public TotalProductFreightQuery setTotalMinFreight(Boolean totalMinFreight) {
+        this.totalMinFreight = totalMinFreight;
+        return this;
+    }
+
+    public Boolean getTotalAvgFreight() {
+        return this.totalAvgFreight;
+    }
+
+    public TotalProductFreightQuery setTotalAvgFreight(Boolean totalAvgFreight) {
+        this.totalAvgFreight = totalAvgFreight;
+        return this;
+    }
+
+    public BigDecimal getMaxTotalSumFreight() {
+        return this.maxTotalSumFreight;
+    }
+
+    public TotalProductFreightQuery setMaxTotalSumFreight(BigDecimal maxTotalSumFreight) {
+        this.maxTotalSumFreight = maxTotalSumFreight;
+        return this;
+    }
+
+    public BigDecimal getMinTotalSumFreight() {
+        return this.minTotalSumFreight;
+    }
+
+    public TotalProductFreightQuery setMinTotalSumFreight(BigDecimal minTotalSumFreight) {
+        this.minTotalSumFreight = minTotalSumFreight;
+        return this;
+    }
+
+    public BigDecimal getMinTotalMinFreight() {
+        return this.minTotalMinFreight;
+    }
+
+    public TotalProductFreightQuery setMinTotalMinFreight(BigDecimal minTotalMinFreight) {
+        this.minTotalMinFreight = minTotalMinFreight;
+        return this;
+    }
+
+    public BigDecimal getMaxTotalMinFreight() {
+        return this.maxTotalMinFreight;
+    }
+
+    public TotalProductFreightQuery setMaxTotalMinFreight(BigDecimal maxTotalMinFreight) {
+        this.maxTotalMinFreight = maxTotalMinFreight;
+        return this;
+    }
+
+    public BigDecimal getMinTotalMaxFreight() {
+        return this.minTotalMaxFreight;
+    }
+
+    public TotalProductFreightQuery setMinTotalMaxFreight(BigDecimal minTotalMaxFreight) {
+        this.minTotalMaxFreight = minTotalMaxFreight;
+        return this;
+    }
+
+    public BigDecimal getMaxTotalMaxFreight() {
+        return this.maxTotalMaxFreight;
+    }
+
+    public TotalProductFreightQuery setMaxTotalMaxFreight(BigDecimal maxTotalMaxFreight) {
+        this.maxTotalMaxFreight = maxTotalMaxFreight;
+        return this;
+    }
+
+    public BigDecimal getMinTotalAvgFreight() {
+        return this.minTotalAvgFreight;
+    }
+
+    public TotalProductFreightQuery setMinTotalAvgFreight(BigDecimal minTotalAvgFreight) {
+        this.minTotalAvgFreight = minTotalAvgFreight;
+        return this;
+    }
+
+    public BigDecimal getMaxTotalAvgFreight() {
+        return this.maxTotalAvgFreight;
+    }
+
+    public TotalProductFreightQuery setMaxTotalAvgFreight(BigDecimal maxTotalAvgFreight) {
+        this.maxTotalAvgFreight = maxTotalAvgFreight;
         return this;
     }
 
     public TotalProductFreightQuery setGroupByCreatedDate(DateGroupBy dateGroupBy) {
         groupBys.addDateGroupBy("createdDate", dateGroupBy);
+        return this;
+    }
+
+    public Long[] getIncludeMods() {
+        return this.includeMods;
+    }
+
+    public TotalProductFreightQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
+        return this;
+    }
+
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
+    }
+
+    public TotalProductFreightQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
+        return this;
+    }
+
+    public TotalProductFreightQuery setGroupByMods(java.lang.Long mods) {
+        if (mods!= null) {
+            groupBys.addModsGroupBy("mods", mods);
+        } else {
+            groupBys.removeGroupBy("mods");
+        }
         return this;
     }
 
@@ -260,29 +466,6 @@ public class TotalProductFreightQuery
 
     public TotalProductFreightQuery setJoinProduct() {
         this.setJoinProduct(com.xmg.mall.base.query.JoinType.LEFT);
-        return this;
-    }
-
-    public com.xmg.mall.base.query.JoinType getJoinImpression() {
-        return this.joinImpression;
-    }
-
-    public TotalProductFreightQuery setJoinImpression(com.xmg.mall.base.query.JoinType joinImpression) {
-        this.joinImpression = joinImpression;
-        return this;
-    }
-
-    public ImpressionQuery getImpressionQuery() {
-        return this.impressionQuery;
-    }
-
-    public TotalProductFreightQuery setImpressionQuery(ImpressionQuery impressionQuery) {
-        this.impressionQuery = impressionQuery;
-        return this;
-    }
-
-    public TotalProductFreightQuery setJoinImpression() {
-        this.setJoinImpression(com.xmg.mall.base.query.JoinType.LEFT);
         return this;
     }
 

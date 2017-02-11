@@ -5,6 +5,7 @@
   <resultMap id="TOTAL_RESULT" type="com.xmg.mall.product.vo.TotalProductFreight">
     <result column="rows" property="rows"/>
     <result column="createdDate" property="createdDate"/>
+    <result column="mods" property="mods"/>
   </resultMap>
   <sql id="QUERY_WHERE">
     <where>
@@ -17,10 +18,14 @@
       <if test="groupBys.size() &gt; 0">
         <foreach collection="groupBys.keySet()" item="key">productFreight.${key} AS ${key},</foreach>
       </if>
-      <if test="totalSumCount">SUM(productFreight.count) AS totalSumCount,</if>
-      <if test="totalMinCount">MIN(productFreight.count) AS totalMinCount,</if>
-      <if test="totalMaxCount">MAX(productFreight.count) AS totalMaxCount,</if>
-      <if test="totalAvgCount">AVG(productFreight.count) AS totalAvgCount,</if>
+      <if test="totalSumLowerLimit">SUM(productFreight.lowerLimit) AS totalSumLowerLimit,</if>
+      <if test="totalMinLowerLimit">MIN(productFreight.lowerLimit) AS totalMinLowerLimit,</if>
+      <if test="totalMaxLowerLimit">MAX(productFreight.lowerLimit) AS totalMaxLowerLimit,</if>
+      <if test="totalAvgLowerLimit">AVG(productFreight.lowerLimit) AS totalAvgLowerLimit,</if>
+      <if test="totalSumFreight">SUM(productFreight.freight) AS totalSumFreight,</if>
+      <if test="totalMinFreight">MIN(productFreight.freight) AS totalMinFreight,</if>
+      <if test="totalMaxFreight">MAX(productFreight.freight) AS totalMaxFreight,</if>
+      <if test="totalAvgFreight">AVG(productFreight.freight) AS totalAvgFreight,</if>
     </trim>
   </sql>
   <sql id="QUERY_GROUP_BY">
@@ -42,14 +47,22 @@
     <trim prefixOverrides="AND | OR" prefix="HAVING">
       <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
       <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
-      <if test="minTotalSumCount != null">AND SUM(productFreight.count) &gt;= #{minTotalSumCount}</if>
-      <if test="maxTotalSumCount != null">AND SUM(productFreight.count) &lt;= #{maxTotalSumCount}</if>
-      <if test="minTotalMinCount != null">AND MIN(productFreight.count) &gt;= #{minTotalMinCount}</if>
-      <if test="maxTotalMinCount != null">AND MIN(productFreight.count) &lt;= #{maxTotalMinCount}</if>
-      <if test="minTotalMaxCount != null">AND MAX(productFreight.count) &gt;= #{minTotalMaxCount}</if>
-      <if test="maxTotalMaxCount != null">AND MAX(productFreight.count) &lt;= #{maxTotalMaxCount}</if>
-      <if test="minTotalAvgCount != null">AND AVG(productFreight.count) &gt;= #{minTotalAvgCount}</if>
-      <if test="maxTotalAvgCount != null">AND AVG(productFreight.count) &lt;= #{maxTotalAvgCount}</if>
+      <if test="minTotalSumLowerLimit != null">AND SUM(productFreight.lowerLimit) &gt;= #{minTotalSumLowerLimit}</if>
+      <if test="maxTotalSumLowerLimit != null">AND SUM(productFreight.lowerLimit) &lt;= #{maxTotalSumLowerLimit}</if>
+      <if test="minTotalMinLowerLimit != null">AND MIN(productFreight.lowerLimit) &gt;= #{minTotalMinLowerLimit}</if>
+      <if test="maxTotalMinLowerLimit != null">AND MIN(productFreight.lowerLimit) &lt;= #{maxTotalMinLowerLimit}</if>
+      <if test="minTotalMaxLowerLimit != null">AND MAX(productFreight.lowerLimit) &gt;= #{minTotalMaxLowerLimit}</if>
+      <if test="maxTotalMaxLowerLimit != null">AND MAX(productFreight.lowerLimit) &lt;= #{maxTotalMaxLowerLimit}</if>
+      <if test="minTotalAvgLowerLimit != null">AND AVG(productFreight.lowerLimit) &gt;= #{minTotalAvgLowerLimit}</if>
+      <if test="maxTotalAvgLowerLimit != null">AND AVG(productFreight.lowerLimit) &lt;= #{maxTotalAvgLowerLimit}</if>
+      <if test="minTotalSumFreight != null">AND SUM(productFreight.freight) &gt;= #{minTotalSumFreight}</if>
+      <if test="maxTotalSumFreight != null">AND SUM(productFreight.freight) &lt;= #{maxTotalSumFreight}</if>
+      <if test="minTotalMinFreight != null">AND MIN(productFreight.freight) &gt;= #{minTotalMinFreight}</if>
+      <if test="maxTotalMinFreight != null">AND MIN(productFreight.freight) &lt;= #{maxTotalMinFreight}</if>
+      <if test="minTotalMaxFreight != null">AND MAX(productFreight.freight) &gt;= #{minTotalMaxFreight}</if>
+      <if test="maxTotalMaxFreight != null">AND MAX(productFreight.freight) &lt;= #{maxTotalMaxFreight}</if>
+      <if test="minTotalAvgFreight != null">AND AVG(productFreight.freight) &gt;= #{minTotalAvgFreight}</if>
+      <if test="maxTotalAvgFreight != null">AND AVG(productFreight.freight) &lt;= #{maxTotalAvgFreight}</if>
     </trim>
   </sql>
   <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.product.qo.TotalProductFreightQuery">SELECT 

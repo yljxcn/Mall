@@ -8,31 +8,29 @@
     <result property="lastModifiedDate" column="lastModifiedDate"/>
     <result property="version" column="version"/>
     <result property="productId" column="productId"/>
-    <result property="impressionId" column="impressionId"/>
-    <result property="count" column="count"/>
+    <result property="lowerLimit" column="lowerLimit"/>
+    <result property="freight" column="freight"/>
+    <result property="mods" column="mods"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">productFreight.id, productFreight.createdDate, productFreight.lastModifiedDate, productFreight.version,productFreight.productId,productFreight.impressionId,productFreight.count</sql>
-  <sql id="QUERY_COLUMNS">productFreight.id, productFreight.createdDate, productFreight.lastModifiedDate, productFreight.version,productFreight.productId,productFreight.impressionId,productFreight.count</sql>
+  <sql id="BASE_COLUMNS">productFreight.id, productFreight.createdDate, productFreight.lastModifiedDate, productFreight.version,productFreight.productId,productFreight.lowerLimit,productFreight.freight,productFreight.mods</sql>
+  <sql id="QUERY_COLUMNS">productFreight.id, productFreight.createdDate, productFreight.lastModifiedDate, productFreight.version,productFreight.productId,productFreight.lowerLimit,productFreight.freight,productFreight.mods</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedProductFreight" extends="BASE_RESULT">
     <association property="product" column="productId" javaType="com.xmg.mall.product.domain.Product" columnPrefix="product_" resultMap="com.xmg.mall.product.mapper.ProductMapper.BASE_RESULT"/>
-    <association property="impression" column="impressionId" javaType="com.xmg.mall.product.domain.Impression" columnPrefix="impression_" resultMap="com.xmg.mall.product.mapper.ImpressionMapper.BASE_RESULT"/>
   </resultMap>
   <sql id="JOIN_COLUMNS">
     <if test="joinProduct != null">, product.id AS product_id, product.name AS product_name</if>
-    <if test="joinImpression != null">, impression.id AS impression_id, impression.name AS impression_name</if>
   </sql>
   <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
     <include refid="BASE_COLUMNS"/> FROM `ProductFreight` productFreight WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `ProductFreight` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductFreight" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductFreight`(id, createdDate, version,productId,impressionId,count) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{impressionId }, #{count })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductFreight" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductFreight`(id, createdDate, version,productId,lowerLimit,freight,mods) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{lowerLimit }, #{freight }, #{mods })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.ProductFreight">UPDATE `ProductFreight`
-    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, impressionId = #{impressionId }, count = #{count }</set>
+    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, lowerLimit = #{lowerLimit }, freight = #{freight }, mods = #{mods }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN">
     <if test="joinProduct != null">${joinProduct.name} `Product` product ON product.id = productFreight.productId</if>
-    <if test="joinImpression != null">${joinImpression.name} `Impression` impression ON impression.id = productFreight.impressionId</if>
   </sql>
   <sql id="QUERY_WHERE_SQL">
     <if test="ids != null">AND productFreight.id IN
@@ -41,7 +39,18 @@
     <if test="startCreatedDate != null">AND productFreight.createdDate &gt;= #{startCreatedDate }</if>
     <if test="endCreatedDate != null">AND productFreight.createdDate &lt;= #{endCreatedDate }</if>
     <if test="productId != null">AND productFreight.productId = #{productId}</if>
-    <if test="impressionId != null">AND productFreight.impressionId = #{impressionId}</if>
+    <if test="lowerLimit != null">AND productFreight.lowerLimit = #{lowerLimit}</if>
+    <if test="minLowerLimit != null">AND productFreight.lowerLimit &gt;= #{minLowerLimit}</if>
+    <if test="maxLowerLimit != null">AND productFreight.lowerLimit &lt;= #{maxLowerLimit}</if>
+    <if test="freight != null">AND productFreight.freight = #{freight}</if>
+    <if test="minFreight != null">AND productFreight.freight &gt;= #{minFreight}</if>
+    <if test="maxFreight != null">AND productFreight.freight &lt;= #{maxFreight}</if>
+    <if test="excludeMods != null">AND 
+      <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">productFreight.mods &amp; #{mod } = 0</foreach>
+    </if>
+    <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
+      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" OR ">productFreight.mods &amp; #{mod } &lt;&gt; 0</foreach>
+    </if>
     <if test="productQuery != null &amp;&amp; joinProduct">
       <if test="productQuery.ids != null">AND product.id IN
         <foreach collection="productQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
@@ -68,15 +77,6 @@
       <if test="productQuery.includeMods != null &amp;&amp; productQuery.excludeMods == null ">AND 
         <foreach collection="productQuery.includeMods" item="mod" open="(" close=")" separator=" OR ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
       </if>
-    </if>
-    <if test="impressionQuery != null &amp;&amp; joinImpression">
-      <if test="impressionQuery.ids != null">AND impression.id IN
-        <foreach collection="impressionQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
-      </if>
-      <if test="impressionQuery.startCreatedDate != null">AND impression.createdDate &gt;= #{impressionQuery.startCreatedDate }</if>
-      <if test="impressionQuery.endCreatedDate != null">AND impression.createdDate &lt;= #{impressionQuery.endCreatedDate }</if>
-      <if test="impressionQuery.name != null">AND impression.name = #{impressionQuery.name}</if>
-      <if test="impressionQuery.likeName != null">AND impression.name LIKE CONCAT(#{impressionQuery.likeName} ,'%')</if>
     </if>
   </sql>
   <sql id="QUERY_WHERE">

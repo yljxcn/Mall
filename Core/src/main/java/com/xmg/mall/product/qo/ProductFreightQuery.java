@@ -1,6 +1,7 @@
 
 package com.xmg.mall.product.qo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import com.xmg.mall.base.query.QueryCondition;
 
@@ -10,13 +11,18 @@ public class ProductFreightQuery
 
     protected com.xmg.mall.base.query.JoinType joinProduct;
     protected ProductQuery productQuery;
-    protected com.xmg.mall.base.query.JoinType joinImpression;
-    protected ImpressionQuery impressionQuery;
     protected Long[] ids;
     protected Date startCreatedDate;
     protected Date endCreatedDate;
     protected Long productId;
-    protected Long impressionId;
+    protected BigDecimal lowerLimit;
+    protected BigDecimal minLowerLimit;
+    protected BigDecimal maxLowerLimit;
+    protected BigDecimal freight;
+    protected BigDecimal minFreight;
+    protected BigDecimal maxFreight;
+    protected Long[] includeMods;
+    protected Long[] excludeMods;
 
     public boolean hasIds() {
         return (this.ids.length!= 0);
@@ -42,29 +48,6 @@ public class ProductFreightQuery
 
     public ProductFreightQuery setJoinProduct() {
         this.setJoinProduct(com.xmg.mall.base.query.JoinType.LEFT);
-        return this;
-    }
-
-    public com.xmg.mall.base.query.JoinType getJoinImpression() {
-        return this.joinImpression;
-    }
-
-    public ProductFreightQuery setJoinImpression(com.xmg.mall.base.query.JoinType joinImpression) {
-        this.joinImpression = joinImpression;
-        return this;
-    }
-
-    public ImpressionQuery getImpressionQuery() {
-        return this.impressionQuery;
-    }
-
-    public ProductFreightQuery setImpressionQuery(ImpressionQuery impressionQuery) {
-        this.impressionQuery = impressionQuery;
-        return this;
-    }
-
-    public ProductFreightQuery setJoinImpression() {
-        this.setJoinImpression(com.xmg.mall.base.query.JoinType.LEFT);
         return this;
     }
 
@@ -104,12 +87,75 @@ public class ProductFreightQuery
         return this;
     }
 
-    public Long getImpressionId() {
-        return this.impressionId;
+    public BigDecimal getLowerLimit() {
+        return this.lowerLimit;
     }
 
-    public ProductFreightQuery setImpressionId(Long impressionId) {
-        this.impressionId = impressionId;
+    public ProductFreightQuery setLowerLimit(BigDecimal lowerLimit) {
+        this.lowerLimit = lowerLimit;
+        return this;
+    }
+
+    public BigDecimal getMinLowerLimit() {
+        return this.minLowerLimit;
+    }
+
+    public ProductFreightQuery setMinLowerLimit(BigDecimal minLowerLimit) {
+        this.minLowerLimit = minLowerLimit;
+        return this;
+    }
+
+    public BigDecimal getMaxLowerLimit() {
+        return this.maxLowerLimit;
+    }
+
+    public ProductFreightQuery setMaxLowerLimit(BigDecimal maxLowerLimit) {
+        this.maxLowerLimit = maxLowerLimit;
+        return this;
+    }
+
+    public BigDecimal getFreight() {
+        return this.freight;
+    }
+
+    public ProductFreightQuery setFreight(BigDecimal freight) {
+        this.freight = freight;
+        return this;
+    }
+
+    public BigDecimal getMinFreight() {
+        return this.minFreight;
+    }
+
+    public ProductFreightQuery setMinFreight(BigDecimal minFreight) {
+        this.minFreight = minFreight;
+        return this;
+    }
+
+    public BigDecimal getMaxFreight() {
+        return this.maxFreight;
+    }
+
+    public ProductFreightQuery setMaxFreight(BigDecimal maxFreight) {
+        this.maxFreight = maxFreight;
+        return this;
+    }
+
+    public Long[] getIncludeMods() {
+        return this.includeMods;
+    }
+
+    public ProductFreightQuery setIncludeMods(Long[] includeMods) {
+        this.includeMods = includeMods;
+        return this;
+    }
+
+    public Long[] getExcludeMods() {
+        return this.excludeMods;
+    }
+
+    public ProductFreightQuery setExcludeMods(Long[] excludeMods) {
+        this.excludeMods = excludeMods;
         return this;
     }
 
@@ -129,12 +175,20 @@ public class ProductFreightQuery
         return getOrderByKeyword("createdDate");
     }
 
-    public void setOrderByCount(int keyword) {
-        setOrderBy("count", keyword);
+    public void setOrderByLowerLimit(int keyword) {
+        setOrderBy("lowerLimit", keyword);
     }
 
-    public int getOrderByCount() {
-        return getOrderByKeyword("count");
+    public int getOrderByLowerLimit() {
+        return getOrderByKeyword("lowerLimit");
+    }
+
+    public void setOrderByFreight(int keyword) {
+        setOrderBy("freight", keyword);
+    }
+
+    public int getOrderByFreight() {
+        return getOrderByKeyword("freight");
     }
 
 }

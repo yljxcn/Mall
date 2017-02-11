@@ -51,8 +51,8 @@ public class ProductController {
         return "product/product_list";
     }
 
-    @RequestMapping("/toSaveOrUpdate")
-    public String toSaveOrUpdate(Model model) {
+    @RequestMapping("/toSave")
+    public String toSave(Model model) {
         // 所有可见的品牌
         BrandQuery brandQuery = new BrandQuery();
         brandQuery.setIncludeMods(new Long[]{Brand.MODS_VISIBLE});
@@ -65,30 +65,30 @@ public class ProductController {
 
         model.addAttribute("brands", brands);
         model.addAttribute("catalogs", catalogs);
-        return "product/product_add_or_update";
+        return "product/product_save";
     }
 
-    @RequestMapping("/catalogPropertiesAndValues")
-    public String catalogPropertiesAndValues(Model model, Long catalogId) {
+    @RequestMapping("/save")
+    public String save(Model model) {
+        // TODO
+        return "redirect:/product/page";
+    }
 
-        CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
-        catalogPropertyQuery.setCatalogId(catalogId);
-        List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Model model) {
+        // 所有可见的品牌
+        BrandQuery brandQuery = new BrandQuery();
+        brandQuery.setIncludeMods(new Long[]{Brand.MODS_VISIBLE});
+        List<ExtendedBrand> brands = productModuleService.getBrandService().listBrands(brandQuery);
 
-        List<ExtendedCatalogPropertiesAndValues> voes = new ArrayList<>(catalogProperties.size());
-        for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
-            ExtendedCatalogPropertiesAndValues vo = new ExtendedCatalogPropertiesAndValues();
-            vo.setCatalogProperty(catalogProperty);
+        // 查询三级分类
+        CatalogQuery catalogQuery = new CatalogQuery();
+        catalogQuery.setIncludeLevels(new Integer[]{Catalog.LEVEL_THIRD});
+        List<ExtendedCatalog> catalogs = productModuleService.getCatalogService().listCatalogs(catalogQuery);
 
-            CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();
-            catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
-            List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
-            vo.setCatalogPropertyValues(catalogPropertyValues);
-            voes.add(vo);
-        }
-
-        model.addAttribute("voes", voes);
-        return "product/product_add_or_update_catalog_table";
+        model.addAttribute("brands", brands);
+        model.addAttribute("catalogs", catalogs);
+        return "product/product_update";
     }
 
 }

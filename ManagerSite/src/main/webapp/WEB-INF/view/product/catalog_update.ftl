@@ -198,5 +198,4 @@
     new CatalogPropertiesTable($('.catalog-property-table'));
 
     initRefresh({toUpdateUrl: '/catalog/toUpdate'});
-
 </script>

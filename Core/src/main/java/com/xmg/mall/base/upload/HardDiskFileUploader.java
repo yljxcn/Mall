@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class HardDiskFileUploader implements FileUploader {
@@ -47,13 +48,19 @@ public class HardDiskFileUploader implements FileUploader {
 	}
 
 	@Override
-	public String upload(CommonsMultipartFile file) throws IOException {
+	public String upload(MultipartFile file) throws IOException {
 		return upload(null, file);
+	}
+
+	@Override
+	public String upload(String namespace, String name, MultipartFile file) throws IOException {
+		setNamespace(namespace);
+		return upload(name, file);
 	}
 
 
 	@Override
-	public String upload(String name, CommonsMultipartFile file) throws IOException {
+	public String upload(String name, MultipartFile file) throws IOException {
 
 		if (file == null) throw new IllegalArgumentException("必须指定所上传的文件");
 

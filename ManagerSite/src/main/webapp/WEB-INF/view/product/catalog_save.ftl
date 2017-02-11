@@ -152,5 +152,4 @@
     new CatalogPropertiesTable($('.catalog-property-table'));
 
     initRefresh({toSaveUrl: '/catalog/toSave'});
-
 </script>

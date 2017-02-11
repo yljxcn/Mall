@@ -1,7 +1,6 @@
 
 package com.xmg.mall.product.qo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import com.xmg.mall.base.query.QueryCondition;
 
@@ -11,18 +10,15 @@ public class ProductCatalogPropertyValueQuery
 
     protected com.xmg.mall.base.query.JoinType joinProduct;
     protected ProductQuery productQuery;
+    protected com.xmg.mall.base.query.JoinType joinCatalog;
+    protected CatalogQuery catalogQuery;
     protected Long[] ids;
     protected Date startCreatedDate;
     protected Date endCreatedDate;
     protected Long productId;
-    protected BigDecimal lowerLimit;
-    protected BigDecimal minLowerLimit;
-    protected BigDecimal maxLowerLimit;
-    protected BigDecimal freight;
-    protected BigDecimal minFreight;
-    protected BigDecimal maxFreight;
-    protected Long[] includeMods;
-    protected Long[] excludeMods;
+    protected Long catalogId;
+    protected String value;
+    protected String likeValue;
 
     public boolean hasIds() {
         return (this.ids.length!= 0);
@@ -48,6 +44,29 @@ public class ProductCatalogPropertyValueQuery
 
     public ProductCatalogPropertyValueQuery setJoinProduct() {
         this.setJoinProduct(com.xmg.mall.base.query.JoinType.LEFT);
+        return this;
+    }
+
+    public com.xmg.mall.base.query.JoinType getJoinCatalog() {
+        return this.joinCatalog;
+    }
+
+    public ProductCatalogPropertyValueQuery setJoinCatalog(com.xmg.mall.base.query.JoinType joinCatalog) {
+        this.joinCatalog = joinCatalog;
+        return this;
+    }
+
+    public CatalogQuery getCatalogQuery() {
+        return this.catalogQuery;
+    }
+
+    public ProductCatalogPropertyValueQuery setCatalogQuery(CatalogQuery catalogQuery) {
+        this.catalogQuery = catalogQuery;
+        return this;
+    }
+
+    public ProductCatalogPropertyValueQuery setJoinCatalog() {
+        this.setJoinCatalog(com.xmg.mall.base.query.JoinType.LEFT);
         return this;
     }
 
@@ -87,75 +106,30 @@ public class ProductCatalogPropertyValueQuery
         return this;
     }
 
-    public BigDecimal getLowerLimit() {
-        return this.lowerLimit;
+    public Long getCatalogId() {
+        return this.catalogId;
     }
 
-    public ProductCatalogPropertyValueQuery setLowerLimit(BigDecimal lowerLimit) {
-        this.lowerLimit = lowerLimit;
+    public ProductCatalogPropertyValueQuery setCatalogId(Long catalogId) {
+        this.catalogId = catalogId;
         return this;
     }
 
-    public BigDecimal getMinLowerLimit() {
-        return this.minLowerLimit;
+    public String getValue() {
+        return this.value;
     }
 
-    public ProductCatalogPropertyValueQuery setMinLowerLimit(BigDecimal minLowerLimit) {
-        this.minLowerLimit = minLowerLimit;
+    public ProductCatalogPropertyValueQuery setValue(String value) {
+        this.value = value;
         return this;
     }
 
-    public BigDecimal getMaxLowerLimit() {
-        return this.maxLowerLimit;
+    public String getLikeValue() {
+        return this.likeValue;
     }
 
-    public ProductCatalogPropertyValueQuery setMaxLowerLimit(BigDecimal maxLowerLimit) {
-        this.maxLowerLimit = maxLowerLimit;
-        return this;
-    }
-
-    public BigDecimal getFreight() {
-        return this.freight;
-    }
-
-    public ProductCatalogPropertyValueQuery setFreight(BigDecimal freight) {
-        this.freight = freight;
-        return this;
-    }
-
-    public BigDecimal getMinFreight() {
-        return this.minFreight;
-    }
-
-    public ProductCatalogPropertyValueQuery setMinFreight(BigDecimal minFreight) {
-        this.minFreight = minFreight;
-        return this;
-    }
-
-    public BigDecimal getMaxFreight() {
-        return this.maxFreight;
-    }
-
-    public ProductCatalogPropertyValueQuery setMaxFreight(BigDecimal maxFreight) {
-        this.maxFreight = maxFreight;
-        return this;
-    }
-
-    public Long[] getIncludeMods() {
-        return this.includeMods;
-    }
-
-    public ProductCatalogPropertyValueQuery setIncludeMods(Long[] includeMods) {
-        this.includeMods = includeMods;
-        return this;
-    }
-
-    public Long[] getExcludeMods() {
-        return this.excludeMods;
-    }
-
-    public ProductCatalogPropertyValueQuery setExcludeMods(Long[] excludeMods) {
-        this.excludeMods = excludeMods;
+    public ProductCatalogPropertyValueQuery setLikeValue(String likeValue) {
+        this.likeValue = likeValue;
         return this;
     }
 
@@ -173,22 +147,6 @@ public class ProductCatalogPropertyValueQuery
 
     public int getOrderByCreatedDate() {
         return getOrderByKeyword("createdDate");
-    }
-
-    public void setOrderByLowerLimit(int keyword) {
-        setOrderBy("lowerLimit", keyword);
-    }
-
-    public int getOrderByLowerLimit() {
-        return getOrderByKeyword("lowerLimit");
-    }
-
-    public void setOrderByFreight(int keyword) {
-        setOrderBy("freight", keyword);
-    }
-
-    public int getOrderByFreight() {
-        return getOrderByKeyword("freight");
     }
 
 }

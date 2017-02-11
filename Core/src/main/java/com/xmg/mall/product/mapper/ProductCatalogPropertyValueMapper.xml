@@ -8,29 +8,31 @@
     <result property="lastModifiedDate" column="lastModifiedDate"/>
     <result property="version" column="version"/>
     <result property="productId" column="productId"/>
-    <result property="lowerLimit" column="lowerLimit"/>
-    <result property="freight" column="freight"/>
-    <result property="mods" column="mods"/>
+    <result property="catalogId" column="catalogId"/>
+    <result property="value" column="value"/>
   </resultMap>
-  <sql id="BASE_COLUMNS">productCatalogPropertyValue.id, productCatalogPropertyValue.createdDate, productCatalogPropertyValue.lastModifiedDate, productCatalogPropertyValue.version,productCatalogPropertyValue.productId,productCatalogPropertyValue.lowerLimit,productCatalogPropertyValue.freight,productCatalogPropertyValue.mods</sql>
-  <sql id="QUERY_COLUMNS">productCatalogPropertyValue.id, productCatalogPropertyValue.createdDate, productCatalogPropertyValue.lastModifiedDate, productCatalogPropertyValue.version,productCatalogPropertyValue.productId,productCatalogPropertyValue.lowerLimit,productCatalogPropertyValue.freight,productCatalogPropertyValue.mods</sql>
+  <sql id="BASE_COLUMNS">productCatalogPropertyValue.id, productCatalogPropertyValue.createdDate, productCatalogPropertyValue.lastModifiedDate, productCatalogPropertyValue.version,productCatalogPropertyValue.productId,productCatalogPropertyValue.catalogId,productCatalogPropertyValue.value</sql>
+  <sql id="QUERY_COLUMNS">productCatalogPropertyValue.id, productCatalogPropertyValue.createdDate, productCatalogPropertyValue.lastModifiedDate, productCatalogPropertyValue.version,productCatalogPropertyValue.productId,productCatalogPropertyValue.catalogId,productCatalogPropertyValue.value</sql>
   <resultMap id="VO_RESULT" type="com.xmg.mall.product.vo.ExtendedProductCatalogPropertyValue" extends="BASE_RESULT">
     <association property="product" column="productId" javaType="com.xmg.mall.product.domain.Product" columnPrefix="product_" resultMap="com.xmg.mall.product.mapper.ProductMapper.BASE_RESULT"/>
+    <association property="catalog" column="catalogId" javaType="com.xmg.mall.product.domain.Catalog" columnPrefix="catalog_" resultMap="com.xmg.mall.product.mapper.CatalogMapper.BASE_RESULT"/>
   </resultMap>
   <sql id="JOIN_COLUMNS">
     <if test="joinProduct != null">, product.id AS product_id, product.name AS product_name</if>
+    <if test="joinCatalog != null">, catalog.id AS catalog_id, catalog.name AS catalog_name, catalog.sn AS catalog_sn</if>
   </sql>
   <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
     <include refid="BASE_COLUMNS"/> FROM `ProductCatalogPropertyValue` productCatalogPropertyValue WHERE id = #{id }
   </select>
   <delete id="delete" parameterType="java.lang.Long">DELETE FROM `ProductCatalogPropertyValue` WHERE id = #{id}</delete>
-  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductCatalogPropertyValue" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductCatalogPropertyValue`(id, createdDate, version,productId,lowerLimit,freight,mods) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{lowerLimit }, #{freight }, #{mods })</insert>
+  <insert id="add" parameterType="com.xmg.mall.product.domain.ProductCatalogPropertyValue" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `ProductCatalogPropertyValue`(id, createdDate, version,productId,catalogId,value) VALUES(#{id }, #{createdDate}, 0, #{productId }, #{catalogId }, #{value })</insert>
   <update id="update" parameterType="com.xmg.mall.product.domain.ProductCatalogPropertyValue">UPDATE `ProductCatalogPropertyValue`
-    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, lowerLimit = #{lowerLimit }, freight = #{freight }, mods = #{mods }</set>
+    <set>lastModifiedDate = now(), version = version + 1, productId = #{productId }, catalogId = #{catalogId }, value = #{value }</set>
     <where>id = #{id } AND version = #{version }</where>
   </update>
   <sql id="QUERY_JOIN">
     <if test="joinProduct != null">${joinProduct.name} `Product` product ON product.id = productCatalogPropertyValue.productId</if>
+    <if test="joinCatalog != null">${joinCatalog.name} `Catalog` catalog ON catalog.id = productCatalogPropertyValue.catalogId</if>
   </sql>
   <sql id="QUERY_WHERE_SQL">
     <if test="ids != null">AND productCatalogPropertyValue.id IN
@@ -39,18 +41,9 @@
     <if test="startCreatedDate != null">AND productCatalogPropertyValue.createdDate &gt;= #{startCreatedDate }</if>
     <if test="endCreatedDate != null">AND productCatalogPropertyValue.createdDate &lt;= #{endCreatedDate }</if>
     <if test="productId != null">AND productCatalogPropertyValue.productId = #{productId}</if>
-    <if test="lowerLimit != null">AND productCatalogPropertyValue.lowerLimit = #{lowerLimit}</if>
-    <if test="minLowerLimit != null">AND productCatalogPropertyValue.lowerLimit &gt;= #{minLowerLimit}</if>
-    <if test="maxLowerLimit != null">AND productCatalogPropertyValue.lowerLimit &lt;= #{maxLowerLimit}</if>
-    <if test="freight != null">AND productCatalogPropertyValue.freight = #{freight}</if>
-    <if test="minFreight != null">AND productCatalogPropertyValue.freight &gt;= #{minFreight}</if>
-    <if test="maxFreight != null">AND productCatalogPropertyValue.freight &lt;= #{maxFreight}</if>
-    <if test="excludeMods != null">AND 
-      <foreach collection="excludeMods" item="mod" open="(" close=")" separator=" AND ">productCatalogPropertyValue.mods &amp; #{mod } = 0</foreach>
-    </if>
-    <if test="includeMods != null &amp;&amp; excludeMods == null ">AND 
-      <foreach collection="includeMods" item="mod" open="(" close=")" separator=" OR ">productCatalogPropertyValue.mods &amp; #{mod } &lt;&gt; 0</foreach>
-    </if>
+    <if test="catalogId != null">AND productCatalogPropertyValue.catalogId = #{catalogId}</if>
+    <if test="value != null">AND productCatalogPropertyValue.value = #{value}</if>
+    <if test="likeValue != null">AND productCatalogPropertyValue.value LIKE CONCAT(#{likeValue} ,'%')</if>
     <if test="productQuery != null &amp;&amp; joinProduct">
       <if test="productQuery.ids != null">AND product.id IN
         <foreach collection="productQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
@@ -76,6 +69,24 @@
       </if>
       <if test="productQuery.includeMods != null &amp;&amp; productQuery.excludeMods == null ">AND 
         <foreach collection="productQuery.includeMods" item="mod" open="(" close=")" separator=" OR ">product.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      </if>
+    </if>
+    <if test="catalogQuery != null &amp;&amp; joinCatalog">
+      <if test="catalogQuery.ids != null">AND catalog.id IN
+        <foreach collection="catalogQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="catalogQuery.startCreatedDate != null">AND catalog.createdDate &gt;= #{catalogQuery.startCreatedDate }</if>
+      <if test="catalogQuery.endCreatedDate != null">AND catalog.createdDate &lt;= #{catalogQuery.endCreatedDate }</if>
+      <if test="catalogQuery.name != null">AND catalog.name = #{catalogQuery.name}</if>
+      <if test="catalogQuery.likeName != null">AND catalog.name LIKE CONCAT(#{catalogQuery.likeName} ,'%')</if>
+      <if test="catalogQuery.code != null">AND catalog.code = #{catalogQuery.code}</if>
+      <if test="catalogQuery.likeCode != null">AND catalog.code LIKE CONCAT(#{catalogQuery.likeCode} ,'%')</if>
+      <if test="catalogQuery.parentCatalogId != null">AND catalog.parentCatalogId = #{catalogQuery.parentCatalogId}</if>
+      <if test="catalogQuery.excludeLevels != null">AND catalog.level NOT IN
+        <foreach collection="catalogQuery.excludeLevels" item="level" open="(" close=")" separator=", ">#{level }</foreach>
+      </if>
+      <if test="catalogQuery.includeLevels != null &amp;&amp; catalogQuery.excludeLevels == null">AND catalog.level IN
+        <foreach collection="catalogQuery.includeLevels" item="level" open="(" close=")" separator=", ">#{level }</foreach>
       </if>
     </if>
   </sql>

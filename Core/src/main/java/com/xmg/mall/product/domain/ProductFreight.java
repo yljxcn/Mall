@@ -1,16 +1,41 @@
 
 package com.xmg.mall.product.domain;
 
+import java.math.BigDecimal;
 import com.xmg.mall.base.domain.BasicDomain;
+import com.xmg.mall.base.domain.Mod;
 
 public class ProductFreight
     extends BasicDomain
 {
 
     private final static long serialVersionUID = 1L;
+    protected Long mods = 0L;
+    public final static long MODS_FREE = 1L;
     protected Long productId;
-    protected Long impressionId;
-    protected Integer count;
+    protected BigDecimal lowerLimit;
+    protected BigDecimal freight;
+
+    public ProductFreight setMods(Long mods) {
+        if (mods == null) {
+            mods = 0L;
+        }
+        this.mods = mods;
+        return this;
+    }
+
+    public Long getMods() {
+        return this.mods;
+    }
+
+    public boolean hasFree() {
+        return Mod.hasMod(mods, MODS_FREE);
+    }
+
+    public ProductFreight setFree(boolean b) {
+        this.mods = Mod.setMod(mods, MODS_FREE, b);
+        return this;
+    }
 
     public Long getProductId() {
         return this.productId;
@@ -21,21 +46,21 @@ public class ProductFreight
         return this;
     }
 
-    public Long getImpressionId() {
-        return this.impressionId;
+    public BigDecimal getLowerLimit() {
+        return this.lowerLimit;
     }
 
-    public ProductFreight setImpressionId(Long impressionId) {
-        this.impressionId = impressionId;
+    public ProductFreight setLowerLimit(BigDecimal lowerLimit) {
+        this.lowerLimit = lowerLimit;
         return this;
     }
 
-    public Integer getCount() {
-        return this.count;
+    public BigDecimal getFreight() {
+        return this.freight;
     }
 
-    public ProductFreight setCount(Integer count) {
-        this.count = count;
+    public ProductFreight setFreight(BigDecimal freight) {
+        this.freight = freight;
         return this;
     }
 

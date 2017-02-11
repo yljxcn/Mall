@@ -10,6 +10,7 @@ import com.xmg.mall.product.qo.CatalogQuery;
 import com.xmg.mall.product.service.CatalogService;
 import com.xmg.mall.product.service.ProductModuleService;
 import com.xmg.mall.product.vo.ExtendedCatalog;
+import com.xmg.mall.product.vo.ExtendedCatalogPropertiesAndValues;
 import com.xmg.mall.product.vo.ExtendedCatalogProperty;
 import com.xmg.mall.product.vo.ExtendedCatalogPropertyValue;
 import com.xmg.mall.web.form.product.CatalogForm;
@@ -133,5 +134,28 @@ public class CatalogController {
             e.printStackTrace();
         }
         return "redirect:/catalog/page";
+    }
+
+    @RequestMapping("/catalogPropertiesValues")
+    public String catalogPropertiesAndValues(Model model, Long catalogId) {
+
+        CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
+        catalogPropertyQuery.setCatalogId(catalogId);
+        List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
+
+        List<ExtendedCatalogPropertiesAndValues> voes = new ArrayList<>(catalogProperties.size());
+        for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
+            ExtendedCatalogPropertiesAndValues vo = new ExtendedCatalogPropertiesAndValues();
+            vo.setCatalogProperty(catalogProperty);
+
+            CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();
+            catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
+            List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
+            vo.setCatalogPropertyValues(catalogPropertyValues);
+            voes.add(vo);
+        }
+
+        model.addAttribute("voes", voes);
+        return "product/catalog_properties_values_table";
     }
 }

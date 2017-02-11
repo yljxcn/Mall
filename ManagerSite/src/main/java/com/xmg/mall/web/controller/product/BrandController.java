@@ -87,7 +87,7 @@ public class BrandController {
     @RequestMapping("/update")
     public String update(Model model, Brand brand, @RequestParam("file")CommonsMultipartFile file) {
         try{
-            String filePath = fileUploader.upload(file);
+            String filePath = fileUploader.upload("brand", null, file);
             brand.setLogo(filePath);
             brandService.update(brand);
         }catch (Exception e){
