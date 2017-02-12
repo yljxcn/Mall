@@ -20,4 +20,5 @@ public interface ProductImpressionService {
 
     public int countProductImpressions(ProductImpressionQuery qo);
 
+    void save(ProductImpression productImpression);
 }

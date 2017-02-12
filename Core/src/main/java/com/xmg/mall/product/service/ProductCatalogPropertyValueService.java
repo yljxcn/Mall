@@ -20,4 +20,5 @@ public interface ProductCatalogPropertyValueService {
 
     public int countProductCatalogPropertyValues(ProductCatalogPropertyValueQuery qo);
 
+    void save(ProductCatalogPropertyValue productCatalogPropertyValue);
 }

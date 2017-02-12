@@ -6,10 +6,10 @@ import java.util.Date;
 import java.util.List;
 import com.xmg.mall.base.exception.StaleObjectStateException;
 import com.xmg.mall.base.query.Pagination;
-import com.xmg.mall.product.domain.Product;
+import com.xmg.mall.product.domain.*;
 import com.xmg.mall.product.mapper.ProductMapper;
 import com.xmg.mall.product.qo.ProductQuery;
-import com.xmg.mall.product.service.ProductService;
+import com.xmg.mall.product.service.*;
 import com.xmg.mall.product.vo.ExtendedProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,12 @@ public class BasicProductService
 {
 
     private ProductMapper productMapper;
+    private ProductModuleService productModuleService;
+
+    @Autowired
+    public void setProductModuleService(ProductModuleService productModuleService) {
+        this.productModuleService = productModuleService;
+    }
 
     @Autowired
     public void setProductMapper(ProductMapper productMapper) {
@@ -67,6 +73,43 @@ public class BasicProductService
     @Override
     public int countProducts(ProductQuery qo) {
         return productMapper.count(qo);
+    }
+
+    @Override
+    public void save(Product product, String description, List<ProductCatalogPropertyValue> productCatalogPropertyValues, String impressions, List<ProductImage> productImages) {
+        addProduct(product);
+        Long productId = product.getId();
+
+        ProductDescriptionService productDescriptionService = productModuleService.getProductDescriptionService();
+        ProductDescription productDescription = new ProductDescription();
+        productDescription.setDescription(description)
+                .setProductId(productId);
+        productDescriptionService.save(productDescription);
+
+        ProductCatalogPropertyValueService productCatalogPropertyValueService = productModuleService.getProductCatalogPropertyValueService();
+        for (ProductCatalogPropertyValue productCatalogPropertyValue : productCatalogPropertyValues) {
+            productCatalogPropertyValue.setProductId(productId);
+            productCatalogPropertyValueService.save(productCatalogPropertyValue);
+        }
+
+        // 添加标签和初始化标签评价
+        ImpressionService impressionService = productModuleService.getImpressionService();
+        ProductImpressionService productImpressionService = productModuleService.getProductImpressionService();
+        for (String name : impressions.split(",|，")) {
+            Impression impression = new Impression();
+            impressionService.save(impression.setName(name));
+            ProductImpression productImpression = new ProductImpression();
+            productImpression.setImpressionId(impression.getId())
+                    .setProductId(productId)
+                    .setCount(0);
+            productImpressionService.save(productImpression);
+        }
+
+        ProductImageService productImageService = productModuleService.getProductImageService();
+        for (ProductImage productImage : productImages) {
+            productImage.setProductId(productId);
+            productImageService.update(productImage);
+        }
     }
 
 }

@@ -11,19 +11,19 @@
         </ol>
     </div>
 </div>
-<form>
+<form action="/product/save" method="post">
     <h2>基本信息</h2>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
                 <label>商品名称</label>
-                <input class="form-control" name="name">
+                <input class="form-control" name="product.name">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>商品编号</label>
-                <input class="form-control" name="code">
+                <input class="form-control" name="product.code">
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>所属品牌</label>
-                <select class="form-control" name="brandId">
+                <select class="form-control" name="product.brandId">
                     <option>请选择</option>
                 <#list brands as brand>
                     <option value="${brand.id}">${brand.chineseName}</option>
@@ -42,7 +42,7 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>所属分类</label>
-                <select class="form-control" id="catalogId" name="catalogId">
+                <select class="form-control" id="catalogId" name="product.catalogId">
                     <option value="">请选择</option>
                 <#list catalogs as catalog>
                     <option value="${catalog.id}">${catalog.name}</option>
@@ -55,13 +55,13 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>市场售价</label>
-                <input class="form-control" name="marketPrice">
+                <input class="form-control" name="product.marketPrice">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>基础售价</label>
-                <input class="form-control" name="basePrice">
+                <input class="form-control" name="product.basePrice">
             </div>
         </div>
     </div>
@@ -71,10 +71,10 @@
                 <label>是否上架</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="mods_shelves" value="option1" checked>是
+                        <input type="radio" name="shelves" value="option1" checked>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="mods_shelves" value="option2">否
+                        <input type="radio" name="shelves" value="option2">否
                     </label>
                 </div>
             </div>
@@ -84,10 +84,10 @@
                 <label>是否推荐</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="mods_recommended" value="option1" checked>是
+                        <input type="radio" name="recommended" value="option1" checked>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="mods_recommended" value="option2">否
+                        <input type="radio" name="recommended" value="option2">否
                     </label>
                 </div>
             </div>
@@ -97,7 +97,7 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <label>商品关键字</label>
-                <input class="form-control" placeholder="以逗号分隔" name="keyword">
+                <input class="form-control" placeholder="以逗号分隔" name="product.keyword">
             </div>
         </div>
     </div>
@@ -124,7 +124,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group">
-                <textarea name="editor01" class="form-control" rows="3" placeholder="以逗号分隔"></textarea>
+                <textarea id="desc" class="form-control" rows="3" placeholder="以逗号分隔"></textarea>
             </div>
         </div>
     </div>
@@ -136,10 +136,10 @@
                     <a href="javascript:;" id="uploadImage-btn${number}" class="js-upload">上传</a>
                 </div>
                 <img class="uploadImg">
-                <input type="hidden" name="productImageId">
+                <input type="hidden" name="productImages[${number}].id">
             </div>
             <div class="input-group">
-                <select class="form-control" name="sequence">
+                <select class="form-control" name="productImages[${number}].sequence">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -151,7 +151,7 @@
                 </select>
                 <span class="input-group-addon">
                     <label>
-                        <input type="radio" name="cover" value="" checked>
+                        <input type="radio" name="productImages[${number}].cover" value="" checked>
                         <span>封面</span>
                     </label>
                 </span>
@@ -159,12 +159,12 @@
         </div>
     </#macro>
     <div class="row">
-        <#list 1..4 as number>
+        <#list 0..3 as number>
             <@productImage number/>
         </#list>
     </div>
     <div class="row">
-    <#list 5..8 as number>
+    <#list 4..7 as number>
             <@productImage number/>
         </#list>
     </div>
@@ -174,9 +174,9 @@
     </p>
 </form>
 <script>
-    var editor = CKEDITOR.replace('editor01');
-    editor.setData("XXX");
-    console.info(editor.getData());
+    var editor = CKEDITOR.replace('#desc');
+    // editor.setData("XXX");
+    // console.info(editor.getData());
 
     var pio = {'sequence' : 1, 'cover' : true};
 
@@ -216,6 +216,10 @@
         else{
             $('#catalogPropertiesAndValues_tody').empty();
         }
+    });
+
+    $("form").submit(function(){
+        editor.updateElement();
     });
 
     initRefresh({toSaveUrl: '/product/toSave'});

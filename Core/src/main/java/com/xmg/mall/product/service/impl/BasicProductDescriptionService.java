@@ -69,4 +69,9 @@ public class BasicProductDescriptionService
         return productDescriptionMapper.count(qo);
     }
 
+    @Override
+    public void save(ProductDescription productDescription) {
+        addProductDescription(productDescription);
+    }
+
 }

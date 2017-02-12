@@ -9,7 +9,7 @@ public class ProductCatalogPropertyValue
 
     private final static long serialVersionUID = 1L;
     protected Long productId;
-    protected Long catalogId;
+    protected Long catalogPropertyId;
     protected String value;
 
     public Long getProductId() {
@@ -21,12 +21,12 @@ public class ProductCatalogPropertyValue
         return this;
     }
 
-    public Long getCatalogId() {
-        return this.catalogId;
+    public Long getCatalogPropertyId() {
+        return this.catalogPropertyId;
     }
 
-    public ProductCatalogPropertyValue setCatalogId(Long catalogId) {
-        this.catalogId = catalogId;
+    public ProductCatalogPropertyValue setCatalogPropertyId(Long catalogPropertyId) {
+        this.catalogPropertyId = catalogPropertyId;
         return this;
     }
 

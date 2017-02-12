@@ -20,4 +20,5 @@ public interface ProductDescriptionService {
 
     public int countProductDescriptions(ProductDescriptionQuery qo);
 
+    void save(ProductDescription productDescription);
 }

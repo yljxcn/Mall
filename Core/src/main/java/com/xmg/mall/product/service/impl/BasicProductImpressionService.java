@@ -69,4 +69,9 @@ public class BasicProductImpressionService
         return productImpressionMapper.count(qo);
     }
 
+    @Override
+    public void save(ProductImpression productImpression) {
+        addProductImpression(productImpression);
+    }
+
 }

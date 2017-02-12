@@ -74,4 +74,9 @@ public class BasicProductImageService
         this.addProductImage(productImage);
     }
 
+    @Override
+    public void update(ProductImage productImage) {
+        updateProductImage(productImage);
+    }
+
 }

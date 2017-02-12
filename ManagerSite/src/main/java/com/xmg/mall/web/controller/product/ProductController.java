@@ -8,6 +8,7 @@ import com.xmg.mall.product.qo.*;
 import com.xmg.mall.product.service.ProductModuleService;
 import com.xmg.mall.product.service.ProductService;
 import com.xmg.mall.product.vo.*;
+import com.xmg.mall.web.form.product.ProductForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,7 +70,9 @@ public class ProductController {
     }
 
     @RequestMapping("/save")
-    public String save(Model model) {
+    public String save(Model model, ProductForm productForm) {
+
+        productService.save(productForm.getProduct(), productForm.getDescription() ,productForm.getProductCatalogPropertyValues(), productForm.getImpressions(), productForm.getProductImages());
         // TODO
         return "redirect:/product/page";
     }

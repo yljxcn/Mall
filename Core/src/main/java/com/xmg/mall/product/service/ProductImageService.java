@@ -10,15 +10,17 @@ import com.xmg.mall.product.vo.ExtendedProductImage;
 public interface ProductImageService {
 
 
-    public ProductImage getProductImage(Long id);
+    ProductImage getProductImage(Long id);
 
-    public ExtendedProductImage queryOneProductImage(ProductImageQuery qo);
+    ExtendedProductImage queryOneProductImage(ProductImageQuery qo);
 
-    public List<ExtendedProductImage> listProductImages(ProductImageQuery qo);
+    List<ExtendedProductImage> listProductImages(ProductImageQuery qo);
 
-    public Pagination<ExtendedProductImage> queryProductImages(ProductImageQuery qo);
+    Pagination<ExtendedProductImage> queryProductImages(ProductImageQuery qo);
 
-    public int countProductImages(ProductImageQuery qo);
+    int countProductImages(ProductImageQuery qo);
 
-    public void save(ProductImage productImage);
+    void save(ProductImage productImage);
+
+    void update(ProductImage productImage);
 }

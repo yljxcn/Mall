@@ -69,4 +69,9 @@ public class BasicImpressionService
         return impressionMapper.count(qo);
     }
 
+    @Override
+    public void save(Impression impression) {
+        addImpression(impression);
+    }
+
 }

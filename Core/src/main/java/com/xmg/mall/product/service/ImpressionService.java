@@ -20,4 +20,6 @@ public interface ImpressionService {
 
     public int countImpressions(ImpressionQuery qo);
 
+    void save(Impression impression);
+
 }

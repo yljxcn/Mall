@@ -17,13 +17,13 @@ public class TotalProductCatalogPropertyValueQuery
     protected Date startCreatedDate;
     protected Date endCreatedDate;
     protected Long productId;
-    protected Long catalogId;
+    protected Long catalogPropertyId;
     protected String likeValue;
     protected String value;
     protected com.xmg.mall.base.query.JoinType joinProduct;
     protected ProductQuery productQuery;
-    protected com.xmg.mall.base.query.JoinType joinCatalog;
-    protected CatalogQuery catalogQuery;
+    protected com.xmg.mall.base.query.JoinType joinCatalogProperty;
+    protected CatalogPropertyQuery catalogPropertyQuery;
 
     public com.xmg.mall.base.query.GroupBys getGroupBys() {
         return this.groupBys;
@@ -100,12 +100,12 @@ public class TotalProductCatalogPropertyValueQuery
         return this;
     }
 
-    public Long getCatalogId() {
-        return this.catalogId;
+    public Long getCatalogPropertyId() {
+        return this.catalogPropertyId;
     }
 
-    public TotalProductCatalogPropertyValueQuery setCatalogId(Long catalogId) {
-        this.catalogId = catalogId;
+    public TotalProductCatalogPropertyValueQuery setCatalogPropertyId(Long catalogPropertyId) {
+        this.catalogPropertyId = catalogPropertyId;
         return this;
     }
 
@@ -155,26 +155,26 @@ public class TotalProductCatalogPropertyValueQuery
         return this;
     }
 
-    public com.xmg.mall.base.query.JoinType getJoinCatalog() {
-        return this.joinCatalog;
+    public com.xmg.mall.base.query.JoinType getJoinCatalogProperty() {
+        return this.joinCatalogProperty;
     }
 
-    public TotalProductCatalogPropertyValueQuery setJoinCatalog(com.xmg.mall.base.query.JoinType joinCatalog) {
-        this.joinCatalog = joinCatalog;
+    public TotalProductCatalogPropertyValueQuery setJoinCatalogProperty(com.xmg.mall.base.query.JoinType joinCatalogProperty) {
+        this.joinCatalogProperty = joinCatalogProperty;
         return this;
     }
 
-    public CatalogQuery getCatalogQuery() {
-        return this.catalogQuery;
+    public CatalogPropertyQuery getCatalogPropertyQuery() {
+        return this.catalogPropertyQuery;
     }
 
-    public TotalProductCatalogPropertyValueQuery setCatalogQuery(CatalogQuery catalogQuery) {
-        this.catalogQuery = catalogQuery;
+    public TotalProductCatalogPropertyValueQuery setCatalogPropertyQuery(CatalogPropertyQuery catalogPropertyQuery) {
+        this.catalogPropertyQuery = catalogPropertyQuery;
         return this;
     }
 
-    public TotalProductCatalogPropertyValueQuery setJoinCatalog() {
-        this.setJoinCatalog(com.xmg.mall.base.query.JoinType.LEFT);
+    public TotalProductCatalogPropertyValueQuery setJoinCatalogProperty() {
+        this.setJoinCatalogProperty(com.xmg.mall.base.query.JoinType.LEFT);
         return this;
     }
 
