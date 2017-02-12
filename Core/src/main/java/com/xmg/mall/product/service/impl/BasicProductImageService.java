@@ -69,4 +69,9 @@ public class BasicProductImageService
         return productImageMapper.count(qo);
     }
 
+    @Override
+    public void save(ProductImage productImage) {
+        this.addProductImage(productImage);
+    }
+
 }

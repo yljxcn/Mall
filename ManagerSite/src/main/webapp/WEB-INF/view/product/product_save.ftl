@@ -135,19 +135,19 @@
                 <div>
                     <a href="javascript:;" id="uploadImage-btn${number}" class="js-upload">上传</a>
                 </div>
-                <img alt="" src="" class="uploadImg">
-                <input type="hidden" name="image">
+                <img class="uploadImg">
+                <input type="hidden" name="productImageId">
             </div>
             <div class="input-group">
-                <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
+                <select class="form-control" name="sequence">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
                 </select>
                 <span class="input-group-addon">
                     <label>
@@ -188,13 +188,23 @@
         'swf'               : '/js/plugins/uploadify/uploadify.swf',
         'uploader'          : '/productImage/upload',
         'fileObjName'       : 'file',
-        //'formData'          : pio,
-        // 'overrideEvents'    : ['onUploadSuccess','onUploadProgress','onSelect'],
+        'formData'          : pio,
+        'overrideEvents'    : ['onUploadSuccess','onUploadProgress','onSelect'],
         'onUploadStart'     : function(file) {
-            console.info(this);
+            // 获取到上传包装过后的 jQuey 对象
+            var $wrapper = this.wrapper;
+            var $div = $wrapper.parent('div').parent('div').next('div');
+            var sequence = $div.find('select').val();
+            var cover = $div.find('input').prop('checked');
+            pio.sequence = sequence;
+            pio.cover = cover;
         },
-        'onUploadSuccess'   : function(data) {
-            alert('The file ' + data.image + ' finished processing.');
+        'onUploadSuccess'   : function(file, data) {
+            var $wrapper = this.wrapper;
+            var $div = $wrapper.parent('div').parent('div');
+            data = JSON.parse(data);
+            $div.find('img').attr('src', data.image);
+            $div.find('input').val(data.id);
         }
 
     });

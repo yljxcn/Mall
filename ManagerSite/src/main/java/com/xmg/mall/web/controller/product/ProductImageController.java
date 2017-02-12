@@ -44,6 +44,7 @@ public class ProductImageController {
             productImage.setImage(filePath)
                     .setSequence(sequence)
                     .setCover(cover);
+            productImageService.save(productImage);
         } catch (IOException e) {
             e.printStackTrace();
         }

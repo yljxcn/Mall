@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -49,18 +50,16 @@ public class HardDiskFileUploader implements FileUploader {
 
 	@Override
 	public String upload(MultipartFile file) throws IOException {
-		return upload(null, file);
+		return upload(null,null, file);
+	}
+
+	@Override
+	public String upload(String name, MultipartFile file) throws IOException {
+		return upload(null, name, file);
 	}
 
 	@Override
 	public String upload(String namespace, String name, MultipartFile file) throws IOException {
-		setNamespace(namespace);
-		return upload(name, file);
-	}
-
-
-	@Override
-	public String upload(String name, MultipartFile file) throws IOException {
 
 		if (file == null) throw new IllegalArgumentException("必须指定所上传的文件");
 
@@ -79,7 +78,7 @@ public class HardDiskFileUploader implements FileUploader {
 			throw new IllegalArgumentException("不支持的文件扩展名：" + extension);
 		}
 
-		String baseFile = String.format("/%s/%s.%s", namespace, name, extension);
+		String baseFile = String.format("/%s/%s.%s", StringUtils.isNotBlank(namespace) ? namespace : this.namespace, name, extension);
 		File destFile = new File(baseDirectory, baseFile);
 		File parentFile = destFile.getParentFile();
 		if(!parentFile.exists()) parentFile.mkdirs();
@@ -91,7 +90,6 @@ public class HardDiskFileUploader implements FileUploader {
 		IOUtils.closeQuietly(is);
 
 		return getMappingUrlPrefix(baseDirectory) + baseFile;
-
 	}
 
 	@Override

@@ -20,4 +20,5 @@ public interface ProductImageService {
 
     public int countProductImages(ProductImageQuery qo);
 
+    public void save(ProductImage productImage);
 }
