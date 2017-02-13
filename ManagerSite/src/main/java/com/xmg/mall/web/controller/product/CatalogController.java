@@ -7,12 +7,11 @@ import com.xmg.mall.product.domain.Catalog;
 import com.xmg.mall.product.qo.CatalogPropertyQuery;
 import com.xmg.mall.product.qo.CatalogPropertyValueQuery;
 import com.xmg.mall.product.qo.CatalogQuery;
+import com.xmg.mall.product.qo.ProductCatalogPropertyValueQuery;
 import com.xmg.mall.product.service.CatalogService;
+import com.xmg.mall.product.service.ProductCatalogPropertyValueService;
 import com.xmg.mall.product.service.ProductModuleService;
-import com.xmg.mall.product.vo.ExtendedCatalog;
-import com.xmg.mall.product.vo.ExtendedCatalogPropertiesAndValues;
-import com.xmg.mall.product.vo.ExtendedCatalogProperty;
-import com.xmg.mall.product.vo.ExtendedCatalogPropertyValue;
+import com.xmg.mall.product.vo.*;
 import com.xmg.mall.web.form.product.CatalogForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -137,25 +136,62 @@ public class CatalogController {
     }
 
     @RequestMapping("/catalogPropertiesValues")
-    public String catalogPropertiesAndValues(Model model, Long catalogId) {
+    public String catalogPropertiesAndValues(Model model, Long productId, Long catalogId) {
+        List<ExtendedProductCatalogPropertyValue> extendedProductCatalogPropertyValues = new ArrayList<>();
+        if(productId != null){
+            ProductCatalogPropertyValueService productCatalogPropertyValueService = productModuleService.getProductCatalogPropertyValueService();
+            ProductCatalogPropertyValueQuery qo = new ProductCatalogPropertyValueQuery();
+            qo.setProductId(productId);
+            extendedProductCatalogPropertyValues = productCatalogPropertyValueService.listProductCatalogPropertyValues(qo);
+        }
 
         CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
         catalogPropertyQuery.setCatalogId(catalogId);
         List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
-
+        // 定义回显页面封装的集合
         List<ExtendedCatalogPropertiesAndValues> voes = new ArrayList<>(catalogProperties.size());
         for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
             ExtendedCatalogPropertiesAndValues vo = new ExtendedCatalogPropertiesAndValues();
             vo.setCatalogProperty(catalogProperty);
-
             CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();
             catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
             List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
-            vo.setCatalogPropertyValues(catalogPropertyValues);
+
+            List<ExtendedCatalogPropertyAndValues> extendedCatalogPropertyAndValues = new ArrayList<>();
+            for (ExtendedCatalogPropertyValue catalogPropertyValue : catalogPropertyValues) {
+                boolean show = false;
+                if(catalogProperty.isRelationship()){
+                    // 商品编辑页面回显分类属性下拉值
+                    for (ExtendedProductCatalogPropertyValue extendedProductCatalogPropertyValue : extendedProductCatalogPropertyValues) {
+                        if(catalogPropertyValue.getCatalogPropertyId().equals(extendedProductCatalogPropertyValue.getCatalogPropertyId())
+                                && catalogPropertyValue.getValue().equals(extendedProductCatalogPropertyValue.getValue())){
+                            show = true;
+                            break;
+                        }
+                    }
+                }else{
+                    // 商品编辑页面回显分类属性文本值
+                    for (ExtendedProductCatalogPropertyValue extendedProductCatalogPropertyValue : extendedProductCatalogPropertyValues) {
+                        if(catalogPropertyValue.getCatalogPropertyId().equals(extendedProductCatalogPropertyValue.getCatalogPropertyId())){
+                            catalogPropertyValue.setValue(extendedProductCatalogPropertyValue.getValue());
+                            break;
+                        }
+                    }
+                }
+
+                ExtendedCatalogPropertyAndValues cpvs = new ExtendedCatalogPropertyAndValues();
+                cpvs.setShow(show);
+                cpvs.setCatalogPropertyValue(catalogPropertyValue);
+                extendedCatalogPropertyAndValues.add(cpvs);
+            }
+            vo.setCatalogPropertyAndValues(extendedCatalogPropertyAndValues);
+            // vo.setCatalogPropertyValues(catalogPropertyValues);
             voes.add(vo);
         }
-
+        System.out.println(voes);
         model.addAttribute("voes", voes);
         return "product/catalog_properties_values_table";
     }
+
+
 }

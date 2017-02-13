@@ -33,9 +33,9 @@
                 <label>所属品牌</label>
                 <select class="form-control" name="product.brandId">
                     <option>请选择</option>
-                <#list brands as brand>
-                    <option value="${brand.id}">${brand.chineseName}</option>
-                </#list>
+                    <#list brands as brand>
+                        <option value="${brand.id}">${brand.chineseName}</option>
+                    </#list>
                 </select>
             </div>
         </div>
@@ -44,9 +44,9 @@
                 <label>所属分类</label>
                 <select class="form-control" id="catalogId" name="product.catalogId">
                     <option value="">请选择</option>
-                <#list catalogs as catalog>
-                    <option value="${catalog.id}">${catalog.name}</option>
-                </#list>
+                    <#list catalogs as catalog>
+                        <option value="${catalog.id}">${catalog.name}</option>
+                    </#list>
                 </select>
             </div>
         </div>
@@ -177,7 +177,6 @@
     var editor = CKEDITOR.replace('desc');
     // editor.setData("XXX");
     // console.info(editor.getData());
-    // var editor = $("textarea[name='description']").ckeditor();
 
     var pio = {'sequence' : 1, 'cover' : true};
 

@@ -32,10 +32,10 @@
             <div class="form-group">
                 <label>上级分类</label>
                 <select class="form-control" name="catalog.parentCatalogId">
+                    <option value="">无</option>
                     <#list catalogs as c>
                         <option value="${c.id}">${c.name}</option>
                     </#list>
-                    <option value="">无</option>
                 </select>
             </div>
         </div>

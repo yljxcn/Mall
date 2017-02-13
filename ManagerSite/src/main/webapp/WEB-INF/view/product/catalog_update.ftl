@@ -33,18 +33,10 @@
             <div class="form-group">
                 <label>上级分类</label>
                 <select class="form-control" name="catalog.parentCatalogId">
+                    <option value="" <#if !(catalog.parentCatalogId??)>selected</#if>>无</option>
                     <#list catalogs as c>
-                        <#if catalog.parentCatalogId == c.id >
-                            <option value="${c.id}" selected>${c.name}</option>
-                        <#else>
-                            <option value="${c.id}">${c.name}</option>
-                        </#if>
+                        <option value="${c.id}" <#if (catalog.parentCatalogId)?? && catalog.parentCatalogId == c.id>selected</#if>>${c.name}</option>
                     </#list>
-                    <#if catalog.parentCatalogId??>
-                        <option value="">无</option>
-                    <#else>
-                        <option value="" selected>无</option>
-                    </#if>
                 </select>
             </div>
         </div>
@@ -52,9 +44,9 @@
             <div class="form-group">
                 <label>分类等级</label>
                 <select class="form-control" name="catalog.level">
-                    <option value="0" ${((catalog.level==0)?string('selected', ''))!""}>一级</option>
-                    <option value="1" ${((catalog.level==1)?string('selected', ''))!""}>二级</option>
-                    <option value="2" ${((catalog.level==2)?string('selected', ''))!""}>三级</option>
+                    <option value="0" <#if (catalog.level)?? && catalog.level == 1>selected</#if>>一级</option>
+                    <option value="1" <#if (catalog.level)?? && catalog.level == 2>selected</#if>>二级</option>
+                    <option value="2" <#if (catalog.level)?? && catalog.level == 3>selected</#if>>三级</option>
                 </select>
             </div>
         </div>
@@ -137,9 +129,9 @@
             </td>
             <td>
                 <select name="catalogProperties[${cpv.catalogProperty.sequence}].type" class="form-control js-select-type">
-                    <option value="0" ${(cpv.catalogProperty.type==0)?string('selected', '')}>数值</option>
-                    <option value="1" ${(cpv.catalogProperty.type==1)?string('selected', '')}>文本</option>
-                    <option value="2" ${(cpv.catalogProperty.type==2)?string('selected', '')}>下拉列表</option>
+                    <option value="0" <#if (cpv.catalogProperty.type)?? && cpv.catalogProperty.type == 0>selected</#if>>数值</option>
+                    <option value="1" <#if (cpv.catalogProperty.type)?? && cpv.catalogProperty.type == 1>selected</#if>>文本</option>
+                    <option value="2" <#if (cpv.catalogProperty.type)?? && cpv.catalogProperty.type == 2>selected</#if>>下拉列表</option>
                 </select>
             </td>
             <td>

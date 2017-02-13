@@ -11,41 +11,41 @@
         </ol>
     </div>
 </div>
-<form>
+<form action="/product/save" method="post">
     <h2>基本信息</h2>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
                 <label>商品名称</label>
-                <input class="form-control">
+                <input class="form-control" name="product.name" value="${(product.name)!""}">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>商品编号</label>
-                <input class="form-control">
+                <input class="form-control" name="product.code" value="${(product.code)!""}">
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
-                <label>所属分类</label>
-                <select class="form-control" id="catalogId">
-                    <option>请选择</option>
-                <#list catalogs as catalog>
-                    <option value="${catalog.id}">${catalog.name}</option>
-                </#list>
+                <label>所属品牌</label>
+                <select class="form-control" name="product.brandId">
+                    <option value="" <#if !(product.brandId??)>selected</#if>>请选择</option>
+                    <#list brands as brand>
+                        <option value="${brand.id}" <#if (product.brandId)?? && product.brandId== brand.id>selected</#if>>${brand.chineseName}</option>
+                    </#list>
                 </select>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
-                <label>所属品牌</label>
-                <select class="form-control">
-                    <option>请选择</option>
-                    <#list brands as brand>
-                        <option value="${brand.id}">${brand.chineseName}</option>
+                <label>所属分类</label>
+                <select class="form-control" id="catalogId" name="product.catalogId">
+                    <option value="" <#if !(product.catalogId??)>selected</#if>>请选择</option>
+                    <#list catalogs as catalog>
+                        <option value="${catalog.id}" <#if (product.catalogId)?? && product.catalogId== catalog.id>selected</#if>>${catalog.name}</option>
                     </#list>
                 </select>
             </div>
@@ -55,13 +55,13 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>市场售价</label>
-                <input class="form-control">
+                <input class="form-control" name="product.marketPrice" value="${(product.marketPrice)!""}">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>基础售价</label>
-                <input class="form-control">
+                <input class="form-control" name="product.basePrice" value="${(product.basePrice)!""}">
             </div>
         </div>
     </div>
@@ -71,10 +71,10 @@
                 <label>是否上架</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline1" value="option1" checked>是
+                        <input type="radio" name="product.shelves" value="true" <#if product?? && product.hasShelves()>checked</#if>>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline1" value="option2">否
+                        <input type="radio" name="product.shelves" value="false" <#if product?? && !(product.hasShelves())>checked</#if>>否
                     </label>
                 </div>
             </div>
@@ -84,10 +84,10 @@
                 <label>是否推荐</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline2" value="option1" checked>是
+                        <input type="radio" name="product.recommended" value="true" <#if product?? && product.hasRecommended()>checked</#if>>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline2" value="option2">否
+                        <input type="radio" name="product.recommended" value="false" <#if product?? && !(product.hasRecommended())>checked</#if>>否
                     </label>
                 </div>
             </div>
@@ -97,7 +97,7 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <label>商品关键字</label>
-                <input class="form-control" placeholder="以逗号分隔">
+                <input class="form-control" placeholder="以逗号分隔" name="product.keyword" value="${(product.keyword)!""}">
             </div>
         </div>
     </div>
@@ -105,17 +105,17 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <label>商品标签</label>
-                <textarea class="form-control" rows="3" placeholder="以逗号分隔"></textarea>
+                <textarea class="form-control" rows="3" placeholder="以逗号分隔" name="impressions">${impressions!""}</textarea>
             </div>
         </div>
     </div>
     <h2>商品分类属性</h2>
     <table class="table table-bordered catalog-property-table">
         <thead>
-            <tr>
-                <th>名称</th>
-                <th>值</th>
-            </tr>
+        <tr>
+            <th>名称</th>
+            <th>值</th>
+        </tr>
         </thead>
         <tbody id="catalogPropertiesAndValues_tody">
         </tbody>
@@ -124,48 +124,41 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group">
-                <textarea name="editor01" class="form-control" rows="3" placeholder="以逗号分隔"></textarea>
+                <textarea name="desc" class="form-control" rows="3" placeholder="以逗号分隔">${productDescription.description?html}</textarea>
             </div>
         </div>
     </div>
     <h2>商品相册</h2>
-    <#macro productImage number>
-        <div class="col-lg-3 col-md-6">
-            <div class="image-div">
-                <div>
-                    <a href="javascript:;" id="uploadImage-btn${number}" class="js-upload">上传</a>
+    <div class="row">
+        <#list productImages as productImage >
+            <div class="col-lg-3 col-md-6">
+                <div class="image-div">
+                    <div>
+                        <a href="javascript:;" id="uploadImage-btn${productImage_index}" class="js-upload">上传</a>
+                    </div>
+                    <img class="uploadImg" src="${(productImage.image)!""}">
+                    <input type="hidden" name="productImages[${productImage_index}].id" value="${(productImage.id)!""}">
+                    <input type="hidden" name="productImages[${productImage_index}].image" value="${(productImage.image)!""}">
                 </div>
-                <img alt="" src="" class="uploadImg">
-                <input type="hidden" name="image">
+                <div class="input-group">
+                    <select class="form-control" name="productImages[${productImage_index}].sequence">
+                        <option value="1" <#if (productImage.sequence)?? && productImage.sequence == 1>selected</#if>>1</option>
+                        <option value="2" <#if (productImage.sequence)?? && productImage.sequence == 2>selected</#if>>2</option>
+                        <option value="3" <#if (productImage.sequence)?? && productImage.sequence == 3>selected</#if>>3</option>
+                        <option value="4" <#if (productImage.sequence)?? && productImage.sequence == 4>selected</#if>>4</option>
+                        <option value="5" <#if (productImage.sequence)?? && productImage.sequence == 5>selected</#if>>5</option>
+                        <option value="6" <#if (productImage.sequence)?? && productImage.sequence == 6>selected</#if>>6</option>
+                        <option value="7" <#if (productImage.sequence)?? && productImage.sequence == 7>selected</#if>>7</option>
+                        <option value="8" <#if (productImage.sequence)?? && productImage.sequence == 8>selected</#if>>8</option>
+                    </select>
+                    <span class="input-group-addon">
+                        <label>
+                            <input type="radio" class="productImageCover" name="productImages[${productImage_index}].cover" value="${(productImage?? && productImage.hasCover())?string('true','false')}" <#if productImage?? && productImage.hasCover()>checked</#if>>
+                            <span>封面</span>
+                        </label>
+                    </span>
+                </div>
             </div>
-            <div class="input-group">
-                <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                </select>
-                <span class="input-group-addon">
-                    <label>
-                        <input type="radio" name="cover" value="" checked>
-                        <span>封面</span>
-                    </label>
-                </span>
-            </div>
-        </div>
-    </#macro>
-    <div class="row">
-        <#list 1..4 as number>
-            <@productImage number/>
-        </#list>
-    </div>
-    <div class="row">
-    <#list 5..8 as number>
-            <@productImage number/>
         </#list>
     </div>
     <p class="text-center" style="margin-top: 20px;">
@@ -174,23 +167,61 @@
     </p>
 </form>
 <script>
-    var editor = CKEDITOR.replace('editor01');
-    editor.setData("XXX");
-    console.info(editor.getData());
+    var editor = CKEDITOR.replace('desc');
+
+    var pio = {'sequence' : 1, 'cover' : true};
 
     $(".image-div .js-upload").uploadify({
-        height        : 30,
-        buttonText    :"上传",
-        swf           : '/js/plugins/uploadify/uploadify.swf',
-        uploader      : '/uploadify/uploadify.php',
-        width         : 120
+        'height'            : 30,
+        'width'             : 120,
+        'fileTypeExts'      : '*.gif; *.jpg; *.png',
+        'buttonText'        :'上传',
+        'swf'               : '/js/plugins/uploadify/uploadify.swf',
+        'uploader'          : '/productImage/upload',
+        'fileObjName'       : 'file',
+        'formData'          : pio,
+        'overrideEvents'    : ['onUploadSuccess','onUploadProgress','onSelect'],
+        'onUploadStart'     : function(file) {
+            // 获取到上传包装过后的 jQuey 对象
+            var $wrapper = this.wrapper;
+            var $div = $wrapper.parent('div').parent('div').next('div');
+            var sequence = $div.find('select').val();
+            var cover = $div.find('input').prop('checked');
+            pio.sequence = sequence;
+            pio.cover = cover;
+        },
+        'onUploadSuccess'   : function(file, data) {
+            var $wrapper = this.wrapper;
+            var $div = $wrapper.parent('div').parent('div');
+            data = JSON.parse(data);
+            $div.find('img').attr('src', data.image);
+            $div.find('input').val(data.id);
+        }
+
     });
 
     $('#catalogId').change(function(){
         var catalogId = $(this).val();
         if(catalogId)
-            $('#catalogPropertiesAndValues_tody').load('/product/catalogPropertiesAndValues?catalogId=' + catalogId);
+            $('#catalogPropertiesAndValues_tody').load('/catalog/catalogPropertiesValues?catalogId=' + catalogId + '&productId=' + ${product.id});
+        else{
+            $('#catalogPropertiesAndValues_tody').empty();
+        }
     });
 
-    initRefresh({toUpdateUrl: '/product/toUpdate'});
+    $("form").submit(function(){
+        editor.updateElement();
+    });
+
+    $('.productImageCover').click(function(){
+        var $this = $(this);
+        $this.val($this.prop('checked'));
+    })
+
+    initRefresh({toSaveUrl: '/product/toSave',toUpdateUrl: '/product/toUpdate'});
+
+    <#if (product.catalogId)??>
+        // 让页面加载分类属性及其值
+        $('#catalogId').change();
+    </#if>
 </script>

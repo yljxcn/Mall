@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class ExtendedCatalogPropertiesAndValues {
     private CatalogProperty catalogProperty;
-    private List<ExtendedCatalogPropertyValue> catalogPropertyValues;
+    private List<ExtendedCatalogPropertyAndValues> catalogPropertyAndValues;
 
     public CatalogProperty getCatalogProperty() {
         return catalogProperty;
@@ -19,12 +19,12 @@ public class ExtendedCatalogPropertiesAndValues {
         this.catalogProperty = catalogProperty;
     }
 
-    public List<ExtendedCatalogPropertyValue> getCatalogPropertyValues() {
-        return catalogPropertyValues;
+    public List<ExtendedCatalogPropertyAndValues> getCatalogPropertyAndValues() {
+        return catalogPropertyAndValues;
     }
 
-    public void setCatalogPropertyValues(List<ExtendedCatalogPropertyValue> catalogPropertyValues) {
-        this.catalogPropertyValues = catalogPropertyValues;
+    public void setCatalogPropertyAndValues(List<ExtendedCatalogPropertyAndValues> catalogPropertyAndValues) {
+        this.catalogPropertyAndValues = catalogPropertyAndValues;
     }
 }
 

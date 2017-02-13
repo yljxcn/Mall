@@ -61,11 +61,6 @@
 
             <div class="row button-group">
                 <div class="col-lg-9 text-left">
-                    <#--<button type="button" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> 增加</button>
-                    <button type="button" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> 修改</button>
-                    <button type="button" class="btn btn-success">Success</button>
-                    <button type="button" class="btn btn-info">Info</button>
-                    <button type="button" class="btn btn-warning">Warning</button>-->
                     <button id="save" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
                     <button id="update" type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
                     <button id="delete" type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
@@ -76,7 +71,7 @@
             </div>
 
             <div class="row">
-                <form role="form" id="search-form" action="/catalog/list">
+                <form role="form" id="search-form" action="/product/list">
                     <input type="hidden" name="page" id="currentPage" value="1">
                     <div class="col-lg-3">
                         <div class="form-group">
