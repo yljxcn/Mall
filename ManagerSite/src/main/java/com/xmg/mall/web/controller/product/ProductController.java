@@ -4,6 +4,7 @@ import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
 import com.xmg.mall.product.domain.Brand;
 import com.xmg.mall.product.domain.Catalog;
+import com.xmg.mall.product.domain.Product;
 import com.xmg.mall.product.qo.*;
 import com.xmg.mall.product.service.ProductModuleService;
 import com.xmg.mall.product.service.ProductService;
@@ -71,9 +72,11 @@ public class ProductController {
 
     @RequestMapping("/save")
     public String save(Model model, ProductForm productForm) {
-
-        productService.save(productForm.getProduct(), productForm.getDescription() ,productForm.getProductCatalogPropertyValues(), productForm.getImpressions(), productForm.getProductImages());
-        // TODO
+        try {
+            productService.save(productForm.getProduct(), productForm.getDesc(), productForm.getImpressions() ,productForm.getProductCatalogPropertyValues(), productForm.getProductImages());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "redirect:/product/page";
     }
 

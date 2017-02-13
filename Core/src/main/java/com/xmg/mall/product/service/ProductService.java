@@ -22,5 +22,5 @@ public interface ProductService {
 
     int countProducts(ProductQuery qo);
 
-    void save(Product product, String description, List<ProductCatalogPropertyValue> productCatalogPropertyValues, String impressions, List<ProductImage> productImages);
+    void save(Product product, String description, String impressions, List<ProductCatalogPropertyValue> productCatalogPropertyValues, List<ProductImage> productImages);
 }

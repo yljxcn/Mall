@@ -4,7 +4,7 @@ function initFormAndTable(options){
     var $link;
     var linkOriginalHtml;
 
-    $('#' + options.tableId).load(options.url);
+    $('#' + options.tableId).load(options.url + '?v='+ Math.random());
 
     // 时间插件
     $('.'+ options.dateInputClass).datetimepicker({

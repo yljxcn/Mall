@@ -71,10 +71,10 @@
                 <label>是否上架</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="shelves" value="option1" checked>是
+                        <input type="radio" name="product.shelves" value="true" checked>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="shelves" value="option2">否
+                        <input type="radio" name="product.shelves" value="false">否
                     </label>
                 </div>
             </div>
@@ -84,10 +84,10 @@
                 <label>是否推荐</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="recommended" value="option1" checked>是
+                        <input type="radio" name="product.recommended" value="true" checked>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="recommended" value="option2">否
+                        <input type="radio" name="product.recommended" value="false">否
                     </label>
                 </div>
             </div>
@@ -124,7 +124,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group">
-                <textarea id="desc" class="form-control" rows="3" placeholder="以逗号分隔"></textarea>
+                <textarea name="desc" class="form-control" rows="3" placeholder="以逗号分隔"></textarea>
             </div>
         </div>
     </div>
@@ -151,7 +151,7 @@
                 </select>
                 <span class="input-group-addon">
                     <label>
-                        <input type="radio" name="productImages[${number}].cover" value="" checked>
+                        <input type="radio" class="productImageCover" name="productImages[${number}].cover" value="false">
                         <span>封面</span>
                     </label>
                 </span>
@@ -159,24 +159,25 @@
         </div>
     </#macro>
     <div class="row">
-        <#list 0..3 as number>
+        <#list 0..7 as number>
             <@productImage number/>
         </#list>
     </div>
-    <div class="row">
-    <#list 4..7 as number>
+    <#--<div class="row">
+        <#list 4..7 as number>
             <@productImage number/>
         </#list>
-    </div>
+    </div>-->
     <p class="text-center" style="margin-top: 20px;">
         <button type="submit" class="btn btn-default">保存</button>
         <button type="reset" class="btn btn-default">重置</button>
     </p>
 </form>
 <script>
-    var editor = CKEDITOR.replace('#desc');
+    var editor = CKEDITOR.replace('desc');
     // editor.setData("XXX");
     // console.info(editor.getData());
+    // var editor = $("textarea[name='description']").ckeditor();
 
     var pio = {'sequence' : 1, 'cover' : true};
 
@@ -221,6 +222,11 @@
     $("form").submit(function(){
         editor.updateElement();
     });
+
+    $('.productImageCover').click(function(){
+        var $this = $(this);
+        $this.val($this.prop('checked'));
+    })
 
     initRefresh({toSaveUrl: '/product/toSave'});
 </script>

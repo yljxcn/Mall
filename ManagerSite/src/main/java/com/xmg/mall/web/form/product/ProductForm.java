@@ -12,9 +12,7 @@ import java.util.List;
 public class ProductForm {
 
     private Product product;
-    private Boolean shelves;
-    private Boolean recommended;
-    private String description;
+    private String desc;
     private String impressions;
     private List<ProductCatalogPropertyValue> productCatalogPropertyValues;
     private List<ProductImage> productImages;
@@ -27,28 +25,12 @@ public class ProductForm {
         this.product = product;
     }
 
-    public Boolean getShelves() {
-        return shelves;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setShelves(Boolean shelves) {
-        this.shelves = shelves;
-    }
-
-    public Boolean getRecommended() {
-        return recommended;
-    }
-
-    public void setRecommended(Boolean recommended) {
-        this.recommended = recommended;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getImpressions() {

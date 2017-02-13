@@ -76,8 +76,8 @@ public class BasicProductService
     }
 
     @Override
-    public void save(Product product, String description, List<ProductCatalogPropertyValue> productCatalogPropertyValues, String impressions, List<ProductImage> productImages) {
-        addProduct(product);
+    public void save(Product product, String description, String impressions, List<ProductCatalogPropertyValue> productCatalogPropertyValues, List<ProductImage> productImages) {
+        product = addProduct(product);
         Long productId = product.getId();
 
         ProductDescriptionService productDescriptionService = productModuleService.getProductDescriptionService();
@@ -107,8 +107,20 @@ public class BasicProductService
 
         ProductImageService productImageService = productModuleService.getProductImageService();
         for (ProductImage productImage : productImages) {
-            productImage.setProductId(productId);
-            productImageService.update(productImage);
+            ProductImage oldProductImage = productImageService.getProductImage(productImage.getId());
+            if(oldProductImage != null){
+                boolean cover = productImage.hasCover();
+                oldProductImage.setProductId(productId)
+                        .setCover(cover)
+                        .setSequence(productImage.getSequence());
+                productImageService.update(oldProductImage);
+
+                // 修改商品首页图片
+                if(cover){
+                    product.setImage(oldProductImage.getImage());
+                    updateProduct(product);
+                }
+            }
         }
     }
 
