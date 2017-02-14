@@ -13,7 +13,7 @@
     <script>
         $(function(){
             initMenu();
-            initFormAndTable({url:'/skuProperty/list'});
+            initFormAndTable({url:'/skuProperty/list',toSaveUrl: '/skuProperty/toSave',toUpdateUrl: '/skuProperty/toUpdate'});
 
             $('.mods-select').change(function(){
                 var $select = $(this);
@@ -26,10 +26,6 @@
                 else if(val == '否'){
                     $select.attr('name', 'excludeMods')
                 }
-            });
-
-            $('#addSkuProperty').click(function(){
-                $('#content_body').load('/skuProperty/toSaveOrUpdate');
             });
         });
     </script>
@@ -65,14 +61,9 @@
 
             <div class="row button-group">
                 <div class="col-lg-9 text-left">
-                    <#--<button type="button" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> 增加</button>
-                    <button type="button" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> 修改</button>
-                    <button type="button" class="btn btn-success">Success</button>
-                    <button type="button" class="btn btn-info">Info</button>
-                    <button type="button" class="btn btn-warning">Warning</button>-->
-                    <button id="addSkuProperty" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
-                    <button id="updateSkuProperty" type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
-                    <button type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
+                    <button id="save" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
+                    <button id="update" type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
+                    <button id="delete" type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
                 </div>
                 <div class="col-lg-3 text-right">
                     <button id="search-link" type="button" class="btn btn-default"><i class="fa fa-fw fa-search"></i> 搜索</button>

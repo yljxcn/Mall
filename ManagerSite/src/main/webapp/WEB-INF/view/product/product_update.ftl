@@ -1,17 +1,18 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            添加商品
+            修改商品
         </h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cubes"></i> 商品</a></li>
             <li class="breadcrumb-item"><a href="#"><i class="fa fa-fw fa-cube""></i> 商品</a></li>
-            <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 添加商品</li>
+            <li class="breadcrumb-item active"><i class="fa fa-fw fa-plus"></i> 修改商品</li>
             <li class="pull-right no-divider"><a href="javascript:;" class="refresh-a"><i class="fa fa-fw fa-refresh"></i> 刷新</a></li>
         </ol>
     </div>
 </div>
 <form action="/product/save" method="post">
+    <input type="hidden" id="oId" name="id" value="${(product.id)!""}">
     <h2>基本信息</h2>
     <div class="row">
         <div class="col-lg-6">
@@ -200,12 +201,21 @@
 
     });
 
+    // 第一次加载时回显，以后选择分类就不回显
+    var flag = true;
     $('#catalogId').change(function(){
         var catalogId = $(this).val();
-        if(catalogId)
-            $('#catalogPropertiesAndValues_tody').load('/catalog/catalogPropertiesValues?catalogId=' + catalogId + '&productId=' + ${product.id});
+        var $catalogPropertiesAndValuesTody = $('#catalogPropertiesAndValues_tody');
+        if(catalogId){
+            var accessUrl = '/catalog/catalogPropertiesValues?catalogId=' + catalogId;
+            if(flag){
+                accessUrl = accessUrl + '&productId=' + ${product.id};
+                flag = false;
+            }
+            $catalogPropertiesAndValuesTody.load(accessUrl);
+        }
         else{
-            $('#catalogPropertiesAndValues_tody').empty();
+            $catalogPropertiesAndValuesTody.empty();
         }
     });
 

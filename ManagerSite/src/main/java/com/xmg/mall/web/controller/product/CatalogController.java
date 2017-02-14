@@ -43,7 +43,7 @@ public class CatalogController {
     }
 
     @RequestMapping("/page")
-    public String page(Model model) {
+    public String page() {
         return "product/catalog";
     }
 

@@ -39,7 +39,7 @@ public class BrandController {
     }
 
     @RequestMapping("/page")
-    public String page(Model model) {
+    public String page() {
         return "product/brand";
     }
 
@@ -85,7 +85,7 @@ public class BrandController {
     }
 
     @RequestMapping("/update")
-    public String update(Model model, Brand brand, @RequestParam("file")CommonsMultipartFile file) {
+    public String update(Brand brand, @RequestParam("file")CommonsMultipartFile file) {
         try{
             String filePath = fileUploader.upload("brand", null, file);
             brand.setLogo(filePath);

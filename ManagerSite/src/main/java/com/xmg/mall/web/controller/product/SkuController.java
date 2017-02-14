@@ -26,7 +26,7 @@ public class SkuController {
     }
 
     @RequestMapping("/page")
-    public String page(Model model) {
+    public String page() {
         return "product/sku";
     }
 

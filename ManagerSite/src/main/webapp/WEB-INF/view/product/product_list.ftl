@@ -38,27 +38,7 @@
     </div>
 </div>
 <script>
-    $('#pagination').twbsPagination({
-        initiateStartPageClick: false,
-        startPage: ${qo.page},
-        totalPages: ${pages},
-        first: '<i class="fa fa-fw fa-angle-double-left"></i>',
-        prev: '<i class="fa fa-fw fa-angle-left"></i>',
-        next: '<i class="fa fa-fw fa-angle-right"></i>',
-        last: '<i class="fa fa-fw fa-angle-double-right"></i>',
-        visiblePages: 5,
-        onPageClick: function (event, page) {
-            $('#currentPage').val(page);
-            $('#search-form').submit();
-        }
-    });
-
-    $('tbody#t_body').on('click', 'tr', function(){
-        var $tr = $(this);
-        $('div.button-group button.btn').removeClass('disabled');
-        $('tbody#t_body > tr').removeClass('info');
-        $tr.addClass('info');
-        // console.info($tr.data('id'));
-    });
+    initPagination({startPage: ${qo.page}, totalPages: ${pages}});
+    initTrSelected();
 </script>
 

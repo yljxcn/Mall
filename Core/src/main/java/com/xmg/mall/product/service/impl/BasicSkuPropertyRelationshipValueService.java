@@ -69,4 +69,9 @@ public class BasicSkuPropertyRelationshipValueService
         return skuPropertyRelationshipValueMapper.count(qo);
     }
 
+    @Override
+    public void save(SkuPropertyRelationshipValue skuPropertyRelationshipValue) {
+        addSkuPropertyRelationshipValue(skuPropertyRelationshipValue);
+    }
+
 }

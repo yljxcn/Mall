@@ -20,4 +20,5 @@ public interface SkuPropertyRelationshipValueService {
 
     public int countSkuPropertyRelationshipValues(SkuPropertyRelationshipValueQuery qo);
 
+    void save(SkuPropertyRelationshipValue skuPropertyRelationshipValue);
 }

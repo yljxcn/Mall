@@ -40,7 +40,7 @@ public class ProductController {
     }
 
     @RequestMapping("/page")
-    public String page(Model model) {
+    public String page() {
         return "product/product";
     }
 
@@ -71,7 +71,7 @@ public class ProductController {
     }
 
     @RequestMapping("/save")
-    public String save(Model model, ProductForm productForm) {
+    public String save(ProductForm productForm) {
         try {
             productService.save(productForm.getProduct(), productForm.getDesc(), productForm.getImpressions() ,productForm.getProductCatalogPropertyValues(), productForm.getProductImages());
         }catch (Exception e){

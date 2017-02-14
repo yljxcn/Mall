@@ -5,10 +5,7 @@ import java.util.*;
 
 import com.xmg.mall.base.exception.StaleObjectStateException;
 import com.xmg.mall.base.query.Pagination;
-import com.xmg.mall.product.domain.Catalog;
-import com.xmg.mall.product.domain.Product;
-import com.xmg.mall.product.domain.SkuProperty;
-import com.xmg.mall.product.domain.SkuPropertyValue;
+import com.xmg.mall.product.domain.*;
 import com.xmg.mall.product.mapper.SkuPropertyMapper;
 import com.xmg.mall.product.qo.SkuPropertyQuery;
 import com.xmg.mall.product.service.CatalogService;
@@ -143,6 +140,24 @@ public class BasicSkuPropertyService
         }
 
         return pageResult;
+    }
+
+    @Override
+    public void save(SkuProperty skuProperty, String skuPropertyDefaultValues) {
+        String[] skuPropertyDefaultValuesArray = skuPropertyDefaultValues.split(",|，");
+        if(skuPropertyDefaultValuesArray.length > 0){
+            skuProperty.setRelationship(true);
+        }
+        skuProperty.setEffective(true);
+        skuProperty = addSkuProperty(skuProperty);
+
+        for (int i = 0; i < skuPropertyDefaultValuesArray.length; i++) {
+            SkuPropertyRelationshipValue skuPropertyRelationshipValue = new SkuPropertyRelationshipValue();
+            skuPropertyRelationshipValue.setSkuPropertyId(skuProperty.getId())
+                    .setValue(skuPropertyDefaultValuesArray[i])
+                    .setSequence(i);
+            productModuleService.getSkuPropertyRelationshipValueService().save(skuPropertyRelationshipValue);
+        }
     }
 
     private Map<Long, List<SkuPropertyValue>> getValueListPerSkuPropertyMap(List<SkuProperty> skuProperties, List<SkuPropertyValue> skuPropertyValues) {

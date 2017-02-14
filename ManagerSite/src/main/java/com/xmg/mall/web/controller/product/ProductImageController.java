@@ -36,7 +36,7 @@ public class ProductImageController {
 
     @RequestMapping("/upload")
     @ResponseBody
-    public ProductImage upload(Model model, @RequestParam("file") MultipartFile file, Integer sequence, Boolean cover) {
+    public ProductImage upload(@RequestParam("file") MultipartFile file, Integer sequence, Boolean cover) {
         ProductImage productImage = new ProductImage();
         try {
             String filePath = fileUploader.upload("product_image", null, file);

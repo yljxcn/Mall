@@ -25,4 +25,6 @@ public interface SkuPropertyService {
     public int countSkuPropertys(SkuPropertyQuery qo);
 
     List<Map<String,Object>> generateSkus(Long productId, List<SkuProperty> skuProperties, List<SkuPropertyValue> skuPropertyValues);
+
+    void save(SkuProperty skuProperty, String skuPropertyDefaultValues);
 }
