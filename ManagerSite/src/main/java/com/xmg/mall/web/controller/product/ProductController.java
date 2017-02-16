@@ -4,19 +4,17 @@ import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
 import com.xmg.mall.product.domain.Brand;
 import com.xmg.mall.product.domain.Catalog;
-import com.xmg.mall.product.domain.Impression;
 import com.xmg.mall.product.domain.Product;
+import com.xmg.mall.product.form.ProductSaveForm;
 import com.xmg.mall.product.qo.*;
 import com.xmg.mall.product.service.*;
 import com.xmg.mall.product.vo.*;
-import com.xmg.mall.web.form.product.ProductForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,9 +69,9 @@ public class ProductController {
     }
 
     @RequestMapping("/save")
-    public String save(ProductForm productForm) {
+    public String save(ProductSaveForm productSaveForm) {
         try {
-            productService.save(productForm.getProduct(), productForm.getDesc(), productForm.getImpressions() ,productForm.getProductCatalogPropertyValues(), productForm.getProductImages());
+            productService.save(productSaveForm.getProduct(), productSaveForm.getDesc(), productSaveForm.getImpressions() , productSaveForm.getProductCatalogPropertyValues(), productSaveForm.getProductImages());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -147,7 +145,7 @@ public class ProductController {
     }
 
     @RequestMapping("/update")
-    public String update(Model model, ProductForm productForm) {
+    public String update(Model model, ProductSaveForm productSaveForm) {
         // TODO
         return "redirect:/product/page";
     }

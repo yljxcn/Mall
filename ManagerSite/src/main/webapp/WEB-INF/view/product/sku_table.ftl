@@ -17,12 +17,15 @@
                         <i class="fa fa-fw fa-minus-square-o"></i> 移除
                     </button>
                 </td>
-                <td>${sku.code}</td>
+                <td><input class="form-control" name="saveSkus[${sku_index}].code" value="${sku.code}" readonly></td>
                 <#list skuProperties as skuProperty>
-                    <th>${sku[skuProperty.name]}</th>
+                    <th>
+                        ${sku[skuProperty.name]}
+                        <input type="hidden" name="saveSkus[${sku_index}].skuPropertyIds[${skuProperty_index}]" value="${skuProperty.id}">
+                        <input type="hidden" name="saveSkus[${sku_index}].skuPropertyValues[${skuProperty_index}]" value="${sku[skuProperty.name]}">
+                    </th>
                 </#list>
-
-                <td><input class="form-control"></td>
+                <td><input class="form-control" name="saveSkus[${sku_index}].price"></td>
             </tr>
         </#list>
     </tbody>

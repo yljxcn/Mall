@@ -69,4 +69,9 @@ public class BasicSkuPropertyValueService
         return skuPropertyValueMapper.count(qo);
     }
 
+    @Override
+    public void save(SkuPropertyValue skuPropertyValue) {
+        addSkuPropertyValue(skuPropertyValue);
+    }
+
 }

@@ -2,27 +2,20 @@ package com.xmg.mall.web.controller.product;
 
 import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
-import com.xmg.mall.product.domain.Product;
 import com.xmg.mall.product.domain.SkuProperty;
-import com.xmg.mall.product.domain.SkuPropertyValue;
-import com.xmg.mall.product.qo.ProductQuery;
+import com.xmg.mall.product.form.SkuGenerateForm;
 import com.xmg.mall.product.qo.SkuPropertyQuery;
 import com.xmg.mall.product.qo.SkuPropertyRelationshipValueQuery;
 import com.xmg.mall.product.service.ProductModuleService;
-import com.xmg.mall.product.service.ProductService;
 import com.xmg.mall.product.service.SkuPropertyService;
-import com.xmg.mall.product.vo.ExtendedProduct;
-import com.xmg.mall.product.vo.ExtendedSku;
 import com.xmg.mall.product.vo.ExtendedSkuProperty;
 import com.xmg.mall.product.vo.ExtendedSkuPropertyRelationshipValue;
-import com.xmg.mall.web.form.product.GenerateSkuForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -104,9 +97,9 @@ public class SkuPropertyController {
     }
 
     @RequestMapping("/generateSkus")
-    public String generateSkus(Model model, @RequestBody GenerateSkuForm generateSkuForm) {
-        List<Map<String, Object>> skus = skuPropertyService.generateSkus(generateSkuForm.getProductId(), generateSkuForm.getSkuProperties(), generateSkuForm.getSkuPropertyValues());
-        model.addAttribute("skuProperties", generateSkuForm.getSkuProperties());
+    public String generateSkus(Model model, @RequestBody SkuGenerateForm skuGenerateForm) {
+        List<Map<String, Object>> skus = skuPropertyService.generateSkus(skuGenerateForm.getProductId(), skuGenerateForm.getSkuProperties(), skuGenerateForm.getSkuPropertyValues());
+        model.addAttribute("skuProperties", skuGenerateForm.getSkuProperties());
         model.addAttribute("skus", skus);
         return "product/sku_table";
     }

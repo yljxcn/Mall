@@ -1,4 +1,4 @@
-package com.xmg.mall.web.form.product;
+package com.xmg.mall.product.form;
 
 import com.xmg.mall.product.domain.Catalog;
 import com.xmg.mall.product.domain.CatalogProperty;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by lony on 2017/2/4.
  */
-public class CatalogForm {
+public class CatalogSaveForm {
     private Catalog catalog;
     private List<CatalogProperty> catalogProperties;
     private List<CatalogPropertyValue> catalogPropertyValues;

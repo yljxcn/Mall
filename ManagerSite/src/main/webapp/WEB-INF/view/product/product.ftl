@@ -27,6 +27,12 @@
                     $select.attr('name', 'excludeMods')
                 }
             });
+
+            $('#saveSku').click(function(){
+                var id = $('#t_table').find('tr.info').data('id');
+                if(id)
+                    $('#content_body').load('/sku/toSave' + '?productId=' + id);
+            });
         });
     </script>
 
@@ -63,6 +69,7 @@
                 <div class="col-lg-9 text-left">
                     <button id="save" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> 增加</button>
                     <button id="update" type="button" class="btn btn-primary disabled"><i class="fa fa-fw fa-edit"></i> 修改</button>
+                    <button id="saveSku" type="button" class="btn btn-info disabled"><i class="fa fa-fw fa-plus"></i> 增加 SKU</button>
                     <button id="delete" type="button" class="btn btn-danger disabled"><i class="fa fa-fw fa-minus"></i> 删除</button>
                 </div>
                 <div class="col-lg-3 text-right">

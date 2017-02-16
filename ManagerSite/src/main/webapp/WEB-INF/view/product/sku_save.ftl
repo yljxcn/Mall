@@ -11,33 +11,48 @@
         </ol>
     </div>
 </div>
-<form>
+<form action="/sku/save" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="productId" value="${(product.id)!""}">
     <h2>商品信息</h2>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
                 <label>商品名称</label>
-                <input class="form-control" readonly>
+                <input class="form-control" readonly value="${(product.name)!""}">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>商品编号</label>
-                <input class="form-control" readonly>
+                <input class="form-control" readonly value="${(product.code)!""}">
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
-                <label>所属分类</label>
-                <input class="form-control" readonly>
+                <label>所属品牌</label>
+                <input class="form-control" readonly value="${(product.brand.chineseName)!""}">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
-                <label>所属品牌</label>
-                <input class="form-control" readonly>
+                <label>所属分类</label>
+                <input class="form-control" readonly value="${(product.catalog.name)!""}">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>市场售价</label>
+                <input class="form-control" readonly value="${(product.marketPrice)!""}">
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>基础售价</label>
+                <input class="form-control" readonly value="${(product.basePrice)!""}">
             </div>
         </div>
     </div>
@@ -55,9 +70,11 @@
 <script id="skuPropertiesTableTemplate" type="text/x-template">
     <div class="sku-properties">
         <div class="sku-property-name">
-            <select class="form-control form-control-inline">
-                <option value="1">处理器</option>
-                <option value="2">颜色</option>
+            <select class="form-control form-control-inline js-select">
+                <option value="">请选择</option>
+                <#list skuProperties as skuProperty>
+                    <option data-relationship="${skuProperty.hasRelationship()?string("true", "false")}" value="${skuProperty.id}">${skuProperty.name}</option>
+                </#list>
             </select>
             <a class="js-up" href="javascript:;"><i class="fa fa-fw fa-angle-double-up"></i> 上移</a>
             <a class="js-down" href="javascript:;"><i class="fa fa-fw fa-angle-double-down"></i> 下移</a>
@@ -92,15 +109,15 @@
                 <i class="fa fa-fw fa-minus-square-o"></i> 移除
             </button>
         </td>
-        <td><input class="form-control sku-property-value"></td>
-        <td><input type="file"></td>
+        <td><input name="skuPropertyValue" class="form-control sku-property-value"></td>
+        <td>
+            <input name="file" type="file">
+            <input name="skuPropertyId" class="sku-property-id" type="hidden" value="">
+        </td>
     </tr>
 </script>
 <script>
-    $('.refresh-a').click(function(){
-        $('#content_body').load('/sku/toSaveOrUpdate');
-        return false;
-    });
+    initRefresh({toSaveUrl: '/sku/toSave'});
 
     $('.addSkuPropertiesTable').click(function(){
         new SkuPropertiesTableDiv($(this).parent('h2').next('div'));
@@ -114,15 +131,44 @@
     }
 
     SkuPropertiesTableDiv.prototype = {
+        skuPropertiesTableObj:null,
+
         addPropertyTable: function () {
             this.$el.append(this.$table);
-            new SkuPropertiesTable(this.$table);
+            skuPropertiesTableObj = new SkuPropertiesTable(this.$table);
         },
 
         _bindEvents: function () {
             this.$table
+                .on('change', '.js-select', this.selectSkuProperty.bind(this))
                 .on('click', '.js-up', this.upPropertyTable.bind(this))
                 .on('click', '.js-down', this.downPropertyTable.bind(this));
+        },
+
+        selectSkuProperty: function (e) {
+            var $select = $(e.currentTarget);
+            var skuPropertyId = $select.val();
+            if(skuPropertyId){
+               var relationship = $select.find('option:selected').data('relationship');
+               if(relationship){
+                   $.ajax({
+                       type: "POST",
+                       url: "/skuPropertyRelationshipValue/list",
+                       data: {skuPropertyId: skuPropertyId},
+                       dataType: 'json',
+                       timeout: 100000
+                   }).done(function (data) {
+                       if(skuPropertiesTableObj){
+                           skuPropertiesTableObj.removeAllPropertyRow();
+                           $.each(data,function(index,value){
+                               skuPropertiesTableObj.initPropertyRow(value);
+                           });
+                       }
+                   });
+               }
+            }else{
+                skuPropertiesTableObj.removeAllPropertyRow();
+            }
         },
 
         upPropertyTable: function (e) {
@@ -150,7 +196,6 @@
         this.$body = this.$el.children('table').children('tbody');
 
         this.propertyRowTemplate = $('#skuPropertyRowTemplate').html();
-
         this._bindEvents();
     }
 
@@ -161,15 +206,27 @@
                 .on('click', '.js-remove', this.removePropertyRow.bind(this));
         },
 
+        initPropertyRow: function (skuPropertyValue) {
+            var $propertyRowTemplate = $(this.propertyRowTemplate);
+            $propertyRowTemplate.find('input.sku-property-value').val(skuPropertyValue.value);
+            $propertyRowTemplate.find('input.sku-property-id').val(skuPropertyValue.skuPropertyId);
+            this.$body.append($propertyRowTemplate.get(0));
+        },
+
         addPropertyRow: function () {
             this.$body.append(this.propertyRowTemplate);
         },
 
         removePropertyRow: function (e) {
             $(e.currentTarget).closest('tr').remove();
+        },
+
+        removeAllPropertyRow: function () {
+            this.$body.empty();
         }
     };
 
+    // 生成 SKU
     $('.generateSkus').click(function(){
         var $skuContainer = $('.sku-container');
         $skuContainer.empty();
@@ -205,7 +262,7 @@
         console.info(JSON.stringify(skuPropertyValuesArray));
 
         var obj = {
-            'productId': 1,
+            'productId': ${(product.id)!""},
             'skuProperties': skuPropertiesArray,
             'skuPropertyValues': skuPropertyValuesArray
         };
@@ -220,6 +277,5 @@
         }).done(function (data) {
             $skuContainer.html(data);
         });
-
     });
 </script>

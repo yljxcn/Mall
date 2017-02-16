@@ -55,10 +55,10 @@
                 <label>是否显示</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="mods" value="1" <#if brand?? && brand.hasVisible()>checked</#if>>是
+                        <input type="radio" name="visible" value="true" <#if brand?? && brand.hasVisible()>checked</#if>>是
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="mods" value="0" <#if brand?? && !(brand.hasVisible())>checked</#if>>否
+                        <input type="radio" name="visible" value="false" <#if brand?? && !(brand.hasVisible())>checked</#if>>否
                     </label>
 
 

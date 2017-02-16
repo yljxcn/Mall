@@ -4,6 +4,7 @@ import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.base.query.PaginationUtil;
 import com.xmg.mall.base.query.QueryCondition;
 import com.xmg.mall.product.domain.Catalog;
+import com.xmg.mall.product.form.CatalogSaveForm;
 import com.xmg.mall.product.qo.CatalogPropertyQuery;
 import com.xmg.mall.product.qo.CatalogPropertyValueQuery;
 import com.xmg.mall.product.qo.CatalogQuery;
@@ -12,7 +13,6 @@ import com.xmg.mall.product.service.CatalogService;
 import com.xmg.mall.product.service.ProductCatalogPropertyValueService;
 import com.xmg.mall.product.service.ProductModuleService;
 import com.xmg.mall.product.vo.*;
-import com.xmg.mall.web.form.product.CatalogForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,9 +116,9 @@ public class CatalogController {
     }
 
     @RequestMapping("/save")
-    public String save(CatalogForm catalogForm) {
+    public String save(CatalogSaveForm catalogSaveForm) {
         try{
-            catalogService.save(catalogForm.getCatalog(), catalogForm.getCatalogProperties(), catalogForm.getCatalogPropertyValues());
+            catalogService.save(catalogSaveForm.getCatalog(), catalogSaveForm.getCatalogProperties(), catalogSaveForm.getCatalogPropertyValues());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -126,9 +126,9 @@ public class CatalogController {
     }
 
     @RequestMapping("/update")
-    public String update(CatalogForm catalogForm) {
+    public String update(CatalogSaveForm catalogSaveForm) {
         try{
-            catalogService.update(catalogForm.getCatalog(), catalogForm.getCatalogProperties(), catalogForm.getCatalogPropertyValues());
+            catalogService.update(catalogSaveForm.getCatalog(), catalogSaveForm.getCatalogProperties(), catalogSaveForm.getCatalogPropertyValues());
         }catch (Exception e){
             e.printStackTrace();
         }

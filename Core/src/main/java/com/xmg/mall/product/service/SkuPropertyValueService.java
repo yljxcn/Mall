@@ -20,4 +20,5 @@ public interface SkuPropertyValueService {
 
     public int countSkuPropertyValues(SkuPropertyValueQuery qo);
 
+    void save(SkuPropertyValue skuPropertyValue);
 }
