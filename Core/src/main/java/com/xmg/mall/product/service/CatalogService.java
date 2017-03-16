@@ -25,4 +25,6 @@ public interface CatalogService {
     void save(Catalog catalog, List<CatalogProperty> catalogProperties, List<CatalogPropertyValue> catalogPropertyValues);
 
     void update(Catalog catalog, List<CatalogProperty> catalogProperties, List<CatalogPropertyValue> catalogPropertyValues);
+
+    void update(Catalog catalog);
 }

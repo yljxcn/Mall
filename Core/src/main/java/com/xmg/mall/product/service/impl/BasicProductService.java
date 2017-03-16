@@ -80,6 +80,12 @@ public class BasicProductService
         product = addProduct(product);
         Long productId = product.getId();
 
+        // 修改分类下产品的数量
+        CatalogService catalogService = productModuleService.getCatalogService();
+        Catalog catalog = catalogService.getCatalog(product.getCatalogId());
+        catalog.setProducts(catalog.getProducts() == null ? 1 : catalog.getProducts() + 1);
+        catalogService.update(catalog);
+
         ProductDescriptionService productDescriptionService = productModuleService.getProductDescriptionService();
         ProductDescription productDescription = new ProductDescription();
         productDescription.setDescription(description)

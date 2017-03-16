@@ -147,11 +147,6 @@ public class CatalogController {
             extendedProductCatalogPropertyValues = productCatalogPropertyValueService.listProductCatalogPropertyValues(qo);
         }
 
-        // 查询此分类的分类属性（包括父级分类的分类属性）
-        // CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
-        // catalogPropertyQuery.setCatalogId(catalogId);
-        // List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
-
         Catalog catalog = productModuleService.getCatalogService().getCatalog(catalogId);
         List<ExtendedCatalogProperty> catalogProperties = new ArrayList<>();
         if(catalog != null){
