@@ -44,9 +44,9 @@
             <div class="form-group">
                 <label>分类等级</label>
                 <select class="form-control" name="catalog.level">
-                    <option value="0" <#if (catalog.level)?? && catalog.level == 1>selected</#if>>一级</option>
-                    <option value="1" <#if (catalog.level)?? && catalog.level == 2>selected</#if>>二级</option>
-                    <option value="2" <#if (catalog.level)?? && catalog.level == 3>selected</#if>>三级</option>
+                    <option value="0" <#if (catalog.level)?? && catalog.level == 0>selected</#if>>一级</option>
+                    <option value="1" <#if (catalog.level)?? && catalog.level == 1>selected</#if>>二级</option>
+                    <option value="2" <#if (catalog.level)?? && catalog.level == 2>selected</#if>>三级</option>
                 </select>
             </div>
         </div>

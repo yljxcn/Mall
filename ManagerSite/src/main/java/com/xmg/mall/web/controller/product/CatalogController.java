@@ -138,6 +138,8 @@ public class CatalogController {
     @RequestMapping("/catalogPropertiesValues")
     public String catalogPropertiesAndValues(Model model, Long productId, Long catalogId) {
         List<ExtendedProductCatalogPropertyValue> extendedProductCatalogPropertyValues = new ArrayList<>();
+
+        // 查询产品分类属性值
         if(productId != null){
             ProductCatalogPropertyValueService productCatalogPropertyValueService = productModuleService.getProductCatalogPropertyValueService();
             ProductCatalogPropertyValueQuery qo = new ProductCatalogPropertyValueQuery();
@@ -145,14 +147,23 @@ public class CatalogController {
             extendedProductCatalogPropertyValues = productCatalogPropertyValueService.listProductCatalogPropertyValues(qo);
         }
 
-        CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
-        catalogPropertyQuery.setCatalogId(catalogId);
-        List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
+        // 查询此分类的分类属性（包括父级分类的分类属性）
+        // CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
+        // catalogPropertyQuery.setCatalogId(catalogId);
+        // List<ExtendedCatalogProperty> catalogProperties = productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery);
+
+        Catalog catalog = productModuleService.getCatalogService().getCatalog(catalogId);
+        List<ExtendedCatalogProperty> catalogProperties = new ArrayList<>();
+        if(catalog != null){
+            getALLCatalogProperties(catalogProperties, catalog);
+        }
+
         // 定义回显页面封装的集合
         List<ExtendedCatalogPropertiesAndValues> voes = new ArrayList<>(catalogProperties.size());
         for (ExtendedCatalogProperty catalogProperty : catalogProperties) {
             ExtendedCatalogPropertiesAndValues vo = new ExtendedCatalogPropertiesAndValues();
             vo.setCatalogProperty(catalogProperty);
+
             CatalogPropertyValueQuery catalogPropertyValueQuery = new CatalogPropertyValueQuery();
             catalogPropertyValueQuery.setCatalogPropertyId(catalogProperty.getId());
             List<ExtendedCatalogPropertyValue> catalogPropertyValues = productModuleService.getCatalogPropertyValueService().listCatalogPropertyValues(catalogPropertyValueQuery);
@@ -173,6 +184,7 @@ public class CatalogController {
                     // 商品编辑页面回显分类属性文本值
                     for (ExtendedProductCatalogPropertyValue extendedProductCatalogPropertyValue : extendedProductCatalogPropertyValues) {
                         if(catalogPropertyValue.getCatalogPropertyId().equals(extendedProductCatalogPropertyValue.getCatalogPropertyId())){
+                            // 设置增加时候的值
                             catalogPropertyValue.setValue(extendedProductCatalogPropertyValue.getValue());
                             break;
                         }
@@ -185,13 +197,28 @@ public class CatalogController {
                 extendedCatalogPropertyAndValues.add(cpvs);
             }
             vo.setCatalogPropertyAndValues(extendedCatalogPropertyAndValues);
-            // vo.setCatalogPropertyValues(catalogPropertyValues);
             voes.add(vo);
         }
-        System.out.println(voes);
         model.addAttribute("voes", voes);
         return "product/catalog_properties_values_table";
     }
 
+    /**
+     * 递归查询此分类的分类属性（包括父级分类的分类属性）
+     * @param catalogProperties
+     * @param catalog
+     * @return
+     */
+    private List<ExtendedCatalogProperty> getALLCatalogProperties(List<ExtendedCatalogProperty> catalogProperties, Catalog catalog){
+        Long parentCatalogId = catalog.getParentCatalogId();
+        CatalogPropertyQuery catalogPropertyQuery = new CatalogPropertyQuery();
+        catalogPropertyQuery.setCatalogId(catalog.getId());
+        catalogProperties.addAll(productModuleService.getCatalogPropertyService().listCatalogPropertys(catalogPropertyQuery));
+
+        if(parentCatalogId == null) {
+            return catalogProperties;
+        }
+        return getALLCatalogProperties(catalogProperties, productModuleService.getCatalogService().getCatalog(parentCatalogId));
+    }
 
 }

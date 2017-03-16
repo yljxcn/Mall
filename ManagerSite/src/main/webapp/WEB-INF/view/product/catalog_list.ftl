@@ -13,7 +13,7 @@
             <#list pagination.datas as data>
                 <tr data-id="${data.id}">
                     <td>${data.createdDate?string("yyyy-MM-dd")}</td>
-                    <td><span class="badge">${data.level}</span></</td>
+                    <td><span class="badge">${data.level + 1}</span></</td>
                     <td>${data.name}</td>
                     <td>${data.code}</td>
                     <td>${data.sequence}</td>

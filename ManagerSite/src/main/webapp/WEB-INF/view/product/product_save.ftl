@@ -178,7 +178,7 @@
     // editor.setData("XXX");
     // console.info(editor.getData());
 
-    var pio = {'sequence' : 1, 'cover' : true};
+    // var pio = {'sequence' : 1, 'cover' : false};
 
     $(".image-div .js-upload").uploadify({
         'height'            : 30,
@@ -188,7 +188,6 @@
         'swf'               : '/js/plugins/uploadify/uploadify.swf',
         'uploader'          : '/productImage/upload',
         'fileObjName'       : 'file',
-        'formData'          : pio,
         'overrideEvents'    : ['onUploadSuccess','onUploadProgress','onSelect'],
         'onUploadStart'     : function(file) {
             // 获取到上传包装过后的 jQuey 对象
@@ -196,8 +195,8 @@
             var $div = $wrapper.parent('div').parent('div').next('div');
             var sequence = $div.find('select').val();
             var cover = $div.find('input').prop('checked');
-            pio.sequence = sequence;
-            pio.cover = cover;
+            // 设置额外参数
+            $wrapper.uploadify('settings','formData', {sequence: sequence, cover: cover});
         },
         'onUploadSuccess'   : function(file, data) {
             var $wrapper = this.wrapper;
@@ -206,7 +205,6 @@
             $div.find('img').attr('src', data.image);
             $div.find('input').val(data.id);
         }
-
     });
 
     $('#catalogId').change(function(){

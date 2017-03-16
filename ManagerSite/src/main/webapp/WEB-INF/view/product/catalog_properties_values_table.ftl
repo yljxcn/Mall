@@ -8,8 +8,8 @@
                         <option value="${v.catalogPropertyValue.value}" <#if v?? && v.show>selected</#if>>${v.catalogPropertyValue.value}</option>
                     </#list>
                 </select>
-            <#else >
-                <#list vo.catalogPropertyValues as v>
+            <#else>
+                <#list vo.catalogPropertyAndValues as v>
                     <input name="productCatalogPropertyValues[${vo_index}].value" class="form-control" value="${v.catalogPropertyValue.value}">
                 </#list>
             </#if>

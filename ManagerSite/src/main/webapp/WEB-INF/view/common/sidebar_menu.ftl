@@ -30,13 +30,7 @@
                     'active': false
                 },
                 {
-                    'name': '商品',
-                    'path': '/product/page',
-                    'icon': 'fa fa-fw fa-cube',
-                    'active': false
-                },
-                {
-                    'name': 'SKU 属性',
+                    'name': 'SKP',
                     'path': '/skuProperty/page',
                     'icon': 'fa fa-fw fa-dashboard',
                     'active': false
@@ -46,6 +40,12 @@
                     'path': '/sku/page',
                     'icon': 'fa fa-fw fa-barcode',
                     'active': false
+                },
+                {
+                'name': '商品',
+                'path': '/product/page',
+                'icon': 'fa fa-fw fa-cube',
+                'active': false
                 }
             ]
         },
