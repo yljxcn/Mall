@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.user.mapper.UserMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.user.domain.User">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="avatar" column="avatar"/>
+    <result property="username" column="username"/>
+    <result property="phoneNumber" column="phoneNumber"/>
+    <result property="email" column="email"/>
+    <result property="password" column="password"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">user.id, user.createdDate, user.lastModifiedDate, user.version,user.avatar,user.username,user.phoneNumber,user.email,user.password</sql>
+  <sql id="QUERY_COLUMNS">user.id, user.createdDate, user.lastModifiedDate, user.version,user.avatar,user.username,user.phoneNumber,user.email,user.password</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.user.vo.ExtendedUser" extends="BASE_RESULT"/>
+  <sql id="JOIN_COLUMNS"/>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `User` user WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `User` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.user.domain.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `User`(id, createdDate, version,avatar,username,phoneNumber,email,password) VALUES(#{id }, #{createdDate}, 0, #{avatar }, #{username }, #{phoneNumber }, #{email }, #{password })</insert>
+  <update id="update" parameterType="com.xmg.mall.user.domain.User">UPDATE `User`
+    <set>lastModifiedDate = now(), version = version + 1, avatar = #{avatar }, phoneNumber = #{phoneNumber }, email = #{email }, password = #{password }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN"/>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND user.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND user.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND user.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="username != null">AND user.username = #{username}</if>
+    <if test="likeUsername != null">AND user.username LIKE CONCAT(#{likeUsername} ,'%')</if>
+    <if test="phoneNumber != null">AND user.phoneNumber = #{phoneNumber}</if>
+    <if test="likePhoneNumber != null">AND user.phoneNumber LIKE CONCAT(#{likePhoneNumber} ,'%')</if>
+    <if test="email != null">AND user.email = #{email}</if>
+    <if test="likeEmail != null">AND user.email LIKE CONCAT(#{likeEmail} ,'%')</if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys" item="value" index="key" separator=", ">user.${key} ${value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.user.qo.UserQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `User` AS user
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.user.qo.UserQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `User` AS user
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.user.mapper.TotalUserGradeMapper">
+  <resultMap id="TOTAL_RESULT" type="com.xmg.mall.user.vo.TotalUserGrade">
+    <result column="rows" property="rows"/>
+    <result column="createdDate" property="createdDate"/>
+  </resultMap>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="com.xmg.mall.user.mapper.UserGradeMapper.QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="TOTAL_COLUMNS">
+    <trim suffixOverrides=",">NULL, 
+      <if test="totalCountRows">COUNT(0) AS rows,</if>
+      <if test="groupBys.size() &gt; 0">
+        <foreach collection="groupBys.keySet()" item="key">userGrade.${key} AS ${key},</foreach>
+      </if>
+      <if test="totalSumScore">SUM(userGrade.score) AS totalSumScore,</if>
+      <if test="totalMinScore">MIN(userGrade.score) AS totalMinScore,</if>
+      <if test="totalMaxScore">MAX(userGrade.score) AS totalMaxScore,</if>
+      <if test="totalAvgScore">AVG(userGrade.score) AS totalAvgScore,</if>
+      <if test="totalSumConsumeScore">SUM(userGrade.consumeScore) AS totalSumConsumeScore,</if>
+      <if test="totalMinConsumeScore">MIN(userGrade.consumeScore) AS totalMinConsumeScore,</if>
+      <if test="totalMaxConsumeScore">MAX(userGrade.consumeScore) AS totalMaxConsumeScore,</if>
+      <if test="totalAvgConsumeScore">AVG(userGrade.consumeScore) AS totalAvgConsumeScore,</if>
+    </trim>
+  </sql>
+  <sql id="QUERY_GROUP_BY">
+    <if test="groupBys.size() &gt; 0">GROUP BY
+      <foreach collection="groupBys.entrySet()" item="entry" separator=",">
+        <choose>
+          <when test="entry.value != null">
+            <choose>
+              <when test="entry.value.startsWith('&amp;')">userGrade.${entry.key} ${entry.value}</when>
+              <otherwise>${entry.value}(userGrade.${entry.key})</otherwise>
+            </choose>
+          </when>
+          <otherwise>userGrade.${entry.key}</otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_HAVING">
+    <trim prefixOverrides="AND | OR" prefix="HAVING">
+      <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
+      <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumScore != null">AND SUM(userGrade.score) &gt;= #{minTotalSumScore}</if>
+      <if test="maxTotalSumScore != null">AND SUM(userGrade.score) &lt;= #{maxTotalSumScore}</if>
+      <if test="minTotalMinScore != null">AND MIN(userGrade.score) &gt;= #{minTotalMinScore}</if>
+      <if test="maxTotalMinScore != null">AND MIN(userGrade.score) &lt;= #{maxTotalMinScore}</if>
+      <if test="minTotalMaxScore != null">AND MAX(userGrade.score) &gt;= #{minTotalMaxScore}</if>
+      <if test="maxTotalMaxScore != null">AND MAX(userGrade.score) &lt;= #{maxTotalMaxScore}</if>
+      <if test="minTotalAvgScore != null">AND AVG(userGrade.score) &gt;= #{minTotalAvgScore}</if>
+      <if test="maxTotalAvgScore != null">AND AVG(userGrade.score) &lt;= #{maxTotalAvgScore}</if>
+      <if test="minTotalSumConsumeScore != null">AND SUM(userGrade.consumeScore) &gt;= #{minTotalSumConsumeScore}</if>
+      <if test="maxTotalSumConsumeScore != null">AND SUM(userGrade.consumeScore) &lt;= #{maxTotalSumConsumeScore}</if>
+      <if test="minTotalMinConsumeScore != null">AND MIN(userGrade.consumeScore) &gt;= #{minTotalMinConsumeScore}</if>
+      <if test="maxTotalMinConsumeScore != null">AND MIN(userGrade.consumeScore) &lt;= #{maxTotalMinConsumeScore}</if>
+      <if test="minTotalMaxConsumeScore != null">AND MAX(userGrade.consumeScore) &gt;= #{minTotalMaxConsumeScore}</if>
+      <if test="maxTotalMaxConsumeScore != null">AND MAX(userGrade.consumeScore) &lt;= #{maxTotalMaxConsumeScore}</if>
+      <if test="minTotalAvgConsumeScore != null">AND AVG(userGrade.consumeScore) &gt;= #{minTotalAvgConsumeScore}</if>
+      <if test="maxTotalAvgConsumeScore != null">AND AVG(userGrade.consumeScore) &lt;= #{maxTotalAvgConsumeScore}</if>
+    </trim>
+  </sql>
+  <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.user.qo.TotalUserGradeQuery">SELECT 
+    <include refid="TOTAL_COLUMNS"/>FROM `UserGrade` AS userGrade
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_GROUP_BY"/>
+    <include refid="QUERY_HAVING"/>
+    <include refid="com.xmg.mall.user.mapper.UserGradeMapper.QUERY_ORDER_BY"/>
+    <include refid="com.xmg.mall.user.mapper.UserGradeMapper.QUERY_LIMIT"/>
+  </select>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.user.mapper.UserGradeMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.user.domain.UserGrade">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="userId" column="userId"/>
+    <result property="gradeId" column="gradeId"/>
+    <result property="score" column="score"/>
+    <result property="consumeScore" column="consumeScore"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">userGrade.id, userGrade.createdDate, userGrade.lastModifiedDate, userGrade.version,userGrade.userId,userGrade.gradeId,userGrade.score,userGrade.consumeScore</sql>
+  <sql id="QUERY_COLUMNS">userGrade.id, userGrade.createdDate, userGrade.lastModifiedDate, userGrade.version,userGrade.userId,userGrade.gradeId,userGrade.score,userGrade.consumeScore</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.user.vo.ExtendedUserGrade" extends="BASE_RESULT">
+    <association property="user" column="userId" javaType="com.xmg.mall.user.domain.User" columnPrefix="user_" resultMap="com.xmg.mall.user.mapper.UserMapper.BASE_RESULT"/>
+    <association property="grade" column="gradeId" javaType="com.xmg.mall.user.domain.Grade" columnPrefix="grade_" resultMap="com.xmg.mall.user.mapper.GradeMapper.BASE_RESULT"/>
+  </resultMap>
+  <sql id="JOIN_COLUMNS">
+    <if test="joinUser != null">, user.id AS user_id, user.username AS user_username</if>
+    <if test="joinGrade != null">, grade.id AS grade_id, grade.name AS grade_name</if>
+  </sql>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `UserGrade` userGrade WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `UserGrade` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.user.domain.UserGrade" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `UserGrade`(id, createdDate, version,userId,gradeId,score,consumeScore) VALUES(#{id }, #{createdDate}, 0, #{userId }, #{gradeId }, #{score }, #{consumeScore })</insert>
+  <update id="update" parameterType="com.xmg.mall.user.domain.UserGrade">UPDATE `UserGrade`
+    <set>lastModifiedDate = now(), version = version + 1, userId = #{userId }, gradeId = #{gradeId }, score = #{score }, consumeScore = #{consumeScore }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN">
+    <if test="joinUser != null">${joinUser.name} `User` user ON user.id = userGrade.userId</if>
+    <if test="joinGrade != null">${joinGrade.name} `Grade` grade ON grade.id = userGrade.gradeId</if>
+  </sql>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND userGrade.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND userGrade.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND userGrade.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="userId != null">AND userGrade.userId = #{userId}</if>
+    <if test="gradeId != null">AND userGrade.gradeId = #{gradeId}</if>
+    <if test="score != null">AND userGrade.score = #{score}</if>
+    <if test="minScore != null">AND userGrade.score &gt;= #{minScore}</if>
+    <if test="maxScore != null">AND userGrade.score &lt;= #{maxScore}</if>
+    <if test="consumeScore != null">AND userGrade.consumeScore = #{consumeScore}</if>
+    <if test="minConsumeScore != null">AND userGrade.consumeScore &gt;= #{minConsumeScore}</if>
+    <if test="maxConsumeScore != null">AND userGrade.consumeScore &lt;= #{maxConsumeScore}</if>
+    <if test="userQuery != null &amp;&amp; joinUser">
+      <if test="userQuery.ids != null">AND user.id IN
+        <foreach collection="userQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="userQuery.startCreatedDate != null">AND user.createdDate &gt;= #{userQuery.startCreatedDate }</if>
+      <if test="userQuery.endCreatedDate != null">AND user.createdDate &lt;= #{userQuery.endCreatedDate }</if>
+      <if test="userQuery.username != null">AND user.username = #{userQuery.username}</if>
+      <if test="userQuery.likeUsername != null">AND user.username LIKE CONCAT(#{userQuery.likeUsername} ,'%')</if>
+      <if test="userQuery.phoneNumber != null">AND user.phoneNumber = #{userQuery.phoneNumber}</if>
+      <if test="userQuery.likePhoneNumber != null">AND user.phoneNumber LIKE CONCAT(#{userQuery.likePhoneNumber} ,'%')</if>
+      <if test="userQuery.email != null">AND user.email = #{userQuery.email}</if>
+      <if test="userQuery.likeEmail != null">AND user.email LIKE CONCAT(#{userQuery.likeEmail} ,'%')</if>
+    </if>
+    <if test="gradeQuery != null &amp;&amp; joinGrade">
+      <if test="gradeQuery.ids != null">AND grade.id IN
+        <foreach collection="gradeQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="gradeQuery.startCreatedDate != null">AND grade.createdDate &gt;= #{gradeQuery.startCreatedDate }</if>
+      <if test="gradeQuery.endCreatedDate != null">AND grade.createdDate &lt;= #{gradeQuery.endCreatedDate }</if>
+      <if test="gradeQuery.likeName != null">AND grade.name LIKE CONCAT(#{gradeQuery.likeName} ,'%')</if>
+      <if test="gradeQuery.upperLimit != null">AND grade.upperLimit = #{gradeQuery.upperLimit}</if>
+      <if test="gradeQuery.minUpperLimit != null">AND grade.upperLimit &gt;= #{gradeQuery.minUpperLimit}</if>
+      <if test="gradeQuery.maxUpperLimit != null">AND grade.upperLimit &lt;= #{gradeQuery.maxUpperLimit}</if>
+      <if test="gradeQuery.lowerLimit != null">AND grade.lowerLimit = #{gradeQuery.lowerLimit}</if>
+      <if test="gradeQuery.minLowerLimit != null">AND grade.lowerLimit &gt;= #{gradeQuery.minLowerLimit}</if>
+      <if test="gradeQuery.maxLowerLimit != null">AND grade.lowerLimit &lt;= #{gradeQuery.maxLowerLimit}</if>
+      <if test="gradeQuery.discount != null">AND grade.discount = #{gradeQuery.discount}</if>
+      <if test="gradeQuery.minDiscount != null">AND grade.discount &gt;= #{gradeQuery.minDiscount}</if>
+      <if test="gradeQuery.maxDiscount != null">AND grade.discount &lt;= #{gradeQuery.maxDiscount}</if>
+      <if test="gradeQuery.excludeMods != null">AND 
+        <foreach collection="gradeQuery.excludeMods" item="mod" open="(" close=")" separator=" AND ">grade.mods &amp; #{mod } = 0</foreach>
+      </if>
+      <if test="gradeQuery.includeMods != null &amp;&amp; gradeQuery.excludeMods == null ">AND 
+        <foreach collection="gradeQuery.includeMods" item="mod" open="(" close=")" separator=" OR ">grade.mods &amp; #{mod } &lt;&gt; 0</foreach>
+      </if>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys" item="value" index="key" separator=", ">userGrade.${key} ${value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.user.qo.UserGradeQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `UserGrade` AS userGrade
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.user.qo.UserGradeQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `UserGrade` AS userGrade
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

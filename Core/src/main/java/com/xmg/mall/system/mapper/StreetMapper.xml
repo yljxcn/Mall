@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.system.mapper.StreetMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.system.domain.Street">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="areaId" column="areaId"/>
+    <result property="name" column="name"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">street.id, street.createdDate, street.lastModifiedDate, street.version,street.areaId,street.name</sql>
+  <sql id="QUERY_COLUMNS">street.id, street.createdDate, street.lastModifiedDate, street.version,street.areaId,street.name</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.system.vo.ExtendedStreet" extends="BASE_RESULT">
+    <association property="area" column="areaId" javaType="com.xmg.mall.system.domain.Area" columnPrefix="area_" resultMap="com.xmg.mall.system.mapper.AreaMapper.BASE_RESULT"/>
+  </resultMap>
+  <sql id="JOIN_COLUMNS">
+    <if test="joinArea != null">, area.id AS area_id, area.name AS area_name</if>
+  </sql>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `Street` street WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Street` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.system.domain.Street" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Street`(id, createdDate, version,areaId,name) VALUES(#{id }, #{createdDate}, 0, #{areaId }, #{name })</insert>
+  <update id="update" parameterType="com.xmg.mall.system.domain.Street">UPDATE `Street`
+    <set>lastModifiedDate = now(), version = version + 1, areaId = #{areaId }, name = #{name }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN">
+    <if test="joinArea != null">${joinArea.name} `Area` area ON area.id = street.areaId</if>
+  </sql>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND street.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND street.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND street.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="areaId != null">AND street.areaId = #{areaId}</if>
+    <if test="name != null">AND street.name = #{name}</if>
+    <if test="likeName != null">AND street.name LIKE CONCAT(#{likeName} ,'%')</if>
+    <if test="areaQuery != null &amp;&amp; joinArea">
+      <if test="areaQuery.ids != null">AND area.id IN
+        <foreach collection="areaQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="areaQuery.startCreatedDate != null">AND area.createdDate &gt;= #{areaQuery.startCreatedDate }</if>
+      <if test="areaQuery.endCreatedDate != null">AND area.createdDate &lt;= #{areaQuery.endCreatedDate }</if>
+      <if test="areaQuery.cityId != null">AND area.cityId = #{areaQuery.cityId}</if>
+      <if test="areaQuery.name != null">AND area.name = #{areaQuery.name}</if>
+      <if test="areaQuery.likeName != null">AND area.name LIKE CONCAT(#{areaQuery.likeName} ,'%')</if>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys" item="value" index="key" separator=", ">street.${key} ${value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.system.qo.StreetQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `Street` AS street
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.system.qo.StreetQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `Street` AS street
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

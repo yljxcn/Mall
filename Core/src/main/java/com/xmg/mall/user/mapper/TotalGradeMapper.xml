@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.user.mapper.TotalGradeMapper">
+  <resultMap id="TOTAL_RESULT" type="com.xmg.mall.user.vo.TotalGrade">
+    <result column="rows" property="rows"/>
+    <result column="createdDate" property="createdDate"/>
+    <result column="mods" property="mods"/>
+  </resultMap>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="com.xmg.mall.user.mapper.GradeMapper.QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="TOTAL_COLUMNS">
+    <trim suffixOverrides=",">NULL, 
+      <if test="totalCountRows">COUNT(0) AS rows,</if>
+      <if test="groupBys.size() &gt; 0">
+        <foreach collection="groupBys.keySet()" item="key">grade.${key} AS ${key},</foreach>
+      </if>
+      <if test="totalSumUpperLimit">SUM(grade.upperLimit) AS totalSumUpperLimit,</if>
+      <if test="totalMinUpperLimit">MIN(grade.upperLimit) AS totalMinUpperLimit,</if>
+      <if test="totalMaxUpperLimit">MAX(grade.upperLimit) AS totalMaxUpperLimit,</if>
+      <if test="totalAvgUpperLimit">AVG(grade.upperLimit) AS totalAvgUpperLimit,</if>
+      <if test="totalSumLowerLimit">SUM(grade.lowerLimit) AS totalSumLowerLimit,</if>
+      <if test="totalMinLowerLimit">MIN(grade.lowerLimit) AS totalMinLowerLimit,</if>
+      <if test="totalMaxLowerLimit">MAX(grade.lowerLimit) AS totalMaxLowerLimit,</if>
+      <if test="totalAvgLowerLimit">AVG(grade.lowerLimit) AS totalAvgLowerLimit,</if>
+      <if test="totalSumDiscount">SUM(grade.discount) AS totalSumDiscount,</if>
+      <if test="totalMinDiscount">MIN(grade.discount) AS totalMinDiscount,</if>
+      <if test="totalMaxDiscount">MAX(grade.discount) AS totalMaxDiscount,</if>
+      <if test="totalAvgDiscount">AVG(grade.discount) AS totalAvgDiscount,</if>
+      <if test="totalSumProportionalScoreValue">SUM(grade.proportionalScoreValue) AS totalSumProportionalScoreValue,</if>
+      <if test="totalMinProportionalScoreValue">MIN(grade.proportionalScoreValue) AS totalMinProportionalScoreValue,</if>
+      <if test="totalMaxProportionalScoreValue">MAX(grade.proportionalScoreValue) AS totalMaxProportionalScoreValue,</if>
+      <if test="totalAvgProportionalScoreValue">AVG(grade.proportionalScoreValue) AS totalAvgProportionalScoreValue,</if>
+      <if test="totalSumProportionalAmountValue">SUM(grade.proportionalAmountValue) AS totalSumProportionalAmountValue,</if>
+      <if test="totalMinProportionalAmountValue">MIN(grade.proportionalAmountValue) AS totalMinProportionalAmountValue,</if>
+      <if test="totalMaxProportionalAmountValue">MAX(grade.proportionalAmountValue) AS totalMaxProportionalAmountValue,</if>
+      <if test="totalAvgProportionalAmountValue">AVG(grade.proportionalAmountValue) AS totalAvgProportionalAmountValue,</if>
+    </trim>
+  </sql>
+  <sql id="QUERY_GROUP_BY">
+    <if test="groupBys.size() &gt; 0">GROUP BY
+      <foreach collection="groupBys.entrySet()" item="entry" separator=",">
+        <choose>
+          <when test="entry.value != null">
+            <choose>
+              <when test="entry.value.startsWith('&amp;')">grade.${entry.key} ${entry.value}</when>
+              <otherwise>${entry.value}(grade.${entry.key})</otherwise>
+            </choose>
+          </when>
+          <otherwise>grade.${entry.key}</otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_HAVING">
+    <trim prefixOverrides="AND | OR" prefix="HAVING">
+      <if test="minTotalCountRows != null">AND COUNT(0) &gt;= #{minTotalCountRows}</if>
+      <if test="maxTotalCountRows != null">AND COUNT(0) &lt;= #{maxTotalCountRows}</if>
+      <if test="minTotalSumUpperLimit != null">AND SUM(grade.upperLimit) &gt;= #{minTotalSumUpperLimit}</if>
+      <if test="maxTotalSumUpperLimit != null">AND SUM(grade.upperLimit) &lt;= #{maxTotalSumUpperLimit}</if>
+      <if test="minTotalMinUpperLimit != null">AND MIN(grade.upperLimit) &gt;= #{minTotalMinUpperLimit}</if>
+      <if test="maxTotalMinUpperLimit != null">AND MIN(grade.upperLimit) &lt;= #{maxTotalMinUpperLimit}</if>
+      <if test="minTotalMaxUpperLimit != null">AND MAX(grade.upperLimit) &gt;= #{minTotalMaxUpperLimit}</if>
+      <if test="maxTotalMaxUpperLimit != null">AND MAX(grade.upperLimit) &lt;= #{maxTotalMaxUpperLimit}</if>
+      <if test="minTotalAvgUpperLimit != null">AND AVG(grade.upperLimit) &gt;= #{minTotalAvgUpperLimit}</if>
+      <if test="maxTotalAvgUpperLimit != null">AND AVG(grade.upperLimit) &lt;= #{maxTotalAvgUpperLimit}</if>
+      <if test="minTotalSumLowerLimit != null">AND SUM(grade.lowerLimit) &gt;= #{minTotalSumLowerLimit}</if>
+      <if test="maxTotalSumLowerLimit != null">AND SUM(grade.lowerLimit) &lt;= #{maxTotalSumLowerLimit}</if>
+      <if test="minTotalMinLowerLimit != null">AND MIN(grade.lowerLimit) &gt;= #{minTotalMinLowerLimit}</if>
+      <if test="maxTotalMinLowerLimit != null">AND MIN(grade.lowerLimit) &lt;= #{maxTotalMinLowerLimit}</if>
+      <if test="minTotalMaxLowerLimit != null">AND MAX(grade.lowerLimit) &gt;= #{minTotalMaxLowerLimit}</if>
+      <if test="maxTotalMaxLowerLimit != null">AND MAX(grade.lowerLimit) &lt;= #{maxTotalMaxLowerLimit}</if>
+      <if test="minTotalAvgLowerLimit != null">AND AVG(grade.lowerLimit) &gt;= #{minTotalAvgLowerLimit}</if>
+      <if test="maxTotalAvgLowerLimit != null">AND AVG(grade.lowerLimit) &lt;= #{maxTotalAvgLowerLimit}</if>
+      <if test="minTotalSumDiscount != null">AND SUM(grade.discount) &gt;= #{minTotalSumDiscount}</if>
+      <if test="maxTotalSumDiscount != null">AND SUM(grade.discount) &lt;= #{maxTotalSumDiscount}</if>
+      <if test="minTotalMinDiscount != null">AND MIN(grade.discount) &gt;= #{minTotalMinDiscount}</if>
+      <if test="maxTotalMinDiscount != null">AND MIN(grade.discount) &lt;= #{maxTotalMinDiscount}</if>
+      <if test="minTotalMaxDiscount != null">AND MAX(grade.discount) &gt;= #{minTotalMaxDiscount}</if>
+      <if test="maxTotalMaxDiscount != null">AND MAX(grade.discount) &lt;= #{maxTotalMaxDiscount}</if>
+      <if test="minTotalAvgDiscount != null">AND AVG(grade.discount) &gt;= #{minTotalAvgDiscount}</if>
+      <if test="maxTotalAvgDiscount != null">AND AVG(grade.discount) &lt;= #{maxTotalAvgDiscount}</if>
+      <if test="minTotalSumProportionalScoreValue != null">AND SUM(grade.proportionalScoreValue) &gt;= #{minTotalSumProportionalScoreValue}</if>
+      <if test="maxTotalSumProportionalScoreValue != null">AND SUM(grade.proportionalScoreValue) &lt;= #{maxTotalSumProportionalScoreValue}</if>
+      <if test="minTotalMinProportionalScoreValue != null">AND MIN(grade.proportionalScoreValue) &gt;= #{minTotalMinProportionalScoreValue}</if>
+      <if test="maxTotalMinProportionalScoreValue != null">AND MIN(grade.proportionalScoreValue) &lt;= #{maxTotalMinProportionalScoreValue}</if>
+      <if test="minTotalMaxProportionalScoreValue != null">AND MAX(grade.proportionalScoreValue) &gt;= #{minTotalMaxProportionalScoreValue}</if>
+      <if test="maxTotalMaxProportionalScoreValue != null">AND MAX(grade.proportionalScoreValue) &lt;= #{maxTotalMaxProportionalScoreValue}</if>
+      <if test="minTotalAvgProportionalScoreValue != null">AND AVG(grade.proportionalScoreValue) &gt;= #{minTotalAvgProportionalScoreValue}</if>
+      <if test="maxTotalAvgProportionalScoreValue != null">AND AVG(grade.proportionalScoreValue) &lt;= #{maxTotalAvgProportionalScoreValue}</if>
+      <if test="minTotalSumProportionalAmountValue != null">AND SUM(grade.proportionalAmountValue) &gt;= #{minTotalSumProportionalAmountValue}</if>
+      <if test="maxTotalSumProportionalAmountValue != null">AND SUM(grade.proportionalAmountValue) &lt;= #{maxTotalSumProportionalAmountValue}</if>
+      <if test="minTotalMinProportionalAmountValue != null">AND MIN(grade.proportionalAmountValue) &gt;= #{minTotalMinProportionalAmountValue}</if>
+      <if test="maxTotalMinProportionalAmountValue != null">AND MIN(grade.proportionalAmountValue) &lt;= #{maxTotalMinProportionalAmountValue}</if>
+      <if test="minTotalMaxProportionalAmountValue != null">AND MAX(grade.proportionalAmountValue) &gt;= #{minTotalMaxProportionalAmountValue}</if>
+      <if test="maxTotalMaxProportionalAmountValue != null">AND MAX(grade.proportionalAmountValue) &lt;= #{maxTotalMaxProportionalAmountValue}</if>
+      <if test="minTotalAvgProportionalAmountValue != null">AND AVG(grade.proportionalAmountValue) &gt;= #{minTotalAvgProportionalAmountValue}</if>
+      <if test="maxTotalAvgProportionalAmountValue != null">AND AVG(grade.proportionalAmountValue) &lt;= #{maxTotalAvgProportionalAmountValue}</if>
+    </trim>
+  </sql>
+  <select id="query" resultMap="TOTAL_RESULT" parameterType="com.xmg.mall.user.qo.TotalGradeQuery">SELECT 
+    <include refid="TOTAL_COLUMNS"/>FROM `Grade` AS grade
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_GROUP_BY"/>
+    <include refid="QUERY_HAVING"/>
+    <include refid="com.xmg.mall.user.mapper.GradeMapper.QUERY_ORDER_BY"/>
+    <include refid="com.xmg.mall.user.mapper.GradeMapper.QUERY_LIMIT"/>
+  </select>
+</mapper>

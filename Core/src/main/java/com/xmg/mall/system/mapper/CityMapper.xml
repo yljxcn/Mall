@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.system.mapper.CityMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.system.domain.City">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="provinceId" column="provinceId"/>
+    <result property="name" column="name"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">city.id, city.createdDate, city.lastModifiedDate, city.version,city.provinceId,city.name</sql>
+  <sql id="QUERY_COLUMNS">city.id, city.createdDate, city.lastModifiedDate, city.version,city.provinceId,city.name</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.system.vo.ExtendedCity" extends="BASE_RESULT">
+    <association property="province" column="provinceId" javaType="com.xmg.mall.system.domain.Province" columnPrefix="province_" resultMap="com.xmg.mall.system.mapper.ProvinceMapper.BASE_RESULT"/>
+  </resultMap>
+  <sql id="JOIN_COLUMNS">
+    <if test="joinProvince != null">, province.id AS province_id, province.name AS province_name</if>
+  </sql>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `City` city WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `City` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.system.domain.City" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `City`(id, createdDate, version,provinceId,name) VALUES(#{id }, #{createdDate}, 0, #{provinceId }, #{name })</insert>
+  <update id="update" parameterType="com.xmg.mall.system.domain.City">UPDATE `City`
+    <set>lastModifiedDate = now(), version = version + 1, provinceId = #{provinceId }, name = #{name }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN">
+    <if test="joinProvince != null">${joinProvince.name} `Province` province ON province.id = city.provinceId</if>
+  </sql>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND city.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND city.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND city.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="provinceId != null">AND city.provinceId = #{provinceId}</if>
+    <if test="name != null">AND city.name = #{name}</if>
+    <if test="likeName != null">AND city.name LIKE CONCAT(#{likeName} ,'%')</if>
+    <if test="provinceQuery != null &amp;&amp; joinProvince">
+      <if test="provinceQuery.ids != null">AND province.id IN
+        <foreach collection="provinceQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="provinceQuery.startCreatedDate != null">AND province.createdDate &gt;= #{provinceQuery.startCreatedDate }</if>
+      <if test="provinceQuery.endCreatedDate != null">AND province.createdDate &lt;= #{provinceQuery.endCreatedDate }</if>
+      <if test="provinceQuery.name != null">AND province.name = #{provinceQuery.name}</if>
+      <if test="provinceQuery.likeName != null">AND province.name LIKE CONCAT(#{provinceQuery.likeName} ,'%')</if>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys" item="value" index="key" separator=", ">city.${key} ${value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.system.qo.CityQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `City` AS city
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.system.qo.CityQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `City` AS city
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>

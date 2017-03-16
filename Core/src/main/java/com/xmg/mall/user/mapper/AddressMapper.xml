@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xmg.mall.user.mapper.AddressMapper">
+  <resultMap id="BASE_RESULT" type="com.xmg.mall.user.domain.Address">
+    <id property="id" column="id"/>
+    <result property="createdDate" column="createdDate"/>
+    <result property="lastModifiedDate" column="lastModifiedDate"/>
+    <result property="version" column="version"/>
+    <result property="userId" column="userId"/>
+    <result property="provinceId" column="provinceId"/>
+    <result property="cityId" column="cityId"/>
+    <result property="areaId" column="areaId"/>
+    <result property="streetId" column="streetId"/>
+    <result property="detail" column="detail"/>
+    <result property="realname" column="realname"/>
+    <result property="phoneNumber" column="phoneNumber"/>
+    <result property="email" column="email"/>
+    <result property="zipCode" column="zipCode"/>
+  </resultMap>
+  <sql id="BASE_COLUMNS">address.id, address.createdDate, address.lastModifiedDate, address.version,address.userId,address.provinceId,address.cityId,address.areaId,address.streetId,address.detail,address.realname,address.phoneNumber,address.email,address.zipCode</sql>
+  <sql id="QUERY_COLUMNS">address.id, address.createdDate, address.lastModifiedDate, address.version,address.userId,address.provinceId,address.cityId,address.areaId,address.streetId,address.detail,address.realname,address.phoneNumber,address.email,address.zipCode</sql>
+  <resultMap id="VO_RESULT" type="com.xmg.mall.user.vo.ExtendedAddress" extends="BASE_RESULT">
+    <association property="user" column="userId" javaType="com.xmg.mall.user.domain.User" columnPrefix="user_" resultMap="com.xmg.mall.user.mapper.UserMapper.BASE_RESULT"/>
+    <association property="province" column="provinceId" javaType="com.xmg.mall.system.domain.Province" columnPrefix="province_" resultMap="com.xmg.mall.system.mapper.ProvinceMapper.BASE_RESULT"/>
+    <association property="city" column="cityId" javaType="com.xmg.mall.system.domain.City" columnPrefix="city_" resultMap="com.xmg.mall.system.mapper.CityMapper.BASE_RESULT"/>
+    <association property="area" column="areaId" javaType="com.xmg.mall.system.domain.Area" columnPrefix="area_" resultMap="com.xmg.mall.system.mapper.AreaMapper.BASE_RESULT"/>
+    <association property="street" column="streetId" javaType="com.xmg.mall.system.domain.Street" columnPrefix="street_" resultMap="com.xmg.mall.system.mapper.StreetMapper.BASE_RESULT"/>
+  </resultMap>
+  <sql id="JOIN_COLUMNS">
+    <if test="joinUser != null">, user.id AS user_id, user.username AS user_username, user.phoneNumber AS user_phoneNumber, user.email AS user_email</if>
+    <if test="joinProvince != null">, province.id AS province_id, province.name AS province_name</if>
+    <if test="joinCity != null">, city.id AS city_id, city.name AS city_name</if>
+    <if test="joinArea != null">, area.id AS area_id, area.name AS area_name</if>
+    <if test="joinStreet != null">, street.id AS street_id, street.name AS street_name</if>
+  </sql>
+  <select id="get" resultMap="BASE_RESULT" parameterType="java.lang.Long">SELECT 
+    <include refid="BASE_COLUMNS"/> FROM `Address` address WHERE id = #{id }
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">DELETE FROM `Address` WHERE id = #{id}</delete>
+  <insert id="add" parameterType="com.xmg.mall.user.domain.Address" useGeneratedKeys="true" keyProperty="id" keyColumn="id">INSERT INTO `Address`(id, createdDate, version,userId,provinceId,cityId,areaId,streetId,detail,realname,phoneNumber,email,zipCode) VALUES(#{id }, #{createdDate}, 0, #{userId }, #{provinceId }, #{cityId }, #{areaId }, #{streetId }, #{detail }, #{realname }, #{phoneNumber }, #{email }, #{zipCode })</insert>
+  <update id="update" parameterType="com.xmg.mall.user.domain.Address">UPDATE `Address`
+    <set>lastModifiedDate = now(), version = version + 1, userId = #{userId }, provinceId = #{provinceId }, cityId = #{cityId }, areaId = #{areaId }, streetId = #{streetId }, detail = #{detail }, realname = #{realname }, phoneNumber = #{phoneNumber }, email = #{email }, zipCode = #{zipCode }</set>
+    <where>id = #{id } AND version = #{version }</where>
+  </update>
+  <sql id="QUERY_JOIN">
+    <if test="joinUser != null">${joinUser.name} `User` user ON user.id = address.userId</if>
+    <if test="joinProvince != null">${joinProvince.name} `Province` province ON province.id = address.provinceId</if>
+    <if test="joinCity != null">${joinCity.name} `City` city ON city.id = address.cityId</if>
+    <if test="joinArea != null">${joinArea.name} `Area` area ON area.id = address.areaId</if>
+    <if test="joinStreet != null">${joinStreet.name} `Street` street ON street.id = address.streetId</if>
+  </sql>
+  <sql id="QUERY_WHERE_SQL">
+    <if test="ids != null">AND address.id IN
+      <foreach collection="ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+    </if>
+    <if test="startCreatedDate != null">AND address.createdDate &gt;= #{startCreatedDate }</if>
+    <if test="endCreatedDate != null">AND address.createdDate &lt;= #{endCreatedDate }</if>
+    <if test="userId != null">AND address.userId = #{userId}</if>
+    <if test="provinceId != null">AND address.provinceId = #{provinceId}</if>
+    <if test="cityId != null">AND address.cityId = #{cityId}</if>
+    <if test="areaId != null">AND address.areaId = #{areaId}</if>
+    <if test="streetId != null">AND address.streetId = #{streetId}</if>
+    <if test="detail != null">AND address.detail = #{detail}</if>
+    <if test="likeDetail != null">AND address.detail LIKE CONCAT(#{likeDetail} ,'%')</if>
+    <if test="realname != null">AND address.realname = #{realname}</if>
+    <if test="likeRealname != null">AND address.realname LIKE CONCAT(#{likeRealname} ,'%')</if>
+    <if test="phoneNumber != null">AND address.phoneNumber = #{phoneNumber}</if>
+    <if test="likePhoneNumber != null">AND address.phoneNumber LIKE CONCAT(#{likePhoneNumber} ,'%')</if>
+    <if test="email != null">AND address.email = #{email}</if>
+    <if test="likeEmail != null">AND address.email LIKE CONCAT(#{likeEmail} ,'%')</if>
+    <if test="zipCode != null">AND address.zipCode = #{zipCode}</if>
+    <if test="likeZipCode != null">AND address.zipCode LIKE CONCAT(#{likeZipCode} ,'%')</if>
+    <if test="userQuery != null &amp;&amp; joinUser">
+      <if test="userQuery.ids != null">AND user.id IN
+        <foreach collection="userQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="userQuery.startCreatedDate != null">AND user.createdDate &gt;= #{userQuery.startCreatedDate }</if>
+      <if test="userQuery.endCreatedDate != null">AND user.createdDate &lt;= #{userQuery.endCreatedDate }</if>
+      <if test="userQuery.username != null">AND user.username = #{userQuery.username}</if>
+      <if test="userQuery.likeUsername != null">AND user.username LIKE CONCAT(#{userQuery.likeUsername} ,'%')</if>
+      <if test="userQuery.phoneNumber != null">AND user.phoneNumber = #{userQuery.phoneNumber}</if>
+      <if test="userQuery.likePhoneNumber != null">AND user.phoneNumber LIKE CONCAT(#{userQuery.likePhoneNumber} ,'%')</if>
+      <if test="userQuery.email != null">AND user.email = #{userQuery.email}</if>
+      <if test="userQuery.likeEmail != null">AND user.email LIKE CONCAT(#{userQuery.likeEmail} ,'%')</if>
+    </if>
+    <if test="provinceQuery != null &amp;&amp; joinProvince">
+      <if test="provinceQuery.ids != null">AND province.id IN
+        <foreach collection="provinceQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="provinceQuery.startCreatedDate != null">AND province.createdDate &gt;= #{provinceQuery.startCreatedDate }</if>
+      <if test="provinceQuery.endCreatedDate != null">AND province.createdDate &lt;= #{provinceQuery.endCreatedDate }</if>
+      <if test="provinceQuery.name != null">AND province.name = #{provinceQuery.name}</if>
+      <if test="provinceQuery.likeName != null">AND province.name LIKE CONCAT(#{provinceQuery.likeName} ,'%')</if>
+    </if>
+    <if test="cityQuery != null &amp;&amp; joinCity">
+      <if test="cityQuery.ids != null">AND city.id IN
+        <foreach collection="cityQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="cityQuery.startCreatedDate != null">AND city.createdDate &gt;= #{cityQuery.startCreatedDate }</if>
+      <if test="cityQuery.endCreatedDate != null">AND city.createdDate &lt;= #{cityQuery.endCreatedDate }</if>
+      <if test="cityQuery.provinceId != null">AND city.provinceId = #{cityQuery.provinceId}</if>
+      <if test="cityQuery.name != null">AND city.name = #{cityQuery.name}</if>
+      <if test="cityQuery.likeName != null">AND city.name LIKE CONCAT(#{cityQuery.likeName} ,'%')</if>
+    </if>
+    <if test="areaQuery != null &amp;&amp; joinArea">
+      <if test="areaQuery.ids != null">AND area.id IN
+        <foreach collection="areaQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="areaQuery.startCreatedDate != null">AND area.createdDate &gt;= #{areaQuery.startCreatedDate }</if>
+      <if test="areaQuery.endCreatedDate != null">AND area.createdDate &lt;= #{areaQuery.endCreatedDate }</if>
+      <if test="areaQuery.cityId != null">AND area.cityId = #{areaQuery.cityId}</if>
+      <if test="areaQuery.name != null">AND area.name = #{areaQuery.name}</if>
+      <if test="areaQuery.likeName != null">AND area.name LIKE CONCAT(#{areaQuery.likeName} ,'%')</if>
+    </if>
+    <if test="streetQuery != null &amp;&amp; joinStreet">
+      <if test="streetQuery.ids != null">AND street.id IN
+        <foreach collection="streetQuery.ids" item="id" open="(" close=")" separator=", ">#{id }</foreach>
+      </if>
+      <if test="streetQuery.startCreatedDate != null">AND street.createdDate &gt;= #{streetQuery.startCreatedDate }</if>
+      <if test="streetQuery.endCreatedDate != null">AND street.createdDate &lt;= #{streetQuery.endCreatedDate }</if>
+      <if test="streetQuery.areaId != null">AND street.areaId = #{streetQuery.areaId}</if>
+      <if test="streetQuery.name != null">AND street.name = #{streetQuery.name}</if>
+      <if test="streetQuery.likeName != null">AND street.name LIKE CONCAT(#{streetQuery.likeName} ,'%')</if>
+    </if>
+  </sql>
+  <sql id="QUERY_WHERE">
+    <where>
+      <include refid="QUERY_WHERE_SQL"/>
+    </where>
+  </sql>
+  <sql id="QUERY_ORDER_BY">
+    <if test="orderBys.size() &gt; 0">ORDER BY
+      <foreach collection="orderBys" item="value" index="key" separator=", ">address.${key} ${value}</foreach>
+    </if>
+  </sql>
+  <sql id="QUERY_LIMIT">
+    <if test="pageSize &gt; 0">LIMIT ${start}, ${pageSize}</if>
+  </sql>
+  <select id="count" parameterType="com.xmg.mall.user.qo.AddressQuery" resultType="java.lang.Integer">SELECT COUNT(*) FROM `Address` AS address
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+  </select>
+  <select id="query" parameterType="com.xmg.mall.user.qo.AddressQuery" resultMap="VO_RESULT">SELECT 
+    <include refid="QUERY_COLUMNS"/>
+    <include refid="JOIN_COLUMNS"/> FROM `Address` AS address
+    <include refid="QUERY_JOIN"/>
+    <include refid="QUERY_WHERE"/>
+    <include refid="QUERY_ORDER_BY"/>
+    <include refid="QUERY_LIMIT"/>
+  </select>
+</mapper>
