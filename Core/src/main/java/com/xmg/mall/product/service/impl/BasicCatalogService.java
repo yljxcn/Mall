@@ -88,8 +88,10 @@ public class BasicCatalogService
 
         // 修改父级分类的子分类的数量
         Catalog parentCatalog = productModuleService.getCatalogService().getCatalog(catalog.getParentCatalogId());
-        parentCatalog.setChildrenCatalogs(parentCatalog.getChildrenCatalogs() == null ? 1 : parentCatalog.getChildrenCatalogs() + 1);
-        updateCatalog(parentCatalog);
+        if(parentCatalog != null){
+            parentCatalog.setChildrenCatalogs(parentCatalog.getChildrenCatalogs() == null ? 1 : parentCatalog.getChildrenCatalogs() + 1);
+            updateCatalog(parentCatalog);
+        }
 
         if(catalogProperties == null)
             return;

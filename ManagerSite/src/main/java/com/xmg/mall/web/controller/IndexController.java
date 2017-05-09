@@ -4,6 +4,7 @@ import com.xmg.mall.base.query.Pagination;
 import com.xmg.mall.employee.qo.EmployeeQuery;
 import com.xmg.mall.employee.service.EmployeeService;
 import com.xmg.mall.employee.vo.ExtendedEmployee;
+import com.xmg.mall.product.domain.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,4 +23,5 @@ public class IndexController {
     public String index(Model model) {
         return "index";
     }
+
 }

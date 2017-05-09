@@ -14,7 +14,7 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.xmg.mall.*.service"/>
 
-	<util:properties id="BASE_PROPS" location="classpath:/properties/base.properties" />
+	<util:properties id="BASE_PROPS" location="classpath:properties/base.properties" />
 	<util:properties id="JDBC_PROPS" location="classpath:db/mysql.properties" />
 
 	<bean abstract="true" id="hardDiskFileUploader" class="com.xmg.mall.base.upload.HardDiskFileUploader">
